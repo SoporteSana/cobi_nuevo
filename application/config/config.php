@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/Cobi/';
+$config['base_url'] = 'http://192.168.25.151/Cobi/';
 
 date_default_timezone_set('America/Mexico_City');
 

@@ -171,8 +171,8 @@
                   </div>
 
                   <div class="box-footer">
-                    <button type="submit" class="btn btn-primary" id="submitButton" disabled>Save Changes</button>
-                    <a href="<?php echo base_url('vigilancia/') ?>" class="btn btn-warning">Back</a>
+                    <button type="submit" class="btn btn-primary" id="submitButton" disabled>Guardar</button>
+                    <a href="<?php echo base_url('vigilancia/') ?>" class="btn btn-warning">Regresar</a>
                   </div>
                 </form>
               </div>
