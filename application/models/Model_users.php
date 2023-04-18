@@ -94,7 +94,7 @@ class Model_users extends CI_Model
 
 	public function countTotalUsers()
 	{
-		$sql = "SELECT * FROM `usuarios`";
+		$sql = "SELECT * FROM `usuarios` WHERE estatus = 0";
 		$query = $this->db->query($sql);
 		return $query->num_rows();
 	}

@@ -35,7 +35,7 @@
             <h3 class="box-title">unidades fuera</h3>
           </div>
 
-          <?php if (in_array('viewVigilancia', $user_permission)) : ?>
+          <?php if (in_array('deleteVigilancia', $user_permission)) : ?>
           <button type="button" id="exportar_excel" class="btn btn-danger">Exportar a Excel</button>
           <br /> <br />
         <?php endif; ?>

@@ -78,6 +78,7 @@ class Model_Supervisores extends CI_Model
 		$this->db->join('usuarios_grupos ug', 'ug.usuario_id = u.usuario_id');
 		$this->db->join('grupos g', 'g.grupo_id = ug.usuario_grupo_id');
 		$this->db->where('g.grupo_nombre', 'supervisor');
+		$this->db->where('u.estatus', 0);
 		$query = $this->db->get();
 		return $query->num_rows();
 	}

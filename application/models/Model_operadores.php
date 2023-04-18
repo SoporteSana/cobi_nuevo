@@ -50,7 +50,7 @@ class Model_operadores extends CI_Model
 
 	public function countOperadores()
 	{
-		$sql = "SELECT * FROM `operadores`";
+		$sql = "SELECT * FROM `operadores` WHERE estatus = 0";
 		$query = $this->db->query($sql);
 		return $query->num_rows();
 	}

@@ -112,6 +112,8 @@ class Correcciones extends Admin_Controller
         $this->form_validation->set_rules('dia', 'dia', 'trim|required');
         $this->form_validation->set_rules('horasalida', 'hora salida', 'trim|required');
         $this->form_validation->set_rules('horaentrada', 'hora entrada', 'trim|required');
+        $this->form_validation->set_rules('fechasalida', 'fecha salida', 'trim|required');
+        $this->form_validation->set_rules('fechaentrada', 'fecha entrada', 'trim|required');
         $this->form_validation->set_rules('horatablero', 'hora tablero', 'trim|required');
         $this->form_validation->set_rules('tiemporuta', 'tiempo ruta', 'trim|required');
         $this->form_validation->set_rules('alias_id', 'alias', 'trim|required');
@@ -134,7 +136,9 @@ class Correcciones extends Admin_Controller
                 'semana' => $this->input->post('semana'),
                 'dia' => $this->input->post('dia'),
                 'hora_salida' => $this->input->post('horasalida'),
+                'fecha_salida' => $this->input->post('fechasalida'),
                 'hora_entrada' => $this->input->post('horaentrada'),
+                'fecha_entrada' => $this->input->post('fechaentrada'),
                 'hora_tablero' => $this->input->post('horatablero'),
                 'tiempo_ruta' => $this->input->post('tiemporuta'),
                 'alias_id' => $this->input->post('alias_id'),
