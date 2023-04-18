@@ -272,18 +272,21 @@ class Model_correcciones extends CI_Model
 		$this->db->from('tickets t');
 		$this->db->join('destinofinal d', 'd.destinofinal_id = t.destinofinal_id');
 		$this->db->like('t.folio', $term);
+		$this->db->group_start();
 		$this->db->where('t.sucursal_id', $sucursal_id);
+		$this->db->or_where('t.sucursal_id', 0);
+		$this->db->group_end();
 		$this->db->where('t.estatus', 0);
-	
+		
 		if ($unidad_id == 0) {
 			$this->db->where('t.unidad_id', $unidad_id);
 		} else {
 			$this->db->where_in('t.unidad_id', array($unidad_id, 0));
 		}
-	
+		
 		$query = $this->db->get();
 		$result = $query->result();
-	
+		
 		return $result;
 	}
 	
