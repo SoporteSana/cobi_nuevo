@@ -98,30 +98,30 @@ class Model_supervicion extends CI_Model
 		}
 	}
 
-	function searchtickets($postData, $unidad_id)
+	function searchtickets($term, $unidad_id)
 	{
-
+	
 		$sucursal_id = $this->session->userdata('sucursal_id');
-
-		$response = array();
-
-		$this->db->select('*');
-
-		if ($postData['search']) {
-
-			// Select record
-			$this->db->where("folio like '%" . $postData['search'] . "%' and estatus = 0 AND sucursal_id = $sucursal_id and unidad_id = $unidad_id or sucursal_id = 0 ");
-
-			$records = $this->db->get('tickets')->result();
-
-			foreach ($records as $row) {
-				$label = "Folio: " . $row->folio . " | Peso: " . $row->peso;
-				$response[] = array("value" => $row->ticket_id, "value2" => $row->peso, "label" => $label);
-			}
+	
+		$this->db->select('t.ticket_id, t.folio, t.peso, d.destinofinal_nombre');
+		$this->db->from('tickets t');
+		$this->db->join('destinofinal d', 'd.destinofinal_id = t.destinofinal_id');
+		$this->db->like('t.folio', $term);
+		$this->db->where('t.sucursal_id', $sucursal_id);
+		$this->db->where('t.estatus', 0);
+	
+		if ($unidad_id == 0) {
+			$this->db->where('t.unidad_id', $unidad_id);
+		} else {
+			$this->db->where_in('t.unidad_id', array($unidad_id, 0));
 		}
-
-		return $response;
+	
+		$query = $this->db->get();
+		$result = $query->result();
+	
+		return $result;
 	}
+	
 
 	public function getAsignacionData()
 	{

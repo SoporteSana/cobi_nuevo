@@ -360,6 +360,64 @@
       },
     });
 
+    $("#update_unidad").autocomplete({
+      source: function(request, response) {
+
+        $.ajax({
+          url: "<?= base_url() ?>tickets/unidadlist",
+          type: 'post',
+          dataType: "json",
+          data: {
+            search: request.term
+          },
+          success: function(data) {
+            response(data);
+          }
+        });
+      },
+      select: function(event, ui) {
+
+        $('#update_unidad').val(ui.item.label); // display the selected text
+        $('#update_unidad_id').val(ui.item.value); // save selected id to input
+        $('#update_placas').val(ui.item.label2);
+        return false;
+      },
+      focus: function(event, ui) {
+        $("#update_unidad").val(ui.item.label);
+        $("#update_unidad_id").val(ui.item.value);
+        $('#update_placas').val(ui.item.label2);
+        return false;
+      },
+    });
+
+    $("#update_destino").autocomplete({
+      source: function(request, response) {
+
+        $.ajax({
+          url: "<?= base_url() ?>tickets/destinolist",
+          type: 'post',
+          dataType: "json",
+          data: {
+            search: request.term
+          },
+          success: function(data) {
+            response(data);
+          }
+        });
+      },
+      select: function(event, ui) {
+
+        $('#update_destino').val(ui.item.label); // display the selected text
+        $('#update_destino_id').val(ui.item.value); // save selected id to input
+        return false;
+      },
+      focus: function(event, ui) {
+        $("#update_destino").val(ui.item.label);
+        $("#update_destino_id").val(ui.item.value);
+        return false;
+      },
+    });
+
 
 
   });

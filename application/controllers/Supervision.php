@@ -167,11 +167,20 @@ class Supervision extends Admin_Controller
     public function ticketslist($unidad_id)
     {
 
-        $postData = $this->input->post();
+        $postData = $this->input->get('term');
 
+        $result = $this->model_supervicion->searchtickets($postData, $unidad_id);
 
-        $data = $this->model_supervicion->searchtickets($postData, $unidad_id);
+        $data = array();
+        foreach ($result as $row) {
+            $data[] = array(
+                'label' => 'Folio: ' . $row->folio . ' | Peso: ' . $row->peso,
+                'value' => $row->ticket_id,
+                'peso' => $row->peso,
+                'destino' => $row->destinofinal_nombre
 
+            );
+        }
         echo json_encode($data);
     }
 }

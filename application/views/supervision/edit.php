@@ -379,315 +379,185 @@
     });
 
     $("#Tiro_1").autocomplete({
-  minLength: 1, // Establece un mínimo de un caracter
-  source: function(request, response) {
-    // Fetch data
-    $.ajax({
-      url: "<?= base_url() ?>supervision/ticketslist/<?php echo $registro_data['unidad_id']; ?>",
-      type: 'post',
-      dataType: "json",
-      data: {
-        search: request.term
+      source: "<?php echo base_url('supervision/ticketslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
+      select: function(event, ui) {
+        $("#Tiro_1").val(ui.item.label);
+        $("#Tiro1_id").val(ui.item.value);
+        return false;
       },
-      success: function(data) {
-        response(data);
-      }
+      focus: function(event, ui) {
+        $("#Tiro_1").val(ui.item.label);
+        $('#peso1')
+          .val(ui.item.peso)
+          .trigger("input");
+        $("#detinofinal1").val(ui.item.destino);
+        return false;
+      },
+      minLength: 1
     });
-  },
-  select: function(event, ui) {
-    // Set selection
-    $('#Tiro_1').val(ui.item.label);
-    $('#Tiro1_id').val(ui.item.value);
-    $('#peso1')
-      .val(ui.item.value2)
-      .trigger("input");
-    return false;
-  },
-  focus: function(event, ui) {
-    $("#Tiro1_id").val(ui.item.label);
-    return false;
-  },
-})
 
 
     $("#Tiro_2").autocomplete({
-      minLength: 1,
-      source: function(request, response) {
-
-        $.ajax({
-          url: "<?= base_url() ?>supervision/ticketslist/<?php echo $registro_data['unidad_id']; ?>",
-          type: 'post',
-          dataType: "json",
-          data: {
-            search: request.term
-          },
-          success: function(data) {
-            response(data);
-          }
-        });
-      },
+      source: "<?php echo base_url('supervision/ticketslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
       select: function(event, ui) {
-
-        $('#Tiro_2').val(ui.item.label);
-        $('#Tiro2_id').val(ui.item.value);
-        $('#peso2')
-          .val(ui.item.value2)
-          .trigger("input");
+        $("#Tiro_1").val(ui.item.label);
+        $("#Tiro2_id").val(ui.item.value);
         return false;
       },
       focus: function(event, ui) {
-        $("#Tiro2_id").val(ui.item.label);
+        $("#Tiro_2").val(ui.item.label);
+        $('#peso1')
+          .val(ui.item.peso)
+          .trigger("input");
+        $("#detinofinal1").val(ui.item.destino);
         return false;
       },
-    })
+      minLength: 1
+    });
 
     $("#Tiro_3").autocomplete({
-      minLength: 1,
-      source: function(request, response) {
-
-        $.ajax({
-          url: "<?= base_url() ?>supervision/ticketslist/<?php echo $registro_data['unidad_id']; ?>",
-          type: 'post',
-          dataType: "json",
-          data: {
-            search: request.term
-          },
-          success: function(data) {
-            response(data);
-          }
-        });
-      },
+      source: "<?php echo base_url('supervision/ticketslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
       select: function(event, ui) {
-
-        $('#Tiro_3').val(ui.item.label);
-        $('#Tiro3_id').val(ui.item.value);
-        $('#peso3')
-          .val(ui.item.value2)
-          .trigger("input");
+        $("#Tiro_3").val(ui.item.label);
+        $("#Tiro3_id").val(ui.item.value);
         return false;
       },
       focus: function(event, ui) {
-        $("#Tiro3_id").val(ui.item.label);
+        $("#Tiro_1").val(ui.item.label);
+        $('#peso1')
+          .val(ui.item.peso)
+          .trigger("input");
+        $("#detinofinal1").val(ui.item.destino);
         return false;
       },
-    })
+      minLength: 1
+    });
 
     $("#Tiro_4").autocomplete({
-      minLength: 1,
-      source: function(request, response) {
-
-        $.ajax({
-          url: "<?= base_url() ?>supervision/ticketslist/<?php echo $registro_data['unidad_id']; ?>",
-          type: 'post',
-          dataType: "json",
-          data: {
-            search: request.term
-          },
-          success: function(data) {
-            response(data);
-          }
-        });
-      },
+      source: "<?php echo base_url('supervision/ticketslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
       select: function(event, ui) {
-
-        $('#Tiro_4').val(ui.item.label);
-        $('#Tiro4_id').val(ui.item.value);
-        $('#peso4')
-          .val(ui.item.value2)
-          .trigger("input");
+        $("#Tiro_4").val(ui.item.label);
+        $("#Tiro4_id").val(ui.item.value);
         return false;
       },
       focus: function(event, ui) {
-        $("#Tiro4_id").val(ui.item.label);
+        $("#Tiro_4").val(ui.item.label);
+        $('#peso1')
+          .val(ui.item.peso)
+          .trigger("input");
+        $("#detinofinal1").val(ui.item.destino);
         return false;
       },
-    })
+      minLength: 1
+    });
 
     $("#Tiro_5").autocomplete({
-      minLength: 1,
-      source: function(request, response) {
-
-        $.ajax({
-          url: "<?= base_url() ?>supervision/ticketslist/<?php echo $registro_data['unidad_id']; ?>",
-          type: 'post',
-          dataType: "json",
-          data: {
-            search: request.term
-          },
-          success: function(data) {
-            response(data);
-          }
-        });
-      },
+      source: "<?php echo base_url('supervision/ticketslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
       select: function(event, ui) {
-
-        $('#Tiro_5').val(ui.item.label);
-        $('#Tiro5_id').val(ui.item.value);
-        $('#peso5')
-          .val(ui.item.value2)
-          .trigger("input");
+        $("#Tiro_5").val(ui.item.label);
+        $("#Tiro5_id").val(ui.item.value);
         return false;
       },
       focus: function(event, ui) {
-        $("#Tiro5_id").val(ui.item.label);
+        $("#Tiro_5").val(ui.item.label);
+        $('#peso1')
+          .val(ui.item.peso)
+          .trigger("input");
+        $("#detinofinal1").val(ui.item.destino);
         return false;
       },
-    })
+      minLength: 1
+    });
 
     $("#Tiro_6").autocomplete({
-      minLength: 1,
-      source: function(request, response) {
-
-        $.ajax({
-          url: "<?= base_url() ?>supervision/ticketslist/<?php echo $registro_data['unidad_id']; ?>",
-          type: 'post',
-          dataType: "json",
-          data: {
-            search: request.term
-          },
-          success: function(data) {
-            response(data);
-          }
-        });
-      },
+      source: "<?php echo base_url('supervision/ticketslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
       select: function(event, ui) {
-
-        $('#Tiro_6').val(ui.item.label);
-        $('#Tiro6_id').val(ui.item.value);
-        $('#peso6')
-          .val(ui.item.value2)
-          .trigger("input");
+        $("#Tiro_6").val(ui.item.label);
+        $("#Tiro6_id").val(ui.item.value);
         return false;
       },
       focus: function(event, ui) {
-        $("#Tiro6_id").val(ui.item.label);
+        $("#Tiro_6").val(ui.item.label);
+        $('#peso1')
+          .val(ui.item.peso)
+          .trigger("input");
+        $("#detinofinal1").val(ui.item.destino);
         return false;
       },
-    })
+      minLength: 1
+    });
 
     $("#Tiro_7").autocomplete({
-      minLength: 1,
-      source: function(request, response) {
-
-        $.ajax({
-          url: "<?= base_url() ?>supervision/ticketslist/<?php echo $registro_data['unidad_id']; ?>",
-          type: 'post',
-          dataType: "json",
-          data: {
-            search: request.term
-          },
-          success: function(data) {
-            response(data);
-          }
-        });
-      },
+      source: "<?php echo base_url('supervision/ticketslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
       select: function(event, ui) {
-
-        $('#Tiro_7').val(ui.item.label);
-        $('#Tiro7_id').val(ui.item.value);
-        $('#peso7')
-          .val(ui.item.value2)
-          .trigger("input");
+        $("#Tiro_7").val(ui.item.label);
+        $("#Tiro7_id").val(ui.item.value);
         return false;
       },
       focus: function(event, ui) {
-        $("#Tiro7_id").val(ui.item.label);
+        $("#Tiro_7").val(ui.item.label);
+        $('#peso1')
+          .val(ui.item.peso)
+          .trigger("input");
+        $("#detinofinal1").val(ui.item.destino);
         return false;
       },
-    })
+      minLength: 1
+    });
 
     $("#Tiro_8").autocomplete({
-      minLength: 1,
-      source: function(request, response) {
-
-        $.ajax({
-          url: "<?= base_url() ?>supervision/ticketslist/<?php echo $registro_data['unidad_id']; ?>",
-          type: 'post',
-          dataType: "json",
-          data: {
-            search: request.term
-          },
-          success: function(data) {
-            response(data);
-          }
-        });
-      },
+      source: "<?php echo base_url('supervision/ticketslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
       select: function(event, ui) {
-
-        $('#Tiro_8').val(ui.item.label);
-        $('#Tiro8_id').val(ui.item.value);
-        $('#peso8')
-          .val(ui.item.value2)
-          .trigger("input");
+        $("#Tiro_8").val(ui.item.label);
+        $("#Tiro8_id").val(ui.item.value);
         return false;
       },
       focus: function(event, ui) {
-        $("#Tiro8_id").val(ui.item.label);
+        $("#Tiro_8").val(ui.item.label);
+        $('#peso1')
+          .val(ui.item.peso)
+          .trigger("input");
+        $("#detinofinal1").val(ui.item.destino);
         return false;
       },
-    })
+      minLength: 1
+    });
 
     $("#Tiro_9").autocomplete({
-      minLength: 1,
-      source: function(request, response) {
-
-        $.ajax({
-          url: "<?= base_url() ?>supervision/ticketslist/<?php echo $registro_data['unidad_id']; ?>",
-          type: 'post',
-          dataType: "json",
-          data: {
-            search: request.term
-          },
-          success: function(data) {
-            response(data);
-          }
-        });
-      },
+      source: "<?php echo base_url('supervision/ticketslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
       select: function(event, ui) {
-
-        $('#Tiro_9').val(ui.item.label);
-        $('#Tiro9_id').val(ui.item.value);
-        $('#peso9')
-          .val(ui.item.value2)
-          .trigger("input");
+        $("#Tiro_9").val(ui.item.label);
+        $("#Tiro9_id").val(ui.item.value);
         return false;
       },
       focus: function(event, ui) {
-        $("#Tiro9_id").val(ui.item.label);
+        $("#Tiro_9").val(ui.item.label);
+        $('#peso1')
+          .val(ui.item.peso)
+          .trigger("input");
+        $("#detinofinal1").val(ui.item.destino);
         return false;
       },
-    })
+      minLength: 1
+    });
 
     $("#Tiro_10").autocomplete({
-      minLength: 1,
-      source: function(request, response) {
-
-        $.ajax({
-          url: "<?= base_url() ?>supervision/ticketslist/<?php echo $registro_data['unidad_id']; ?>",
-          type: 'post',
-          dataType: "json",
-          data: {
-            search: request.term
-          },
-          success: function(data) {
-            response(data);
-          }
-        });
-      },
+      source: "<?php echo base_url('supervision/ticketslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
       select: function(event, ui) {
-
-        $('#Tiro_10').val(ui.item.label);
-        $('#Tiro10_id').val(ui.item.value);
-        $('#peso10')
-          .val(ui.item.value2)
-          .trigger("input");
+        $("#Tiro_10").val(ui.item.label);
+        $("#Tiro10_id").val(ui.item.value);
         return false;
       },
       focus: function(event, ui) {
-        $("#Tiro10_id").val(ui.item.label);
+        $("#Tiro_10").val(ui.item.label);
+        $('#peso1')
+          .val(ui.item.peso)
+          .trigger("input");
+        $("#detinofinal1").val(ui.item.destino);
         return false;
       },
-    })
+      minLength: 1
+    });
 
     var $pesoInputs = $('.peso-input');
 

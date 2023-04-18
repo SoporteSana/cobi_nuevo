@@ -62,7 +62,6 @@ class Model_correcciones extends CI_Model
 			}
 
 			return $result;
-
 		} else {
 
 			$this->db->select('re.registro_id, u.unidad_id, u.unidad_numero, asig.asignacion_id, asig.asignacion_nombre, re.semana, us.nombres, re.dia, re.hora_tablero, re.km_salida, re.km_entrada, re.recorrido, re.litroscargados, re.rendimiento, re.tiempo_ruta, fecha_entrada, fecha_salida, re.hora_salida, re.hora_entrada, t.turno_nombre, r.ruta_nombre, a.alias_id, a.alias_nombre, o.operador_id, o.operador_nombre, tr.numrecolectores, rec1.recolector_id as recolectorid1, rec1.recolector_nombre AS recolector1, rec2.recolector_id as recolectorid2, rec2.recolector_nombre AS recolector2, rec3.recolector_id as recolectorid3, rec3.recolector_nombre AS recolector3, rec4.recolector_id as recolectorid4, rec4.recolector_nombre AS recolector4, rec5.recolector_id as recolectorid5, rec5.recolector_nombre AS recolector5, re.totalpeso, ti.numtiros, tick1.ticket_id as ticket_id1, tick1.folio as folio1, tick1.peso AS tiro1, des1.destinofinal_nombre AS destinofinal1,  tick2.ticket_id as ticket_id2, tick2.folio as folio2, tick2.peso AS tiro2, des2.destinofinal_nombre AS destinofinal2,  tick3.ticket_id as ticket_id3, tick3.folio as folio3, tick3.peso AS tiro3, des3.destinofinal_nombre AS destinofinal3,  tick4.ticket_id as ticket_id4, tick4.folio as folio4, tick4.peso AS tiro4, des4.destinofinal_nombre AS destinofinal4,  tick5.ticket_id as ticket_id5, tick5.folio as folio5, tick5.peso AS tiro5, des5.destinofinal_nombre AS destinofinal5,  tick6.ticket_id as ticket_id6, tick6.folio as folio6, tick6.peso AS tiro6, des6.destinofinal_nombre AS destinofinal6,  tick7.ticket_id as ticket_id7, tick7.folio as folio7, tick7.peso AS tiro7, des7.destinofinal_nombre AS destinofinal7,  tick8.ticket_id as ticket_id8, tick8.folio as folio8, tick8.peso AS tiro8, des8.destinofinal_nombre AS destinofinal8,  tick9.ticket_id as ticket_id9, tick9.folio as folio9, tick9.peso AS tiro9, des9.destinofinal_nombre AS destinofinal9,  tick10.ticket_id as ticket_id10, tick10.folio as folio10, tick10.peso AS tiro10, des10.destinofinal_nombre AS destinofinal10, re.totalpeso, re.observaciones, re.estatus');
@@ -266,21 +265,26 @@ class Model_correcciones extends CI_Model
 
 	function searchtickets($term, $unidad_id)
 	{
-
+	
 		$sucursal_id = $this->session->userdata('sucursal_id');
-
+	
 		$this->db->select('t.ticket_id, t.folio, t.peso, d.destinofinal_nombre');
 		$this->db->from('tickets t');
 		$this->db->join('destinofinal d', 'd.destinofinal_id = t.destinofinal_id');
 		$this->db->like('t.folio', $term);
-		$this->db->where(' t.unidad_id = '.$unidad_id);
 		$this->db->where('t.sucursal_id', $sucursal_id);
-		$this->db->or_where("t.sucursal_id = 0");
-		$this->db->where("t.estatus = 0");
-		
+		$this->db->where('t.estatus', 0);
+	
+		if ($unidad_id == 0) {
+			$this->db->where('t.unidad_id', $unidad_id);
+		} else {
+			$this->db->where_in('t.unidad_id', array($unidad_id, 0));
+		}
+	
 		$query = $this->db->get();
 		$result = $query->result();
-
+	
 		return $result;
 	}
+	
 }
