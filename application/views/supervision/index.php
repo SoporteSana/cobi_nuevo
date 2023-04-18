@@ -35,6 +35,11 @@
             <h3 class="box-title">unidades fuera</h3>
           </div>
 
+          <?php if (in_array('viewVigilancia', $user_permission)) : ?>
+          <button type="button" id="exportar_excel" class="btn btn-danger">Exportar a Excel</button>
+          <br /> <br />
+        <?php endif; ?>
+
           <div class="box-body">
             <table id="manageTable" class="display responsive nowrap" style="width:100%">
               <thead>
@@ -97,7 +102,32 @@
 
       }
     });
+
+    $('#exportar_excel').click(function() {
+      exportarExcel();
+    });
   });
+
+  function exportarExcel() {
+    var table = $('#manageTable').DataTable();
+    var data = table.data().toArray();
+
+    var header = [];
+    table.columns().every(function() {
+      header.push(this.header().textContent.trim());
+    });
+
+    data.unshift(header);
+
+    var sheet = XLSX.utils.json_to_sheet(data, {
+      skipHeader: true
+    });
+    var workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, sheet, 'Hoja 1');
+
+    var nombreArchivo = 'exportacion.xlsx';
+    XLSX.writeFile(workbook, nombreArchivo);
+  }
 </script>
 
 <style type="text/css">

@@ -35,6 +35,11 @@
           <br /> <br />
         <?php endif; ?>
 
+        <?php if (in_array('viewVigilancia', $user_permission)) : ?>
+          <button type="button" id="exportar_excel" class="btn btn-danger">Exportar a Excel</button>
+          <br /> <br />
+        <?php endif; ?>
+
         <div class="box">
           <div class="box-header">
             <h3 class="box-title">unidades fuera</h3>
@@ -59,8 +64,8 @@
                   <th>recolector 5</th>
                   <th>estatus</th>
                   <?php if (in_array('updateVigilancia', $user_permission)) : ?>
-                  <th>Finalisar</th>
-                <?php endif; ?>
+                    <th>Finalisar</th>
+                  <?php endif; ?>
                 </tr>
               </thead>
 
@@ -99,7 +104,32 @@
 
       }
     });
+
+    $('#exportar_excel').click(function() {
+      exportarExcel();
+    });
   });
+
+  function exportarExcel() {
+    var table = $('#manageTable').DataTable();
+    var data = table.data().toArray();
+
+    var header = [];
+    table.columns().every(function() {
+      header.push(this.header().textContent.trim());
+    });
+
+    data.unshift(header);
+
+    var sheet = XLSX.utils.json_to_sheet(data, {
+      skipHeader: true
+    });
+    var workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, sheet, 'Hoja 1');
+
+    var nombreArchivo = 'exportacion.xlsx';
+    XLSX.writeFile(workbook, nombreArchivo);
+  }
 </script>
 
 <style type="text/css">
