@@ -46,9 +46,8 @@ class Users extends Admin_Controller
 		}
 
 		$this->form_validation->set_rules('groups', 'Group', 'required');
-		$this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]|max_length[12]|is_unique[usuarios.nombres]');
-		$this->form_validation->set_rules('email', 'Email', 'trim|required');
-		$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[9]');
+		$this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[3]|max_length[12]|is_unique[usuarios.nombres]');
+		$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[3]');
 		$this->form_validation->set_rules('cpassword', 'Confirm password', 'trim|required|matches[password]');
 		$this->form_validation->set_rules('fname', 'First name', 'trim|required');
 		$this->form_validation->set_rules('sucursal_id', 'sucursal', 'trim|required');
@@ -60,10 +59,8 @@ class Users extends Admin_Controller
 				'sucursal_id' => $this->input->post('sucursal_id'),
 				'username' => $this->input->post('username'),
 				'password' => $password,
-				'email' => $this->input->post('email'),
 				'nombres' => $this->input->post('fname'),
 				'apellidos' => $this->input->post('lname'),
-				'telefono' => $this->input->post('phone'),
 				'genero' => $this->input->post('gender'),
 				'estatus' => 0,
 				'created_at' => date('Y-m-d h:i:s'),
@@ -104,8 +101,7 @@ class Users extends Admin_Controller
 
 		if ($id) {
 			$this->form_validation->set_rules('groups', 'Group', 'required');
-			$this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]|max_length[12]');
-			$this->form_validation->set_rules('email', 'Email', 'trim|required');
+			$this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[3]|max_length[12]');
 			$this->form_validation->set_rules('fname', 'First name', 'trim|required');
 			$this->form_validation->set_rules('sucursal_id', 'sucursal', 'trim|required');
 
@@ -133,7 +129,7 @@ class Users extends Admin_Controller
 						redirect('users/edit/' . $id, 'refresh');
 					}
 				} else {
-					$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[8]');
+					$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[3]');
 					$this->form_validation->set_rules('cpassword', 'Confirm password', 'trim|required|matches[password]');
 
 					if ($this->form_validation->run() == TRUE) {

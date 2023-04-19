@@ -150,7 +150,7 @@ class Model_reportes extends CI_Model
 			$this->db->join('destinofinal des10', 'des10.destinofinal_id = tick10.destinofinal_id', 'left');
 			$this->db->where('re.estatus', 2);
 			if ($filtros['fecha1filtro'] & $filtros['fecha2filtro']) {
-				$this->db->where("(re.fecha_salida BETWEEN '" . $filtros['fecha1filtro'] . "' AND '" . $filtros['fecha2filtro'] . "' OR '" . $filtros['fecha1filtro'] . "' IS NULL OR '" . $filtros['fecha2filtro'] . "' IS NULL)");
+				$this->db->where("(DATE(re.hora_salida) BETWEEN '" . $filtros['fecha1filtro'] . "' AND '" . $filtros['fecha2filtro'] . "' OR '" . $filtros['fecha1filtro'] . "' IS NULL OR '" . $filtros['fecha2filtro'] . "' IS NULL)");
 			}
 			if ($filtros['filtrounidad_id']) {
 				$this->db->where("(u.unidad_id = '" . $filtros['filtrounidad_id'] . "' OR '" . $filtros['filtrounidad_id'] . "' IS NULL)");
@@ -284,7 +284,7 @@ class Model_reportes extends CI_Model
 			$this->db->join('unidades u', 'u.unidad_id = re.unidad_id');
 			$this->db->where('re.estatus', 2);
 			if ($rendimiento['fecha1rendimiento'] & $rendimiento['fecha2rendimiento']) {
-				$this->db->where("(re.fecha_salida BETWEEN '" . $rendimiento['fecha1rendimiento'] . "' AND '" . $rendimiento['fecha2rendimiento'] . "' OR '" . $rendimiento['fecha1rendimiento'] . "' IS NULL OR '" . $rendimiento['fecha2rendimiento'] . "' IS NULL)");
+				$this->db->where("(DATE(re.hora_salida) BETWEEN '" . $rendimiento['fecha1rendimiento'] . "' AND '" . $rendimiento['fecha2rendimiento'] . "' OR '" . $rendimiento['fecha1rendimiento'] . "' IS NULL OR '" . $rendimiento['fecha2rendimiento'] . "' IS NULL)");
 			}
 			if ($rendimiento['rendimientounidad_id']) {
 				$this->db->where("(u.unidad_id = '" . $rendimiento['rendimientounidad_id'] . "' OR '" . $rendimiento['rendimientounidad_id'] . "' IS NULL)");
@@ -302,7 +302,7 @@ class Model_reportes extends CI_Model
 			$this->db->where('re.sucursal_id', $sucursal_id);
 			$this->db->where('re.estatus', 2);
 			if ($rendimiento['fecha1rendimiento'] & $rendimiento['fecha2rendimiento']) {
-				$this->db->where("(re.fecha_salida BETWEEN '" . $rendimiento['fecha1rendimiento'] . "' AND '" . $rendimiento['fecha2rendimiento'] . "' OR '" . $rendimiento['fecha1rendimiento'] . "' IS NULL OR '" . $rendimiento['fecha2rendimiento'] . "' IS NULL)");
+				$this->db->where("(DATE(re.hora_salida) BETWEEN '" . $rendimiento['fecha1rendimiento'] . "' AND '" . $rendimiento['fecha2rendimiento'] . "' OR '" . $rendimiento['fecha1rendimiento'] . "' IS NULL OR '" . $rendimiento['fecha2rendimiento'] . "' IS NULL)");
 			}
 			if ($rendimiento['rendimientounidad_id']) {
 				$this->db->where("(u.unidad_id = '" . $rendimiento['rendimientounidad_id'] . "' OR '" . $rendimiento['rendimientounidad_id'] . "' IS NULL)");
@@ -327,7 +327,7 @@ class Model_reportes extends CI_Model
 			$this->db->join('unidades u', 'u.unidad_id = re.unidad_id');
 			$this->db->where('re.estatus', 2);
 			if ($litros['2kmfecha1'] & $litros['2kmfecha2']) {
-				$this->db->where("(re.fecha_salida BETWEEN '" . $litros['2kmfecha1'] . "' AND '" . $litros['2kmfecha2'] . "' OR '" . $litros['2kmfecha1'] . "' IS NULL OR '" . $litros['2kmfecha2'] . "' IS NULL)");
+				$this->db->where("(DATE(re.hora_salida) BETWEEN '" . $litros['2kmfecha1'] . "' AND '" . $litros['2kmfecha2'] . "' OR '" . $litros['2kmfecha1'] . "' IS NULL OR '" . $litros['2kmfecha2'] . "' IS NULL)");
 			}
 
 			$query = $this->db->get();
@@ -342,7 +342,7 @@ class Model_reportes extends CI_Model
 			$this->db->where('re.sucursal_id', $sucursal_id);
 			$this->db->where('re.estatus', 2);
 			if ($litros['2kmfecha1'] & $litros['2kmfecha2']) {
-				$this->db->where("(re.fecha_salida BETWEEN '" . $litros['2kmfecha1'] . "' AND '" . $litros['2kmfecha2'] . "' OR '" . $litros['2kmfecha1'] . "' IS NULL OR '" . $litros['2kmfecha2'] . "' IS NULL)");
+				$this->db->where("(DATE(re.hora_salida) BETWEEN '" . $litros['2kmfecha1'] . "' AND '" . $litros['2kmfecha2'] . "' OR '" . $litros['2kmfecha1'] . "' IS NULL OR '" . $litros['2kmfecha2'] . "' IS NULL)");
 			}
 
 			$query = $this->db->get();
@@ -365,7 +365,7 @@ class Model_reportes extends CI_Model
 			$this->db->join('asignaciones a', 'a.asignacion_id = re.asignacion_id');
 			$this->db->where('re.estatus', 2);
 			if ($tonelages['fecha1tonelage'] & $tonelages['fecha2tonelage']) {
-				$this->db->where("(re.fecha_salida BETWEEN '" . $tonelages['fecha1tonelage'] . "' AND '" . $tonelages['fecha2tonelage'] . "' OR '" . $tonelages['fecha1tonelage'] . "' IS NULL OR '" . $tonelages['fecha2tonelage'] . "' IS NULL)");
+				$this->db->where("(DATE(re.hora_salida) BETWEEN '" . $tonelages['fecha1tonelage'] . "' AND '" . $tonelages['fecha2tonelage'] . "' OR '" . $tonelages['fecha1tonelage'] . "' IS NULL OR '" . $tonelages['fecha2tonelage'] . "' IS NULL)");
 			}
 			if ($tonelages['tonelageasignacion_id']) {
 				$this->db->where("(a.asignacion_id = '" . $tonelages['tonelageasignacion_id'] . "' OR '" . $tonelages['tonelageasignacion_id'] . "' IS NULL)");
@@ -384,7 +384,7 @@ class Model_reportes extends CI_Model
 			$this->db->where('re.sucursal_id', $sucursal_id);
 			$this->db->where('re.estatus', 2);
 			if ($tonelages['fecha1tonelage'] & $tonelages['fecha2tonelage']) {
-				$this->db->where("(re.fecha_salida BETWEEN '" . $tonelages['fecha1tonelage'] . "' AND '" . $tonelages['fecha2tonelage'] . "' OR '" . $tonelages['fecha1tonelage'] . "' IS NULL OR '" . $tonelages['fecha2tonelage'] . "' IS NULL)");
+				$this->db->where("(DATE(re.hora_salida) BETWEEN '" . $tonelages['fecha1tonelage'] . "' AND '" . $tonelages['fecha2tonelage'] . "' OR '" . $tonelages['fecha1tonelage'] . "' IS NULL OR '" . $tonelages['fecha2tonelage'] . "' IS NULL)");
 			}
 			if ($tonelages['tonelageasignacion_id']) {
 				$this->db->where("(a.asignacion_id = '" . $tonelages['tonelageasignacion_id'] . "' OR '" . $tonelages['tonelageasignacion_id'] . "' IS NULL)");
@@ -409,7 +409,7 @@ class Model_reportes extends CI_Model
 			$this->db->join('unidades u', 'u.unidad_id = re.unidad_id');
 			$this->db->where('re.estatus', 2);
 			if ($horarutas['fecha1horaruta'] & $horarutas['fecha2horaruta']) {
-				$this->db->where("(re.fecha_salida BETWEEN '" . $horarutas['fecha1horaruta'] . "' AND '" . $horarutas['fecha2horaruta'] . "' OR '" . $horarutas['fecha1horaruta'] . "' IS NULL OR '" . $horarutas['fecha2horaruta'] . "' IS NULL)");
+				$this->db->where("(DATE(re.hora_salida) BETWEEN '" . $horarutas['fecha1horaruta'] . "' AND '" . $horarutas['fecha2horaruta'] . "' OR '" . $horarutas['fecha1horaruta'] . "' IS NULL OR '" . $horarutas['fecha2horaruta'] . "' IS NULL)");
 			}
 			if ($horarutas['horarutaunidad_id']) {
 				$this->db->where("(u.unidad_id = '" . $horarutas['horarutaunidad_id'] . "' OR '" . $horarutas['horarutaunidad_id'] . "' IS NULL)");
@@ -427,7 +427,7 @@ class Model_reportes extends CI_Model
 			$this->db->where('re.sucursal_id', $sucursal_id);
 			$this->db->where('re.estatus', 2);
 			if ($horarutas['fecha1horaruta'] & $horarutas['fecha2horaruta']) {
-				$this->db->where("(re.fecha_salida BETWEEN '" . $horarutas['fecha1horaruta'] . "' AND '" . $horarutas['fecha2horaruta'] . "' OR '" . $horarutas['fecha1horaruta'] . "' IS NULL OR '" . $horarutas['fecha2horaruta'] . "' IS NULL)");
+				$this->db->where("(DATE(re.hora_salida) BETWEEN '" . $horarutas['fecha1horaruta'] . "' AND '" . $horarutas['fecha2horaruta'] . "' OR '" . $horarutas['fecha1horaruta'] . "' IS NULL OR '" . $horarutas['fecha2horaruta'] . "' IS NULL)");
 			}
 			if ($horarutas['horarutaunidad_id']) {
 				$this->db->where("(u.unidad_id = '" . $horarutas['horarutaunidad_id'] . "' OR '" . $horarutas['horarutaunidad_id'] . "' IS NULL)");

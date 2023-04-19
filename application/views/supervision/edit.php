@@ -339,8 +339,8 @@
                   </div>
 
                   <div class="box-footer">
-                    <button type="submit" class="btn btn-primary" id="submitButton" disabled>Save Changes</button>
-                    <a href="<?php echo base_url('vigilancia/') ?>" class="btn btn-warning">Back</a>
+                    <button type="submit" class="btn btn-primary" id="submitButton" disabled>Guardar</button>
+                    <a href="<?php echo base_url('vigilancia/') ?>" class="btn btn-warning">Regresar</a>
                   </div>
                 </form>
               </div>
@@ -400,16 +400,16 @@
     $("#Tiro_2").autocomplete({
       source: "<?php echo base_url('supervision/ticketslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
       select: function(event, ui) {
-        $("#Tiro_1").val(ui.item.label);
+        $("#Tiro_2").val(ui.item.label);
         $("#Tiro2_id").val(ui.item.value);
         return false;
       },
       focus: function(event, ui) {
         $("#Tiro_2").val(ui.item.label);
-        $('#peso1')
+        $('#peso2')
           .val(ui.item.peso)
           .trigger("input");
-        $("#detinofinal1").val(ui.item.destino);
+        $("#detinofinal2").val(ui.item.destino);
         return false;
       },
       minLength: 1
@@ -423,11 +423,11 @@
         return false;
       },
       focus: function(event, ui) {
-        $("#Tiro_1").val(ui.item.label);
-        $('#peso1')
+        $("#Tiro_3").val(ui.item.label);
+        $('#peso3')
           .val(ui.item.peso)
           .trigger("input");
-        $("#detinofinal1").val(ui.item.destino);
+        $("#detinofinal3").val(ui.item.destino);
         return false;
       },
       minLength: 1
@@ -442,10 +442,10 @@
       },
       focus: function(event, ui) {
         $("#Tiro_4").val(ui.item.label);
-        $('#peso1')
+        $('#peso4')
           .val(ui.item.peso)
           .trigger("input");
-        $("#detinofinal1").val(ui.item.destino);
+        $("#detinofinal4").val(ui.item.destino);
         return false;
       },
       minLength: 1
@@ -460,10 +460,10 @@
       },
       focus: function(event, ui) {
         $("#Tiro_5").val(ui.item.label);
-        $('#peso1')
+        $('#peso5')
           .val(ui.item.peso)
           .trigger("input");
-        $("#detinofinal1").val(ui.item.destino);
+        $("#detinofinal5").val(ui.item.destino);
         return false;
       },
       minLength: 1
@@ -478,10 +478,10 @@
       },
       focus: function(event, ui) {
         $("#Tiro_6").val(ui.item.label);
-        $('#peso1')
+        $('#peso6')
           .val(ui.item.peso)
           .trigger("input");
-        $("#detinofinal1").val(ui.item.destino);
+        $("#detinofinal6").val(ui.item.destino);
         return false;
       },
       minLength: 1
@@ -496,10 +496,10 @@
       },
       focus: function(event, ui) {
         $("#Tiro_7").val(ui.item.label);
-        $('#peso1')
+        $('#peso7')
           .val(ui.item.peso)
           .trigger("input");
-        $("#detinofinal1").val(ui.item.destino);
+        $("#detinofinal7").val(ui.item.destino);
         return false;
       },
       minLength: 1
@@ -514,10 +514,10 @@
       },
       focus: function(event, ui) {
         $("#Tiro_8").val(ui.item.label);
-        $('#peso1')
+        $('#peso8')
           .val(ui.item.peso)
           .trigger("input");
-        $("#detinofinal1").val(ui.item.destino);
+        $("#detinofinal8").val(ui.item.destino);
         return false;
       },
       minLength: 1
@@ -532,10 +532,10 @@
       },
       focus: function(event, ui) {
         $("#Tiro_9").val(ui.item.label);
-        $('#peso1')
+        $('#peso9')
           .val(ui.item.peso)
           .trigger("input");
-        $("#detinofinal1").val(ui.item.destino);
+        $("#detinofinal9").val(ui.item.destino);
         return false;
       },
       minLength: 1
@@ -550,10 +550,10 @@
       },
       focus: function(event, ui) {
         $("#Tiro_10").val(ui.item.label);
-        $('#peso1')
+        $('#peso10')
           .val(ui.item.peso)
           .trigger("input");
-        $("#detinofinal1").val(ui.item.destino);
+        $("#detinofinal10").val(ui.item.destino);
         return false;
       },
       minLength: 1

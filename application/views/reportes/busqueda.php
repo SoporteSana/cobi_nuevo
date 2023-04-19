@@ -144,7 +144,7 @@
                                     </div>
 
                                     <div class="box-footer">
-                                        <button type="submit" class="btn btn-primary" target="_blank" id="btnfiltros" disabled>Mostrar</button>
+                                        <button type="submit" class="btn btn-primary" target="_blank" id="btnfiltros" disabled>ver</button>
                                         <button type="button" class="btn btn-warning" id="btnlimpiar">Limpiar</button>
                                     </div>
                                 </form>
@@ -229,7 +229,7 @@
                                     </div>
 
                                     <div class="box-footer">
-                                        <button type="submit" class="btn btn-primary" id="btn2km" disabled>Save Changes</button>
+                                        <button type="submit" class="btn btn-primary" id="btn2km" disabled>ver</button>
                                         <button type="button" class="btn btn-warning" id="btnlimpiar3">Limpiar</button>
                                     </div>
                                 </form>
@@ -276,7 +276,7 @@
                                     </div>
 
                                     <div class="box-footer">
-                                        <button type="submit" class="btn btn-primary" id="btntonelage" disabled>Save Changes</button>
+                                        <button type="submit" class="btn btn-primary" id="btntonelage" disabled>ver</button>
                                         <button type="button" class="btn btn-warning" id="btnlimpiar4">Limpiar</button>
                                     </div>
                                 </form>
@@ -323,7 +323,7 @@
                                     </div>
 
                                     <div class="box-footer">
-                                        <button type="submit" class="btn btn-primary" id="btnhoraruta" disabled>Save Changes</button>
+                                        <button type="submit" class="btn btn-primary" id="btnhoraruta" disabled>ver</button>
                                         <button type="button" class="btn btn-warning" id="btnlimpiar5">Limpiar</button>
                                     </div>
                                 </form>
