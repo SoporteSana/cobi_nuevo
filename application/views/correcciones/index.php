@@ -7,7 +7,7 @@
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">supervicion</li>
+      <li class="active">Correcciones</li>
     </ol>
   </section>
 
@@ -30,11 +30,6 @@
             <?php echo $this->session->flashdata('error'); ?>
           </div>
         <?php endif; ?>
-
-        <div class="box">
-          <div class="box-header">
-            <h3 class="box-title">unidades fuera</h3>
-          </div>
           
           <div class="box-body">
             <table id="manageTable" class="display responsive nowrap" style="width:100%">

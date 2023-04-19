@@ -102,6 +102,7 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
+    $("#editarNav").addClass('active');
     var table = $('#manageTable').DataTable({
       'ajax': 'fetchReporteCompletoData',
       'order': [],

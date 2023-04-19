@@ -21,8 +21,101 @@ class Correcciones extends Admin_Controller
             redirect('dashboard', 'refresh');
         }
 
+        $this->render_template('correcciones/busqueda', $this->data);
+    }
+
+    public function completo()
+    {
+        if (!in_array('viewEditarRegistro', $this->permission)) {
+            redirect('dashboard', 'refresh');
+        }
+
         $this->render_template('correcciones/index', $this->data);
     }
+
+    public function filtro()
+    {
+        if (!in_array('viewEditarRegistro', $this->permission)) {
+            redirect('dashboard', 'refresh');
+        }
+
+        $result = array('data' => array());
+
+        $filtros = array(
+            'filtroid' => $this->input->post('filtroid'),
+            'fecha1filtro' => $this->input->post('fecha1filtro'),
+            'fecha2filtro' => $this->input->post('fecha2filtro'),
+            'filtrounidad_id' => $this->input->post('filtrounidad_id')
+        );
+
+        $data = $this->model_correcciones->getFiltrosData($filtros);
+
+        foreach ($data as $key => $value) {
+
+            $button = '';
+
+            if (in_array('updateEditarRegistro', $this->permission)) {
+                $button .= '<a href="' . base_url('correcciones/update/' . $value['registro_id']) . '" class="btn btn-default"><i class="fa fa-pencil"></i></a>';
+            }
+
+            $result['data'][$key] = array(
+
+                $value['registro_id'],
+                $value['unidad_numero'],
+                $value['asignacion_nombre'],
+                $value['semana'],
+                $value['nombres'],
+                $value['turno_nombre'],
+                $value['ruta_nombre'],
+                $value['alias_nombre'],
+                $value['operador_nombre'],
+                $value['hora_salida'],
+                $value['hora_entrada'],
+                $value['numrecolectores'],
+                $value['recolector1'],
+                $value['recolector2'],
+                $value['recolector3'],
+                $value['recolector4'],
+                $value['recolector5'],
+                $value['km_salida'],
+                $value['km_entrada'],
+                $value['recorrido'],
+                $value['litroscargados'],
+                $value['rendimiento'],
+                $value['hora_tablero'],
+                $value['tiempo_ruta'],
+                $value['numtiros'],
+                $value['tiro1'],
+                $value['destinofinal1'],
+                $value['tiro2'],
+                $value['destinofinal2'],
+                $value['tiro3'],
+                $value['destinofinal3'],
+                $value['tiro4'],
+                $value['destinofinal4'],
+                $value['tiro5'],
+                $value['destinofinal5'],
+                $value['tiro6'],
+                $value['destinofinal6'],
+                $value['tiro7'],
+                $value['destinofinal7'],
+                $value['tiro8'],
+                $value['destinofinal8'],
+                $value['tiro9'],
+                $value['destinofinal9'],
+                $value['tiro10'],
+                $value['destinofinal10'],
+                $value['totalpeso'],
+                $value['observaciones'],
+                $value['estatus'],
+                $button
+
+            );
+        }
+
+        $this->render_template('correcciones/filtros', $this->data,$result);
+    }
+
 
     public function getCorreccionData()
     {
@@ -181,7 +274,7 @@ class Correcciones extends Admin_Controller
                 $this->input->post('Tiro9_id'),
                 $this->input->post('Tiro10_id')
             );
-            
+
             $tiros = array_filter($tirosid, function ($value) {
                 return !empty($value);
             });
@@ -201,7 +294,7 @@ class Correcciones extends Admin_Controller
                 $this->session->set_flashdata('success', 'Actualizado con éxito');
                 redirect('correcciones/', 'refresh');
             } else if (!empty($duplicates)) {
-               
+
                 $this->session->set_flashdata('error', 'Tickets duplicados');
                 redirect('correcciones/update/' . $registro_id, 'refresh');
             } else {
@@ -226,7 +319,7 @@ class Correcciones extends Admin_Controller
             'recolector5' => isset($recolector_id_array[4]) ? $recolector_id_array[4] : 0,
             'numrecolectores' => $this->input->post('norecolectores'),
         );
-    
+
         $this->model_correcciones->actualizarTripulacion($update, $tripulacionData);
     }
 
@@ -252,7 +345,7 @@ class Correcciones extends Admin_Controller
 
     public function asignacionlist()
     {
-    
+
         $postData = $this->input->post();
 
         $data = $this->model_correcciones->searchasignacion($postData);
@@ -262,7 +355,7 @@ class Correcciones extends Admin_Controller
 
     public function unidadlist()
     {
-        
+
         $postData = $this->input->post();
 
         $data = $this->model_correcciones->searchUnidad($postData);
@@ -292,10 +385,10 @@ class Correcciones extends Admin_Controller
 
     public function operadoreslist()
     {
-        
+
         $postData = $this->input->post();
 
-        
+
         $data = $this->model_correcciones->searchoperador($postData);
 
         echo json_encode($data);
@@ -303,10 +396,10 @@ class Correcciones extends Admin_Controller
 
     public function recolectoreslist()
     {
-        
+
         $postData = $this->input->post();
 
-        
+
         $data = $this->model_correcciones->searchrecolectores($postData);
 
         echo json_encode($data);
