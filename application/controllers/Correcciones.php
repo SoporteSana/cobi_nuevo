@@ -10,7 +10,7 @@ class Correcciones extends Admin_Controller
 
         $this->not_logged_in();
 
-        $this->data['page_title'] = 'Supervicion';
+        $this->data['page_title'] = 'Correciones';
 
         $this->load->model('model_correcciones');
     }
@@ -227,7 +227,9 @@ class Correcciones extends Admin_Controller
                 'semana' => $this->input->post('semana'),
                 'dia' => $this->input->post('dia'),
                 'hora_salida' => $this->input->post('horasalida'),
+                'fecha_salida' => $this->input->post('fechasalida'),
                 'hora_entrada' => $this->input->post('horaentrada'),
+                'fecha_entrada' => $this->input->post('fechaentrada'),
                 'hora_tablero' => $this->input->post('horatablero'),
                 'tiempo_ruta' => $this->input->post('tiemporuta'),
                 'alias_id' => $this->input->post('alias_id'),

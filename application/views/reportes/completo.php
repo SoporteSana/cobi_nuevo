@@ -43,12 +43,12 @@
                   <th>asignacion</th>
                   <th>semana</th>
                   <th>supervisor</th>
+                  <th>dia</th>
+                  <th>fecha</th>
                   <th>turno</th>
                   <th>ruta</th>
                   <th>alias</th>
                   <th>operador</th>
-                  <th>Hora de salida</th>
-                  <th>Hora de entrada</th>
                   <th># recolectores</th>
                   <th>Recoelctor 1</th>
                   <th>Recoelctor 2</th>
@@ -59,9 +59,12 @@
                   <th>km entrada</th>
                   <th>recorrido</th>
                   <th>litros cargados</th>
-                  <th>rendimento</th>
+                  <th>rendimiento</th>
+                  <th>hora salida</th>
+                  <th>hora de entrada</th>
                   <th>hora tablero</th>
-                  <th>tipo ruta</th>
+                  <th>tempo ruta</th>
+                  <th>perso total</th>
                   <th># tiros</th>
                   <th>tiro 1</th>
                   <th>destino tiro 1</th>
@@ -83,6 +86,7 @@
                   <th>destino tiro 9</th>
                   <th>tiro 10</th>
                   <th>destino tiro 10</th>
+                  <th>observaciones</th>
                   <th>estatus</th>
                 </tr>
               </thead>

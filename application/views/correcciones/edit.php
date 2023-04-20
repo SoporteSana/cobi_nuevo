@@ -81,15 +81,27 @@
                     </div>
 
                     <div class="form-group">
-                      <label for="horasalida">hora_salida:</label>
+                      <label for="horasalida">hora salida:</label>
                       <input type="text" class="form-control datetimepicker-input" id="horasalida" name="horasalida" data-toggle="datetimepicker" data-target="#horasalida" value="<?php echo $registro_data['hora_salida']; ?>" />
                       <div class="text-danger"><?php echo form_error('horasalida'); ?></div>
                     </div>
 
                     <div class="form-group">
-                      <label for="horaentrada">hora_entrada:</label>
+                      <label for="fechasalida">fecha salida:</label>
+                      <input type="text" class="form-control datetimepicker-input" id="fechasalida" name="fechasalida" data-toggle="datetimepicker" data-target="#fechasalida" value="<?php echo $registro_data['fecha_salida']; ?>" />
+                      <div class="text-danger"><?php echo form_error('fechasalida'); ?></div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="horaentrada">hora entrada:</label>
                       <input type="text" class="form-control datetimepicker-input" id="horaentrada" name="horaentrada" data-toggle="datetimepicker" data-target="#horaentrada" value="<?php echo $registro_data['hora_entrada']; ?>" />
                       <div class="text-danger"><?php echo form_error('horaentrada'); ?></div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="fechaentrada">fecha entrada:</label>
+                      <input type="text" class="form-control datetimepicker-input" id="fechaentrada" name="fechaentrada" data-toggle="datetimepicker" data-target="#fechaentrada" value="<?php echo $registro_data['fecha_entrada']; ?>" />
+                      <div class="text-danger"><?php echo form_error('fechaentrada'); ?></div>
                     </div>
 
                     <div class="form-group">
@@ -955,6 +967,12 @@
     });
     $('#horaentrada').datetimepicker({
       format: 'YYYY-MM-DD HH:mm:ss'
+    });
+    $('#fechasalida').datetimepicker({
+      format: 'YYYY-MM-DD'
+    });
+    $('#fechaentrada').datetimepicker({
+      format: 'YYYY-MM-DD'
     });
   });
 </script>

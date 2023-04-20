@@ -47,12 +47,12 @@
                   <th>asignacion</th>
                   <th>semana</th>
                   <th>supervisor</th>
+                  <th>dia</th>
+                  <th>fecha</th>
                   <th>turno</th>
                   <th>ruta</th>
                   <th>alias</th>
                   <th>operador</th>
-                  <th>Hora de salida</th>
-                  <th>Hora de entrada</th>
                   <th># recolectores</th>
                   <th>Recoelctor 1</th>
                   <th>Recoelctor 2</th>
@@ -63,9 +63,12 @@
                   <th>km entrada</th>
                   <th>recorrido</th>
                   <th>litros cargados</th>
-                  <th>rendimento</th>
+                  <th>rendimiento</th>
+                  <th>hora salida</th>
+                  <th>hora de entrada</th>
                   <th>hora tablero</th>
-                  <th>tipo ruta</th>
+                  <th>tempo ruta</th>
+                  <th>perso total</th>
                   <th># tiros</th>
                   <th>tiro 1</th>
                   <th>destino tiro 1</th>
@@ -87,6 +90,7 @@
                   <th>destino tiro 9</th>
                   <th>tiro 10</th>
                   <th>destino tiro 10</th>
+                  <th>observaciones</th>
                   <th>estatus</th>
                 </tr>
               </thead>
@@ -98,12 +102,12 @@
                     <td><?= $filtro['asignacion_nombre'] ?></td>
                     <td><?= $filtro['semana'] ?></td>
                     <td><?= $filtro['nombres'] ?></td>
+                    <td><?= $filtro['dia'] ?></td>
+                    <td><?= $filtro['fecha_salida'] ?></td>
                     <td><?= $filtro['turno_nombre'] ?></td>
                     <td><?= $filtro['ruta_nombre'] ?></td>
                     <td><?= $filtro['alias_nombre'] ?></td>
                     <td><?= $filtro['operador_nombre'] ?></td>
-                    <td><?= $filtro['hora_salida'] ?></td>
-                    <td><?= $filtro['hora_entrada'] ?></td>
                     <td><?= $filtro['numrecolectores'] ?></td>
                     <td><?= $filtro['recolector1'] ?></td>
                     <td><?= $filtro['recolector2'] ?></td>
@@ -115,8 +119,11 @@
                     <td><?= $filtro['recorrido'] ?></td>
                     <td><?= $filtro['litroscargados'] ?></td>
                     <td><?= $filtro['rendimiento'] ?></td>
+                    <td><?= $filtro['hora_salida'] ?></td>
+                    <td><?= $filtro['hora_entrada'] ?></td>
                     <td><?= $filtro['hora_tablero'] ?></td>
                     <td><?= $filtro['tiempo_ruta'] ?></td>
+                    <td><?= $filtro['totalpeso'] ?></td>
                     <td><?= $filtro['numtiros'] ?></td>
                     <td><?= $filtro['tiro1'] ?></td>
                     <td><?= $filtro['destinofinal1'] ?></td>
@@ -138,6 +145,7 @@
                     <td><?= $filtro['destinofinal9'] ?></td>
                     <td><?= $filtro['tiro10'] ?></td>
                     <td><?= $filtro['destinofinal10'] ?></td>
+                    <td><?= $filtro['observaciones'] ?></td>
                     <td><?= $filtro['estatus'] ?></td>
 
                   </tr>
@@ -215,5 +223,3 @@
     XLSX.writeFile(workbook, nombreArchivo);
   }
 </script>
-
-
