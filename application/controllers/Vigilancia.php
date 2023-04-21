@@ -69,11 +69,34 @@ class Vigilancia extends Admin_Controller
             redirect('dashboard', 'refresh');
         }
 
-        $this->form_validation->set_rules('numeroeconomico', 'numero de unidad name', 'trim|required');
+        $this->form_validation->set_rules('numeroeconomico', 'numero de unidad', 'trim|required');
+        $this->form_validation->set_rules('numeroeconomico_id', 'numero de unidad', 'trim|required');
         $this->form_validation->set_rules('horatablero', 'hora tablero', 'trim|required');
         $this->form_validation->set_rules('alias', 'alias', 'trim|required');
         $this->form_validation->set_rules('operador', 'operador', 'trim|required');
         $this->form_validation->set_rules('kmsalida', 'kmsalida', 'trim|required');
+
+        if ($this->input->post('select') == 1) {
+            $this->form_validation->set_rules('Recolector1_id', 'Recolector 1', 'trim|required');
+        } else if ($this->input->post('select') == 2) {
+            $this->form_validation->set_rules('Recolector1_id', 'Recolector 1', 'trim|required');
+            $this->form_validation->set_rules('Recolector2_id', 'Recolector 2', 'trim|required');
+        } else if ($this->input->post('select') == 3) {
+            $this->form_validation->set_rules('Recolector1_id', 'Recolector 1', 'trim|required');
+            $this->form_validation->set_rules('Recolector2_id', 'Recolector 2', 'trim|required');
+            $this->form_validation->set_rules('Recolector3_id', 'Recolector 3', 'trim|required');
+        } else if ($this->input->post('select') == 4) {
+            $this->form_validation->set_rules('Recolector1_id', 'Recolector 1', 'trim|required');
+            $this->form_validation->set_rules('Recolector2_id', 'Recolector 2', 'trim|required');
+            $this->form_validation->set_rules('Recolector3_id', 'Recolector 3', 'trim|required');
+            $this->form_validation->set_rules('Recolector4_id', 'Recolector 4', 'trim|required');
+        } else if ($this->input->post('select') == 5) {
+            $this->form_validation->set_rules('Recolector1_id', 'Recolector 1', 'trim|required');
+            $this->form_validation->set_rules('Recolector2_id', 'Recolector 2', 'trim|required');
+            $this->form_validation->set_rules('Recolector3_id', 'Recolector 3', 'trim|required');
+            $this->form_validation->set_rules('Recolector4_id', 'Recolector 4', 'trim|required');
+            $this->form_validation->set_rules('Recolector5_id', 'Recolector 5', 'trim|required');
+        }
 
         if ($this->form_validation->run() == TRUE) {
 

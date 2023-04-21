@@ -201,6 +201,7 @@
 
                     <div class="form-group">
                       <input type="hidden" name="Tiro1_id" id="Tiro1_id">
+                      <div class="text-danger"><?php echo form_error('Tiro1_id'); ?></div>
                     </div>
 
                     <div class="peso-input">
@@ -214,6 +215,7 @@
 
                     <div class="form-group">
                       <input type="hidden" name="Tiro2_id" id="Tiro2_id">
+                      <div class="text-danger"><?php echo form_error('Tiro2_id'); ?></div>
                     </div>
 
                     <div class="peso-input">
@@ -227,6 +229,7 @@
 
                     <div class="form-group">
                       <input type="hidden" name="Tiro3_id" id="Tiro3_id">
+                      <div class="text-danger"><?php echo form_error('Tiro3_id'); ?></div>
                     </div>
 
                     <div class="peso-input">
@@ -240,6 +243,7 @@
 
                     <div class="form-group">
                       <input type="hidden" name="Tiro4_id" id="Tiro4_id">
+                      <div class="text-danger"><?php echo form_error('Tiro4_id'); ?></div>
                     </div>
 
                     <div class="peso-input">
@@ -253,6 +257,7 @@
 
                     <div class="form-group">
                       <input type="hidden" name="Tiro5_id" id="Tiro5_id">
+                      <div class="text-danger"><?php echo form_error('Tiro5_id'); ?></div>
                     </div>
 
                     <div class="peso-input">
@@ -266,6 +271,7 @@
 
                     <div class="form-group">
                       <input type="hidden" name="Tiro6_id" id="Tiro6_id">
+                      <div class="text-danger"><?php echo form_error('Tiro6_id'); ?></div>
                     </div>
 
                     <div class="peso-input">
@@ -279,6 +285,7 @@
 
                     <div class="form-group">
                       <input type="hidden" name="Tiro7_id" id="Tiro7_id">
+                      <div class="text-danger"><?php echo form_error('Tiro7_id'); ?></div>
                     </div>
 
                     <div class="peso-input">
@@ -292,6 +299,7 @@
 
                     <div class="form-group">
                       <input type="hidden" name="Tiro8_id" id="Tiro8_id">
+                      <div class="text-danger"><?php echo form_error('Tiro8_id'); ?></div>
                     </div>
 
                     <div class="peso-input">
@@ -305,6 +313,7 @@
 
                     <div class="form-group">
                       <input type="hidden" name="Tiro9_id" id="Tiro9_id">
+                      <div class="text-danger"><?php echo form_error('Tiro9_id'); ?></div>
                     </div>
 
                     <div class="peso-input">
@@ -318,6 +327,7 @@
 
                     <div class="form-group">
                       <input type="hidden" name="Tiro10_id" id="Tiro10_id">
+                      <div class="text-danger"><?php echo form_error('Tiro10_id'); ?></div>
                     </div>
 
                     <div class="peso-input">

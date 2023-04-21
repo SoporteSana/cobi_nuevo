@@ -50,7 +50,7 @@
                     </div>
 
                     <div class="form-group">
-                      <input type="hidden" name="numeroeconomico_id" id="numeroeconomico_id" value='0'>
+                      <input type="hidden" name="numeroeconomico_id" id="numeroeconomico_id">
                     </div>
 
                     <div class="form-group">
@@ -81,7 +81,7 @@
                     </div>
 
                     <div class="form-group">
-                      <input type="hidden" name="alias_id" id="alias_id" value='0'>
+                      <input type="hidden" name="alias_id" id="alias_id">
                     </div>
 
                     <div class="form-group">
@@ -101,7 +101,7 @@
                     </div>
 
                     <div class="form-group">
-                      <input type="hidden" name="operador_id" id="operador_id" value='0'>
+                      <input type="hidden" name="operador_id" id="operador_id">
                     </div>
 
                     <div class="form-group">
@@ -124,6 +124,7 @@
 
                     <div class="Recolector">
                       <input type="hidden" name="Recolector1_id" id="Recolector1_id">
+                      <div class="text-danger"><?php echo form_error('Recolector1_id'); ?></div>
                     </div>
 
                     <div class="Recolector">
@@ -133,6 +134,7 @@
 
                     <div class="Recolector">
                       <input type="hidden" name="Recolector2_id" id="Recolector2_id">
+                      <div class="text-danger"><?php echo form_error('Recolector2_id'); ?></div>
                     </div>
 
                     <div class="Recolector">
@@ -142,6 +144,7 @@
 
                     <div class="Recolector">
                       <input type="hidden" name="Recolector3_id" id="Recolector3_id">
+                      <div class="text-danger"><?php echo form_error('Recolector3_id'); ?></div>
                     </div>
 
                     <div class="Recolector">
@@ -151,6 +154,7 @@
 
                     <div class="Recolector">
                       <input type="hidden" name="Recolector4_id" id="Recolector4_id">
+                      <div class="text-danger"><?php echo form_error('Recolector4_id'); ?></div>
                     </div>
 
                     <div class="Recolector">
@@ -160,6 +164,7 @@
 
                     <div class="Recolector">
                       <input type="hidden" name="Recolector5_id" id="Recolector5_id">
+                      <div class="text-danger"><?php echo form_error('Recolector5_id'); ?></div>
                     </div>
 
                     <div class="form-group">
@@ -413,12 +418,15 @@
 
     $("input").on("input", function() {
       var numeroeconomico = $("#numeroeconomico").val();
+      var numeroeconomico_id = $("#numeroeconomico_id").val();
       var horatablero = $("#horatablero").val();
       var alias = $("#alias").val();
+      var alias_id = $("#alias_id").val();
       var operador = $("#operador").val();
+      var operador_id = $("#operador_id").val();
       var kmsalida = $("#kmsalida").val();
 
-      if (numeroeconomico != "" && horatablero != "" && alias != "" && operador != "" && kmsalida != "") {
+      if (numeroeconomico != "" && numeroeconomico_id != "" && horatablero != "" && alias != "" && operador != "" && kmsalida != "") {
         $("#submitButton").prop("disabled", false);
       } else {
         $("#submitButton").prop("disabled", true);

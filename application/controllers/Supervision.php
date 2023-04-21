@@ -76,6 +76,73 @@ class Supervision extends Admin_Controller
         $this->form_validation->set_rules('Litroscargados', 'Litroscargados', 'trim|required');
         $this->form_validation->set_rules('observaciones', 'observaciones', 'trim|required');
 
+        if ($this->input->post('select') == 1) {
+            $this->form_validation->set_rules('Tiro1_id', 'Tiro 1', 'trim|required');
+        } else if ($this->input->post('select') == 2) {
+            $this->form_validation->set_rules('Tiro1_id', 'Tiro 1', 'trim|required');
+            $this->form_validation->set_rules('Tiro2_id', 'Tiro 2', 'trim|required');
+        } else if ($this->input->post('select') == 3) {
+            $this->form_validation->set_rules('Tiro1_id', 'Tiro 1', 'trim|required');
+            $this->form_validation->set_rules('Tiro2_id', 'Tiro 2', 'trim|required');
+            $this->form_validation->set_rules('Tiro3_id', 'Tiro 3', 'trim|required');
+        } else if ($this->input->post('select') == 4) {
+            $this->form_validation->set_rules('Tiro1_id', 'Tiro 1', 'trim|required');
+            $this->form_validation->set_rules('Tiro2_id', 'Tiro 2', 'trim|required');
+            $this->form_validation->set_rules('Tiro3_id', 'Tiro 3', 'trim|required');
+            $this->form_validation->set_rules('Tiro4_id', 'Tiro 4', 'trim|required');
+        } else if ($this->input->post('select') == 5) {
+            $this->form_validation->set_rules('Tiro1_id', 'Tiro 1', 'trim|required');
+            $this->form_validation->set_rules('Tiro2_id', 'Tiro 2', 'trim|required');
+            $this->form_validation->set_rules('Tiro3_id', 'Tiro 3', 'trim|required');
+            $this->form_validation->set_rules('Tiro4_id', 'Tiro 4', 'trim|required');
+            $this->form_validation->set_rules('Tiro5_id', 'Tiro 5', 'trim|required');
+        } else if ($this->input->post('select') == 6) {
+            $this->form_validation->set_rules('Tiro1_id', 'Tiro 1', 'trim|required');
+            $this->form_validation->set_rules('Tiro2_id', 'Tiro 2', 'trim|required');
+            $this->form_validation->set_rules('Tiro3_id', 'Tiro 3', 'trim|required');
+            $this->form_validation->set_rules('Tiro4_id', 'Tiro 4', 'trim|required');
+            $this->form_validation->set_rules('Tiro5_id', 'Tiro 5', 'trim|required');
+            $this->form_validation->set_rules('Tiro6_id', 'Tiro 6', 'trim|required');
+        } else if ($this->input->post('select') == 7) {
+            $this->form_validation->set_rules('Tiro1_id', 'Tiro 1', 'trim|required');
+            $this->form_validation->set_rules('Tiro2_id', 'Tiro 2', 'trim|required');
+            $this->form_validation->set_rules('Tiro3_id', 'Tiro 3', 'trim|required');
+            $this->form_validation->set_rules('Tiro4_id', 'Tiro 4', 'trim|required');
+            $this->form_validation->set_rules('Tiro5_id', 'Tiro 5', 'trim|required');
+            $this->form_validation->set_rules('Tiro6_id', 'Tiro 6', 'trim|required');
+            $this->form_validation->set_rules('Tiro7_id', 'Tiro 7', 'trim|required');
+        } else if ($this->input->post('select') == 8) {
+            $this->form_validation->set_rules('Tiro1_id', 'Tiro 1', 'trim|required');
+            $this->form_validation->set_rules('Tiro2_id', 'Tiro 2', 'trim|required');
+            $this->form_validation->set_rules('Tiro3_id', 'Tiro 3', 'trim|required');
+            $this->form_validation->set_rules('Tiro4_id', 'Tiro 4', 'trim|required');
+            $this->form_validation->set_rules('Tiro5_id', 'Tiro 5', 'trim|required');
+            $this->form_validation->set_rules('Tiro6_id', 'Tiro 6', 'trim|required');
+            $this->form_validation->set_rules('Tiro7_id', 'Tiro 7', 'trim|required');
+            $this->form_validation->set_rules('Tiro8_id', 'Tiro 8', 'trim|required');
+        } else if ($this->input->post('select') == 9) {
+            $this->form_validation->set_rules('Tiro1_id', 'Tiro 1', 'trim|required');
+            $this->form_validation->set_rules('Tiro2_id', 'Tiro 2', 'trim|required');
+            $this->form_validation->set_rules('Tiro3_id', 'Tiro 3', 'trim|required');
+            $this->form_validation->set_rules('Tiro4_id', 'Tiro 4', 'trim|required');
+            $this->form_validation->set_rules('Tiro5_id', 'Tiro 5', 'trim|required');
+            $this->form_validation->set_rules('Tiro6_id', 'Tiro 6', 'trim|required');
+            $this->form_validation->set_rules('Tiro7_id', 'Tiro 7', 'trim|required');
+            $this->form_validation->set_rules('Tiro8_id', 'Tiro 8', 'trim|required');
+            $this->form_validation->set_rules('Tiro9_id', 'Tiro 9', 'trim|required');
+        } else if ($this->input->post('select') == 10) {
+            $this->form_validation->set_rules('Tiro1_id', 'Tiro 1', 'trim|required');
+            $this->form_validation->set_rules('Tiro2_id', 'Tiro 2', 'trim|required');
+            $this->form_validation->set_rules('Tiro3_id', 'Tiro 3', 'trim|required');
+            $this->form_validation->set_rules('Tiro4_id', 'Tiro 4', 'trim|required');
+            $this->form_validation->set_rules('Tiro5_id', 'Tiro 5', 'trim|required');
+            $this->form_validation->set_rules('Tiro6_id', 'Tiro 6', 'trim|required');
+            $this->form_validation->set_rules('Tiro7_id', 'Tiro 7', 'trim|required');
+            $this->form_validation->set_rules('Tiro8_id', 'Tiro 8', 'trim|required');
+            $this->form_validation->set_rules('Tiro9_id', 'Tiro 9', 'trim|required');
+            $this->form_validation->set_rules('Tiro10_id', 'Tiro 10', 'trim|required');
+        }
+
         if ($this->form_validation->run() == TRUE) {
 
             $data = array(
