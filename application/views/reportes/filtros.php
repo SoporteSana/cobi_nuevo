@@ -206,6 +206,15 @@
     var table = $('#manageTable').DataTable();
     var data = table.data().toArray();
 
+    // Convertir los números de texto a formato numérico
+    for (var i = 0; i < data.length; i++) {
+      for (var j = 0; j < data[i].length; j++) {
+        if (!isNaN(Number(data[i][j]))) {
+          data[i][j] = Number(data[i][j]);
+        }
+      }
+    }
+
     var header = [];
     table.columns().every(function() {
       header.push(this.header().textContent.trim());
