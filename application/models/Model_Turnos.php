@@ -12,26 +12,23 @@ class Model_Turnos extends CI_Model
 		$sucursal_id = $this->session->userdata('sucursal_id');
 		$username = $this->session->userdata('username');
 
-		if ($username == 'admin') {
-
-
-			$sql = "SELECT * FROM `turnos` WHERE estatus BETWEEN 0 AND 1";
-			$query = $this->db->query($sql);
-			return $query->result_array();
-		} else {
-
-
-			$sql = "SELECT * FROM `turnos` WHERE estatus BETWEEN 0 AND 1 AND sucursal_id = $sucursal_id";
-			$query = $this->db->query($sql);
-			return $query->result_array();
-		}
-
 		if ($id) {
 			$sql = "SELECT * FROM `turnos` WHERE turno_id = ?";
 			$query = $this->db->query($sql, array($id));
 			return $query->row_array();
 		}
+
+		if ($username == 'admin') {
+			$sql = "SELECT * FROM `turnos` WHERE estatus BETWEEN 0 AND 1";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		} else {
+			$sql = "SELECT * FROM `turnos` WHERE estatus BETWEEN 0 AND 1 AND sucursal_id = $sucursal_id";
+			$query = $this->db->query($sql);
+			return $query->result_array();
+		}
 	}
+
 
 	public function create($data)
 	{

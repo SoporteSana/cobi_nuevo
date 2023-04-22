@@ -255,7 +255,6 @@
           $("#edit_name").val(response.ruta_nombre);
           $("#edit_active").val(response.estatus);
 
-
           $("#updateForm").unbind('submit').bind('submit', function() {
             var form = $(this);
 

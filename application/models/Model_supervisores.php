@@ -73,13 +73,13 @@ class Model_Supervisores extends CI_Model
 
 	public function countTotalSupervisores()
 	{
-		$this->db->select('*');
+		$this->db->select('COUNT(*) as total_supervisores');
 		$this->db->from('usuarios u');
-		$this->db->join('usuarios_grupos ug', 'ug.usuario_id = u.usuario_id');
-		$this->db->join('grupos g', 'g.grupo_id = ug.usuario_grupo_id');
+		$this->db->join('usuarios_grupos ug', 'u.usuario_id = ug.usuario_id');
+		$this->db->join('grupos g', 'ug.grupo_id = g.grupo_id');
 		$this->db->where('g.grupo_nombre', 'supervisor');
-		$this->db->where('u.estatus', 0);
 		$query = $this->db->get();
-		return $query->num_rows();
+		$resultado = $query->result();
+		return $resultado[0]->total_supervisores;
 	}
 }
