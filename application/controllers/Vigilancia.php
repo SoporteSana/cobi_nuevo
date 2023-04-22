@@ -154,7 +154,7 @@ class Vigilancia extends Admin_Controller
 
             $data2 = array(
                 'semana_actual' => date("W"),
-                'hora_salida' => date("Y-m-d H:i:s"),
+                'hora_salida' => date('Y-m-d H:i:s', strtotime('-1 hour')),
                 'dia' => $diassemana[date('w')]
             );
 

@@ -25,8 +25,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $config['base_url'] = 'http://localhost/Cobi/';
 
-date_default_timezone_set('America/Mexico_City');
-
 /*
 |--------------------------------------------------------------------------
 | Index File
@@ -491,7 +489,7 @@ $config['compress_output'] = FALSE;
 | helper' page of the user guide for information regarding date handling.
 |
 */
-$config['time_reference'] = 'local';
+date_default_timezone_set('America/Mexico_City');
 
 /*
 |--------------------------------------------------------------------------
