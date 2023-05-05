@@ -130,6 +130,10 @@
     var nombreArchivo = 'exportacion.xlsx';
     XLSX.writeFile(workbook, nombreArchivo);
   }
+
+  setInterval(function() {
+    location.reload();
+  }, 60000); // 60000 = 1 minuto en milisegundos
 </script>
 
 <style type="text/css">
