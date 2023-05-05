@@ -101,12 +101,14 @@
 <!-- /.content-wrapper -->
 
 <script type="text/javascript">
-  $(document).ready(function() {
-    $('#userTable').DataTable();
-
-    $("#mainUserNav").addClass('active');
-    $("#manageUserNav").addClass('active');
-
+$(document).ready(function() {
+  $('#userTable').DataTable({
+    responsive: true
   });
+
+  $("#mainUserNav").addClass('active');
+  $("#manageUserNav").addClass('active');
+});
+
 
 </script>

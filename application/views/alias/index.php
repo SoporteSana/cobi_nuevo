@@ -210,6 +210,7 @@
     $("#aliasNav").addClass('active');
 
     manageTable = $('#manageTable').DataTable({
+      responsive: true,
       'ajax': 'fetchAliasData',
       'order': []
     });

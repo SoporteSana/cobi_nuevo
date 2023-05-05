@@ -18,25 +18,26 @@ class Model_Unidades extends CI_Model
 	{
 		$sucursal_id = $this->session->userdata('sucursal_id');
 		$username = $this->session->userdata('username');
-
-		if ($username == 'admin') {
-
-			$sql = "SELECT * FROM `unidades` WHERE estatus BETWEEN 0 AND 1";
-			$query = $this->db->query($sql);
-			return $query->result_array();
-		} else {
-
-			$sql = "SELECT * FROM `unidades` WHERE estatus BETWEEN 0 AND 1 AND sucursal_id = $sucursal_id";
-			$query = $this->db->query($sql);
-			return $query->result_array();
-		}
+		$respuesta = array();
 
 		if ($id) {
 			$sql = "SELECT * FROM `unidades` WHERE unidad_id = ?";
 			$query = $this->db->query($sql, array($id));
-			return $query->row_array();
+			$respuesta = $query->row_array();
+		} else {
+			if ($username == 'admin') {
+				$sql = "SELECT * FROM `unidades` WHERE estatus BETWEEN 0 AND 1";
+				$query = $this->db->query($sql);
+				$respuesta = $query->result_array();
+			} else {
+				$sql = "SELECT * FROM `unidades` WHERE estatus BETWEEN 0 AND 1 AND sucursal_id = $sucursal_id";
+				$query = $this->db->query($sql);
+				$respuesta = $query->result_array();
+			}
 		}
+		return $respuesta;
 	}
+
 
 	public function create($data)
 	{

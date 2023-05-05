@@ -79,4 +79,13 @@ class Model_groups extends CI_Model
 		$query = $this->db->get();
 		return $query->row_array();
 	}
+
+	public function getGroupArray($id)
+	{
+		$this->db->select('permisos');
+		$this->db->from('grupos');
+		$this->db->where('grupo_id', $id);
+		$query = $this->db->get();
+		return $query->row_array();
+	}
 }

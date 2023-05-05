@@ -237,6 +237,7 @@
     $("#ticketNav").addClass('active');
 
     manageTable = $('#manageTable').DataTable({
+      responsive: true,
       'ajax': 'fetchTicketsData',
       'order': []
     });

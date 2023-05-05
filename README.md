@@ -55,9 +55,10 @@ programa de control de bitácoras en PHP con CodeIgniter y mysql.
 # Credenciales de administrador
 
 email: admin
-password: password
+password: I8%97p
 
 nombre base de datos: cobi
+tecnoligia: MySQL
 
 # Requisitos del servidor
 
@@ -67,9 +68,9 @@ También debería funcionar en 5.3.7, pero no se recomienda ejecutarlo en
 versiones tan antiguas de PHP, debido a la seguridad, el rendimiento y potenciales
 problemas, así como características que faltan.
 
-Servidor de aplicaciones
+Servidor:
 
-    Puede optar por instalar cualquiera de los siguientes servidores de aplicaciones: LAMP, MAMP, XAMMP, WAMP.
+Puede optar por instalar cualquiera de los siguientes servidores de aplicaciones: LAMP, MAMP, XAMMP, WAMP.
 
 # Instalación
 
