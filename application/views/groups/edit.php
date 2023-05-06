@@ -241,20 +241,9 @@
         $('#loader').hide();
         $("#submitButton").prop("disabled", false);
 
-      
-        $.ajax({
-          url: '<?php echo base_url('groups/get_group_data/'); ?>' + id,
-          type: 'GET',
-          dataType: 'json',
-          success: function(response) {
-            var array_data = response;
-            // Utilizar los datos del grupo en la vista
-          }
-        });
 
 
       });
-
 
   });
 

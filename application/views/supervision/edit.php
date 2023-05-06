@@ -167,7 +167,7 @@
 
                     <div class="form-group">
                       <label for="Litroscargados">Litros cargados</label>
-                      <input type="text" class="form-control" id="Litroscargados" name="Litroscargados" placeholder="Litroscargados" autocomplete="off" />
+                      <input type="number" class="form-control" id="Litroscargados" name="Litroscargados" placeholder="Litroscargados" autocomplete="off" />
                       <div class="text-danger"><?php echo form_error('Litroscargados'); ?></div>
                     </div>
 

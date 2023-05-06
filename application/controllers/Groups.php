@@ -79,6 +79,8 @@ class Groups extends Admin_Controller
 
 		if ($id) {
 
+			//$this->groupsarray($id);
+
 			$this->form_validation->set_rules('group_name', 'Group name', 'required');
 
 			if ($this->form_validation->run() == TRUE) {
@@ -102,11 +104,18 @@ class Groups extends Admin_Controller
 			} else {
 				// false case
 
+				$groups_array = $this->model_groups->getGroupArray($id);
 				$group_data = $this->model_groups->getGroupData($id);
 				$this->data['group_data'] = $group_data;
+				$this->data['groups_array'] = ($groups_array);
 			}
 		}
 		$this->render_template('groups/edit', $this->data); // Renderizar la vista solo una vez
+	}
+
+	public function groupsarray($id)
+	{
+		$groups_array = $this->model_groups->getGroupArray($id);
 	}
 
 	/*

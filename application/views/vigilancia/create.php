@@ -70,7 +70,7 @@
 
                     <div class="form-group">
                       <label for="horatablero">Hora del tablero</label>
-                      <input type="text" class="form-control" id="horatablero" name="horatablero" placeholder="hora de tablero" autocomplete="off" />
+                      <input type="number" class="form-control" id="horatablero" name="horatablero" placeholder="hora de tablero" autocomplete="off" />
                       <div class="text-danger"><?php echo form_error('horatablero'); ?></div>
                     </div>
 
@@ -169,7 +169,7 @@
 
                     <div class="form-group">
                       <label for="kmsalida">Km de salida</label>
-                      <input type="text" class="form-control" id="kmsalida" name="kmsalida" placeholder="kmsalida" autocomplete="off" />
+                      <input type="number" class="form-control" id="kmsalida" name="kmsalida" placeholder="kmsalida" autocomplete="off" />
                       <div class="text-danger"><?php echo form_error('kmsalida'); ?></div>
                     </div>
 

@@ -106,7 +106,7 @@
 
                     <div class="form-group">
                       <label for="horatablero">Hora tablero</label>
-                      <input type="text" class="form-control" id="horatablero" name="horatablero" placeholder="horatablero" autocomplete="off" value="<?php echo $registro_data['hora_tablero']; ?>" />
+                      <input type="number" class="form-control" id="horatablero" name="horatablero" placeholder="horatablero" autocomplete="off" value="<?php echo $registro_data['hora_tablero']; ?>" />
                       <div class="text-danger"><?php echo form_error('horatablero'); ?></div>
                     </div>
 

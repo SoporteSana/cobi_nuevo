@@ -151,11 +151,11 @@
         <!-- <li class="header">Settings</li> -->
 
         <?php if (in_array('viewProfile', $user_permission)) : ?>
-          <li><a href="<?php echo base_url('users/profile/') ?>"><i class="fa fa-user-o"></i> <span>Profile</span></a></li>
+          <li><a href="<?php echo base_url('users/profile/') ?>"><i class="fa fa-user-o"></i> <span>Perfil</span></a></li>
         <?php endif; ?>
       <?php endif; ?>
       <!-- user permission info -->
-      <li><a href="<?php echo base_url('auth/logout') ?>"><i class="glyphicon glyphicon-log-out"></i> <span>Logout</span></a></li>
+      <li><a href="<?php echo base_url('auth/logout') ?>"><i class="glyphicon glyphicon-log-out"></i> <span>Cerrar sesion</span></a></li>
 
     </ul>
   </section>

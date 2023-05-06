@@ -129,7 +129,7 @@
 
 										<div class="form-group">
 											<label for="kmentrada">Km de entrada</label>
-											<input type="text" class="form-control" id="kmentrada" name="kmentrada" placeholder="kmentrada" autocomplete="off" />
+											<input type="number" class="form-control" id="kmentrada" name="kmentrada" placeholder="kmentrada" autocomplete="off" />
 											<div class="text-danger"><?php echo form_error('kmentrada'); ?></div>
 										</div>
 
