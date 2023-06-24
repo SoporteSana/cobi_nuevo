@@ -4,7 +4,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>Inv</b></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Cobi 2.0</b></span>
+      <span class="logo-lg"><img src="<?php echo base_url('assets/images/COBI_BLANCO.png') ?>" alt="logo" style="max-width: 100px; max-height: 100px;"></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
