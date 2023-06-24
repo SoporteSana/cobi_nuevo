@@ -1,46 +1,32 @@
 <div class="content-wrapper">
-
   <section class="content-header">
-    <h1>
-      Registros supervicion
-    </h1>
+    <h1>Registros supervisión</h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">supervicion</li>
+      <li class="active">Supervisión</li>
     </ol>
   </section>
 
-
   <section class="content">
-
     <div class="row">
       <div class="col-md-12 col-xs-12">
-
         <div id="messages"></div>
 
-        <?php if ($this->session->flashdata('success')) : ?>
-          <div class="alert alert-success alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <?php echo $this->session->flashdata('success'); ?>
-          </div>
-        <?php elseif ($this->session->flashdata('error')) : ?>
-          <div class="alert alert-error alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <?php echo $this->session->flashdata('error'); ?>
-          </div>
+        <?php if (in_array('deleteVigilancia', $user_permission)) : ?>
+          <button type="button" id="exportar_excel" class="btn btn-danger">Exportar a Excel</button>
+          <br /><br />
         <?php endif; ?>
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">unidades fuera</h3>
+            <h3 class="box-title">Unidades fuera</h3>
           </div>
 
-          <?php if (in_array('deleteVigilancia', $user_permission)) : ?>
-          <button type="button" id="exportar_excel" class="btn btn-danger">Exportar a Excel</button>
-          <br /> <br />
-        <?php endif; ?>
-
           <div class="box-body">
+            <input type="date" id="fecha" placeholder="Fecha">
+            <button type="button" id="filtrar_fecha" class="btn btn-primary">Filtrar</button>
+            <br /><br />
+
             <table id="manageTable" class="display responsive nowrap" style="width:100%">
               <thead>
                 <tr>
@@ -53,36 +39,27 @@
                   <th>alias</th>
                   <th>operador</th>
                   <th># recolectores</th>
-                  <th>Recoelctor 1</th>
-                  <th>Recoelctor 2</th>
-                  <th>Recoelctor 3</th>
-                  <th>Recoelctor 4</th>
-                  <th>Recoelctor 5</th>
+                  <th>Recolector 1</th>
+                  <th>Recolector 2</th>
+                  <th>Recolector 3</th>
+                  <th>Recolector 4</th>
+                  <th>Recolector 5</th>
                   <th>estatus</th>
                   <?php if (in_array('updateSupervision', $user_permission)) : ?>
-                  <th>Finalisar</th>
-                <?php endif; ?>
+                    <th>Finalizar</th>
+                  <?php endif; ?>
                 </tr>
               </thead>
-
             </table>
           </div>
-
         </div>
-
       </div>
-
     </div>
-
-
   </section>
-
 </div>
-
 
 <script type="text/javascript">
   $(document).ready(function() {
-
     $("#supervisionNav").addClass('active');
 
     var table = $('#manageTable').DataTable({
@@ -103,14 +80,36 @@
       }
     });
 
+    $('#filtrar_fecha').click(function() {
+      filtrarRegistrosPorFecha();
+    });
+
     $('#exportar_excel').click(function() {
       exportarExcel();
     });
   });
 
+  function filtrarRegistrosPorFecha() {
+    var fecha = $('#fecha').val();
+    var table = $('#manageTable').DataTable();
+    table.columns(2).search(fecha).draw();
+
+    // Obtener los datos filtrados
+    var filteredData = table.rows({
+      search: 'applied'
+    }).data().toArray();
+
+    // Limpiar la tabla
+    table.clear();
+
+    // Agregar los datos filtrados a la tabla
+    table.rows.add(filteredData).draw();
+  }
+
+
   function exportarExcel() {
     var table = $('#manageTable').DataTable();
-    var data = table.data().toArray();
+    var data = table.data().toArray(); // Obtener los datos filtrados
 
     var header = [];
     table.columns().every(function() {
