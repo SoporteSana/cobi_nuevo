@@ -19,13 +19,14 @@
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Unidades fuera</h3>
+            <h3 class="box-title">Ruta finalisada</h3>
           </div>
-
-          <div class="box-body">
-            <input type="date" id="fecha" placeholder="Fecha">
-            <button type="button" id="filtrar_fecha" class="btn btn-primary">Filtrar</button>
-            <br /><br />
+          <?php if (in_array('deleteVigilancia', $user_permission)) : ?>
+            <div class="box-body">
+              <input type="date" id="fecha" placeholder="Fecha">
+              <button type="button" id="filtrar_fecha" class="btn btn-primary">Filtrar</button>
+              <br /><br />
+            <?php endif; ?>
 
             <table id="manageTable" class="display responsive nowrap" style="width:100%">
               <thead>
@@ -51,7 +52,7 @@
                 </tr>
               </thead>
             </table>
-          </div>
+            </div>
         </div>
       </div>
     </div>
