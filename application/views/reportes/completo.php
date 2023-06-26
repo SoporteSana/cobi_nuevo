@@ -2,7 +2,7 @@
 
   <section class="content-header">
     <h1>
-      Todos los regostros
+      Todos los registros
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -31,7 +31,7 @@
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">unidades finalisadas</h3>
+            <h3 class="box-title">unidades finalizadas</h3>
           </div>
 
           <div class="box-body">
@@ -121,7 +121,7 @@
           }
         },
         {
-          'targets': 45,
+          'targets': 49,
           'render': function(data, type, row) {
             if (data == 2) {
               return 'Finalizado';

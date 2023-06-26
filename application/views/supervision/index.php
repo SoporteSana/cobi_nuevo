@@ -19,7 +19,7 @@
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Ruta finalisada</h3>
+            <h3 class="box-title">Ruta finalizada</h3>
           </div>
           <?php if (in_array('deleteVigilancia', $user_permission)) : ?>
             <div class="box-body">

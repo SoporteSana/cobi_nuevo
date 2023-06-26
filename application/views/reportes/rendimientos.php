@@ -31,7 +31,7 @@
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">unidades finalisadas</h3>
+            <h3 class="box-title">unidades finalizadas</h3>
           </div>
           <div class="box-header">
             <button type="button" id="exportar_excel" class="btn btn-danger">Exportar a Excel</button>

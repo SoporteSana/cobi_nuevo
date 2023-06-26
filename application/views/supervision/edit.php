@@ -340,7 +340,7 @@
                     </div>
 
                     <div class="form-group">
-                      <label for="observaciones">Opservaciones</label>
+                      <label for="observaciones">observaciones</label>
                       <input type="text" class="form-control" id="observaciones" name="observaciones" placeholder="Ingresa un comentario" autocomplete="off" value="N/A" />
                       <div class="text-danger"><?php echo form_error('observaciones'); ?></div>
                     </div>

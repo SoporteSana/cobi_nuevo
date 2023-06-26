@@ -64,7 +64,7 @@
                   <th>recolector 5</th>
                   <th>estatus</th>
                   <?php if (in_array('updateVigilancia', $user_permission)) : ?>
-                    <th>Finalisar</th>
+                    <th>Finalizar</th>
                   <?php endif; ?>
                 </tr>
               </thead>
