@@ -2,11 +2,11 @@
 
   <section class="content-header">
     <h1>
-      Registros supervicion
+      horas ruta
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">supervicion</li>
+      <li class="active">Todos</li>
     </ol>
   </section>
 
@@ -32,39 +32,48 @@
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">unidades fuera</h3>
+            <h3 class="box-title">unidades finalizadas</h3>
+          </div>
+          <div class="box-header">
+            <button type="button" id="exportar_excel" class="btn btn-danger">Exportar a Excel</button>
           </div>
 
-          <?php if (in_array('deleteVigilancia', $user_permission)) : ?>
-          <button type="button" id="exportar_excel" class="btn btn-danger">Exportar a Excel</button>
-          <br /> <br />
-        <?php endif; ?>
-
           <div class="box-body">
-            <table id="manageTable" class="display responsive nowrap" style="width:100%">
+          <table id="manageTable" class="display responsive nowrap" style="width:100%">
               <thead>
                 <tr>
                   <th>id</th>
                   <th>Unidad</th>
-                  <th>Hora de salida</th>
-                  <th>Hora de entrada</th>
-                  <th>turno</th>
-                  <th>ruta</th>
-                  <th>alias</th>
-                  <th>operador</th>
+                  <th>hora salida</th>
+                  <th>hora entrada</th>
+                  <th>tiemp enruta</th>
+                  <th>Operador</th>
                   <th># recolectores</th>
-                  <th>Recoelctor 1</th>
-                  <th>Recoelctor 2</th>
-                  <th>Recoelctor 3</th>
-                  <th>Recoelctor 4</th>
-                  <th>Recoelctor 5</th>
-                  <th>estatus</th>
-                  <?php if (in_array('updateSupervision', $user_permission)) : ?>
-                  <th>Finalisar</th>
-                <?php endif; ?>
+                  <th>recolector 1</th>
+                  <th>recolector 2</th>
+                  <th>recolector 3</th>
+                  <th>recolector 4</th>
+                  <th>recolector 5</th>
                 </tr>
               </thead>
-
+              <tbody>
+                <?php foreach ($horarutas as $horaruta) : ?>
+                  <tr>
+                    <td><?= $horaruta['registro_id'] ?></td>
+                    <td><?= $horaruta['unidad_numero'] ?></td>
+                    <td><?= $horaruta['hora_salida'] ?></td>
+                    <td><?= $horaruta['hora_entrada'] ?></td>
+                    <td><?= $horaruta['tiempo_ruta'] ?></td>
+                    <td><?= $horaruta['operador_nombre'] ?></td>
+                    <td><?= $horaruta['numrecolectores'] ?></td>
+                    <td><?= $horaruta['recolector1'] ?></td>
+                    <td><?= $horaruta['recolector2'] ?></td>
+                    <td><?= $horaruta['recolector3'] ?></td>
+                    <td><?= $horaruta['recolector4'] ?></td>
+                    <td><?= $horaruta['recolector5'] ?></td>
+                  </tr>
+                <?php endforeach; ?>
+              </tbody>
             </table>
           </div>
 
@@ -82,30 +91,16 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-
-    $("#supervisionNav").addClass('active');
-
+    $("#editarNav").addClass('active');
     var table = $('#manageTable').DataTable({
-      'ajax': 'fetchSupervicionData',
       'order': [],
-      'columnDefs': [{
-        'targets': 14,
-        'render': function(data, type, row) {
-          if (data == 1) {
-            return 'Encierro';
-          } else {
-            return 'Desconocido';
-          }
-        }
-      }],
-      'createdRow': function(row, data, dataIndex) {
-
-      }
+      'columnDefs': []
     });
 
     $('#exportar_excel').click(function() {
       exportarExcel();
     });
+
   });
 
   function exportarExcel() {

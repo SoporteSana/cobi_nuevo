@@ -135,6 +135,25 @@ class Reportes extends Admin_Controller
 		$this->render_template('reportes/horaruta', $this->data);
 	}
 
+	public function horarutaTotal()
+	{
+
+		if (!in_array('viewReporte', $this->permission)) {
+			redirect('dashboard', 'refresh');
+		}
+
+		$horarutas = array(
+			'fecha1horarutaTotal' => $this->input->post('fecha1horarutaTotal'),
+			'fecha2horarutaTotal' => $this->input->post('fecha2horarutaTotal'),
+			'horarutaTotalunidad_id' => $this->input->post('horarutaTotalunidad_id'),
+		);
+
+		$horarutas = $this->model_reportes->gettiemporutaTotalData($horarutas);
+		$this->data['horarutas'] = $horarutas;
+
+		$this->render_template('reportes/horarutaTotal', $this->data);
+	}
+
 	public function fetchReporteCompletoData()
 	{
 		$result = array('data' => array());

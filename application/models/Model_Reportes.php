@@ -440,6 +440,62 @@ class Model_reportes extends CI_Model
 		}
 	}
 
+	public function gettiemporutaTotalData($horarutatotal)
+	{
+		$sucursal_id = $this->session->userdata('sucursal_id');
+		$username = $this->session->userdata('username');
+
+		if ($username == 'admin') {
+
+			$this->db->select('re.registro_id, u.unidad_numero, o.operador_nombre, tr.numrecolectores, rec1.recolector_nombre AS recolector1, rec2.recolector_nombre AS recolector2, rec3.recolector_nombre AS recolector3, rec4.recolector_nombre AS recolector4, rec5.recolector_nombre AS recolector5, re.hora_salida, re.hora_entrada, re.tiempo_ruta');
+			$this->db->from('registros re');
+			$this->db->join('unidades u', 'u.unidad_id = re.unidad_id');
+			$this->db->join('operadores o', 'o.operador_id = re.operador_id');
+			$this->db->join('tripulacion tr', 'tr.registro_id = re.registro_id', 'left');
+			$this->db->join('recolectores rec1', 'rec1.recolector_id = tr.recolector1', 'left');
+			$this->db->join('recolectores rec2', 'rec2.recolector_id = tr.recolector2', 'left');
+			$this->db->join('recolectores rec3', 'rec3.recolector_id = tr.recolector3', 'left');
+			$this->db->join('recolectores rec4', 'rec4.recolector_id = tr.recolector4', 'left');
+			$this->db->join('recolectores rec5', 'rec5.recolector_id = tr.recolector5', 'left');
+			$this->db->where_in('re.estatus', array(1, 2));
+			if ($horarutatotal['fecha1horarutaTotal'] & $horarutatotal['fecha2horarutaTotal']) {
+				$this->db->where("(DATE(re.hora_salida) BETWEEN '" . $horarutatotal['fecha1horarutaTotal'] . "' AND '" . $horarutatotal['fecha2horarutaTotal'] . "' OR '" . $horarutatotal['fecha1horarutaTotal'] . "' IS NULL OR '" . $horarutatotal['fecha2horarutaTotal'] . "' IS NULL)");
+			}
+			if ($horarutatotal['horarutaTotalunidad_id']) {
+				$this->db->where("(u.unidad_id = '" . $horarutatotal['horarutaTotalunidad_id'] . "' OR '" . $horarutatotal['horarutaTotalunidad_id'] . "' IS NULL)");
+			}
+
+			$query = $this->db->get();
+			$result = ($query->num_rows() > 0) ? $query->result_array() : array();
+
+			return $result;
+		} else {
+
+			$this->db->select('re.registro_id, u.unidad_numero, o.operador_nombre, tr.numrecolectores, rec1.recolector_nombre AS recolector1, rec2.recolector_nombre AS recolector2, rec3.recolector_nombre AS recolector3, rec4.recolector_nombre AS recolector4, rec5.recolector_nombre AS recolector5, re.hora_salida, re.hora_entrada, TIME_FORMAT(TIMEDIFF(re.hora_entrada, re.hora_salida), "%H:%i:%s") AS tiempo_ruta');
+			$this->db->from('registros re');
+			$this->db->join('unidades u', 'u.unidad_id = re.unidad_id');
+			$this->db->join('operadores o', 'o.operador_id = re.operador_id');
+			$this->db->join('tripulacion tr', 'tr.registro_id = re.registro_id', 'left');
+			$this->db->join('recolectores rec1', 'rec1.recolector_id = tr.recolector1', 'left');
+			$this->db->join('recolectores rec2', 'rec2.recolector_id = tr.recolector2', 'left');
+			$this->db->join('recolectores rec3', 'rec3.recolector_id = tr.recolector3', 'left');
+			$this->db->join('recolectores rec4', 'rec4.recolector_id = tr.recolector4', 'left');
+			$this->db->join('recolectores rec5', 'rec5.recolector_id = tr.recolector5', 'left');
+			$this->db->where_in('re.estatus', array(1, 2));
+			if ($horarutatotal['fecha1horarutaTotal'] & $horarutatotal['fecha2horarutaTotal']) {
+				$this->db->where("(DATE(re.hora_salida) BETWEEN '" . $horarutatotal['fecha1horarutaTotal'] . "' AND '" . $horarutatotal['fecha2horarutaTotal'] . "' OR '" . $horarutatotal['fecha1horarutaTotal'] . "' IS NULL OR '" . $horarutatotal['fecha2horarutaTotal'] . "' IS NULL)");
+			}
+			if ($horarutatotal['horarutaTotalunidad_id']) {
+				$this->db->where("(u.unidad_id = '" . $horarutatotal['horarutaTotalunidad_id'] . "' OR '" . $horarutatotal['horarutaTotalunidad_id'] . "' IS NULL)");
+			}
+
+			$query = $this->db->get();
+			$result = ($query->num_rows() > 0) ? $query->result_array() : array();
+
+			return $result;
+		}
+	}
+
 	function searchUnidad($postData)
 	{
 

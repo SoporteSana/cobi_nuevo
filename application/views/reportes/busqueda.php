@@ -290,7 +290,7 @@
 
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">Horas ruta</h3>
+                        <h3 class="box-title">Horas ruta con peso</h3>
                     </div>
 
                     <div class="container-fluid">
@@ -325,6 +325,53 @@
                                     <div class="box-footer">
                                         <button type="submit" class="btn btn-primary" id="btnhoraruta" disabled>ver</button>
                                         <button type="button" class="btn btn-warning" id="btnlimpiar5">Limpiar</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-2">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Horas ruta totales</h3>
+                    </div>
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-2">
+                            </div>
+                            <div class="col-md-8">
+                                <form role="form" action="<?php echo base_url('reportes/horarutaTotal') ?>" method="post" target="_blank" id="horarutaTotal">
+                                    <div class="box-body">
+
+                                        <div class="form-group">
+                                            <label for="fecha1horarutaTotal">Fecha de:</label>
+                                            <input type="date" class="form-control" id="fecha1horarutaTotal" name="fecha1horarutaTotal" autocomplete="off" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="fecha2horarutaTotal">Fecha hasta</label>
+                                            <input type="date" class="form-control" id="fecha2horarutaTotal" name="fecha2horarutaTotal" autocomplete="off" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="horarutaTotalunidad">no economico</label>
+                                            <input type="text" class="form-control" id="horarutaTotalunidad" name="horarutaTotalunidad" autocomplete="off" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="hidden" name="horarutaTotalunidad_id" id="horarutaTotalunidad_id">
+                                        </div>
+
+                                    </div>
+
+                                    <div class="box-footer">
+                                        <button type="submit" class="btn btn-primary" id="btnhorarutaTotal" disabled>ver</button>
+                                        <button type="button" class="btn btn-warning" id="btnlimpiar6">Limpiar</button>
                                     </div>
                                 </form>
                             </div>
@@ -632,6 +679,34 @@
             },
         });
 
+        $("#horarutaTotalunidad").autocomplete({
+            source: function(request, response) {
+
+                $.ajax({
+                    url: "<?= base_url() ?>reportes/unidadlist",
+                    type: 'post',
+                    dataType: "json",
+                    data: {
+                        search: request.term
+                    },
+                    success: function(data) {
+                        response(data);
+                    }
+                });
+            },
+            select: function(event, ui) {
+
+                $('#horarutaTotalunidad').val(ui.item.label);
+                $('#horarutaTotalunidad_id').val(ui.item.value);
+                return false;
+            },
+            focus: function(event, ui) {
+                $("#horarutaTotalunidad").val(ui.item.label);
+                $("#horarutaTotalunidad_id").val(ui.item.value);
+                return false;
+            },
+        });
+
         $('#fecha1, #fecha2, input').on('change input', function() {
             var fecha1 = $('#fecha1filtro').val();
             var fecha2 = $('#fecha2filtro').val();
@@ -740,6 +815,29 @@
             }
         });
 
+        $('#fecha1horarutaTotal, #fecha2horarutaTotal, input').on('change input', function() {
+            var fecha1 = $('#fecha1horarutaTotal').val();
+            var fecha2 = $('#fecha2horarutaTotal').val();
+            var horarutaunidad = $("#horarutaTotalunidad").val();
+
+
+            var algunoLleno = false;
+
+            if (horarutaunidad != "") {
+                algunoLleno = true;
+            }
+
+            if (fecha1 != '' && fecha2 != '') {
+                algunoLleno = true;
+            }
+
+            if (algunoLleno) {
+                $("#btnhorarutaTotal").prop("disabled", false);
+            } else {
+                $("#btnhorarutaTotal").prop("disabled", true);
+            }
+        });
+
         document.getElementById("btnlimpiar").addEventListener("click", function() {
             document.getElementById("filtros").reset();
             var hiddenInputs = document.querySelectorAll('#filtros input[type=hidden]');
@@ -775,6 +873,14 @@
         document.getElementById("btnlimpiar5").addEventListener("click", function() {
             document.getElementById("horaruta").reset();
             var hiddenInputs = document.querySelectorAll('#horaruta input[type=hidden]');
+            for (var i = 0; i < hiddenInputs.length; i++) {
+                hiddenInputs[i].value = '';
+            }
+        });
+
+        document.getElementById("btnlimpiar6").addEventListener("click", function() {
+            document.getElementById("horarutaTotal").reset();
+            var hiddenInputs = document.querySelectorAll('#horarutaTotal input[type=hidden]');
             for (var i = 0; i < hiddenInputs.length; i++) {
                 hiddenInputs[i].value = '';
             }
