@@ -26,9 +26,12 @@ class Vigilancia extends Admin_Controller
 
     public function fetchVigilanciaData()
     {
+
+        $sucursal_id = $this->session->userdata('sucursal_id');
+
         $result = array('data' => array());
 
-        $data = $this->model_vigilancia->getVigilanciaData();
+        $data = $this->model_vigilancia->getVigilanciaData($sucursal_id, 0);
 
         foreach ($data as $key => $value) {
 
@@ -47,12 +50,12 @@ class Vigilancia extends Admin_Controller
                 $value['ruta_nombre'],
                 $value['alias_nombre'],
                 $value['operador_nombre'],
-                $value['numrecolectores'],
-                $value['recolector1'],
-                $value['recolector2'],
-                $value['recolector3'],
-                $value['recolector4'],
-                $value['recolector5'],
+                $value['norecolectores'],
+                $value['Recolector1'],
+                $value['Recolector2'],
+                $value['Recolector3'],
+                $value['Recolector4'],
+                $value['Recolector5'],
                 $value['estatus'],
                 $button
 
@@ -164,16 +167,16 @@ class Vigilancia extends Admin_Controller
 
     public function tripulacion($create, $recolector_id_array)
     {
-        $tripulacionData = array(
-            'registro_id' => $create,
-            'recolector1' => isset($recolector_id_array[0]) ? $recolector_id_array[0] : 0,
-            'recolector2' => isset($recolector_id_array[1]) ? $recolector_id_array[1] : 0,
-            'recolector3' => isset($recolector_id_array[2]) ? $recolector_id_array[2] : 0,
-            'recolector4' => isset($recolector_id_array[3]) ? $recolector_id_array[3] : 0,
-            'recolector5' => isset($recolector_id_array[4]) ? $recolector_id_array[4] : 0,
-            'numrecolectores' => $this->input->post('select'),
-        );
-
+        $tripulacionData = array();
+    
+        for ($i = 0; $i < count($recolector_id_array); $i++) {
+            $tripulacionData[] = array(
+                'registro_id' => $create,
+                'recolector_id' => $recolector_id_array[$i],
+                'numrecolector' => $i + 1
+            );
+        }
+    
         $this->model_vigilancia->insertarTripulacion($tripulacionData);
     }
 
@@ -208,7 +211,7 @@ class Vigilancia extends Admin_Controller
                 redirect('vigilancia/update/' . $registro_id, 'refresh');
             }
         } else {
-            $registro_data = $this->model_vigilancia->getVigilanciaData($registro_id);
+            $registro_data = $this->model_vigilancia->getVigilanciaData(null, null, $registro_id);
             $this->data['registro_data'] = $registro_data;
             $this->data['horaentrada'] = array('hora_entrada' => date("Y-m-d H:i:s"));
             $this->render_template('vigilancia/edit', $this->data);
