@@ -182,6 +182,8 @@ class Vigilancia extends Admin_Controller
 
     public function update($registro_id)
     {
+        $sucursal_id = $this->session->userdata('sucursal_id');
+
         if (!in_array('updateVigilancia', $this->permission)) {
             redirect('dashboard', 'refresh');
         }
@@ -211,7 +213,8 @@ class Vigilancia extends Admin_Controller
                 redirect('vigilancia/update/' . $registro_id, 'refresh');
             }
         } else {
-            $registro_data = $this->model_vigilancia->getVigilanciaData(null, null, $registro_id);
+            
+            $registro_data = $this->model_vigilancia->getVigilanciaData($sucursal_id, 0, $registro_id);
             $this->data['registro_data'] = $registro_data;
             $this->data['horaentrada'] = array('hora_entrada' => date("Y-m-d H:i:s"));
             $this->render_template('vigilancia/edit', $this->data);

@@ -7,15 +7,20 @@ class Model_vigilancia extends CI_Model
 		parent::__construct();
 	}
 
-	public function getVigilanciaData($param1 = null, $param2 = null, $registro_id = null)
+	public function getVigilanciaData($param1, $param2, $registro_id = null)
 	{
-		$result = $this->db->query('CALL get_vigilancia(?, ?, @result)', array($param1, $param2));
 	
-		$result_array = $result->result_array();
+		$result = $this->db->query('CALL get_vigilancia(?, ?, ?, @result)', array($param1, $param2, $registro_id));
 	
-		$this->db->close();
-	
-		return $result_array;
+		if ($registro_id !== null) {
+			$row_array = $result->row_array();
+			$this->db->close();
+			return $row_array;
+		} else {
+			$result_array = $result->result_array();
+			$this->db->close();
+			return $result_array;
+		}
 	}
 	
 	public function create($data)

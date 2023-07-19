@@ -89,32 +89,32 @@
 
 										<div class="form-group">
 											<label for="norecolectores">No. recolectores</label>
-											<input readonly type="text" class="form-control" id="norecolectores" name="norecolectores" placeholder="norecolectores" autocomplete="off" value="<?php echo $registro_data['numrecolectores']; ?>" />
+											<input readonly type="text" class="form-control" id="norecolectores" name="norecolectores" placeholder="norecolectores" autocomplete="off" value="<?php echo $registro_data['norecolectores']; ?>" />
 										</div>
 
 										<div class="form-group">
 											<label for="recolectores">Recoelctor 1</label>
-											<input readonly type="text" class="form-control" id="recolectores" name="recolectores" placeholder="recolectores" autocomplete="off" value="<?php echo $registro_data['recolector1']; ?>" />
+											<input readonly type="text" class="form-control" id="recolectores" name="recolectores" placeholder="recolectores" autocomplete="off" value="<?php echo $registro_data['Recolector1']; ?>" />
 										</div>
 
 										<div class="form-group">
 											<label for="recolectores">Recoelctor 2</label>
-											<input readonly type="text" class="form-control" id="recolectores" name="recolectores" placeholder="recolectores" autocomplete="off" value="<?php echo $registro_data['recolector2']; ?>" />
+											<input readonly type="text" class="form-control" id="recolectores" name="recolectores" placeholder="recolectores" autocomplete="off" value="<?php echo $registro_data['Recolector2']; ?>" />
 										</div>
 
 										<div class="form-group">
 											<label for="recolectores">Recoelctor 3</label>
-											<input readonly type="text" class="form-control" id="recolectores" name="recolectores" placeholder="recolectores" autocomplete="off" value="<?php echo $registro_data['recolector3']; ?>" />
+											<input readonly type="text" class="form-control" id="recolectores" name="recolectores" placeholder="recolectores" autocomplete="off" value="<?php echo $registro_data['Recolector3']; ?>" />
 										</div>
 
 										<div class="form-group">
 											<label for="recolectores">Recoelctor 4</label>
-											<input readonly type="text" class="form-control" id="recolectores" name="recolectores" placeholder="recolectores" autocomplete="off" value="<?php echo $registro_data['recolector4']; ?>" />
+											<input readonly type="text" class="form-control" id="recolectores" name="recolectores" placeholder="recolectores" autocomplete="off" value="<?php echo $registro_data['Recolector4']; ?>" />
 										</div>
 
 										<div class="form-group">
 											<label for="recolectores">Recoelctor 5</label>
-											<input readonly type="text" class="form-control" id="recolectores" name="recolectores" placeholder="recolectores" autocomplete="off" value="<?php echo $registro_data['recolector5']; ?>" />
+											<input readonly type="text" class="form-control" id="recolectores" name="recolectores" placeholder="recolectores" autocomplete="off" value="<?php echo $registro_data['Recolector5']; ?>" />
 										</div>
 
 										<div class="form-group">

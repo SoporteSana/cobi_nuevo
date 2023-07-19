@@ -69,17 +69,17 @@ class Model_groups extends CI_Model
 		return $result;
 	}
 
-	public function getSucursalById($user_id)
+	public function getSucursalById(int $user_id)
 	{
 		$this->db->select('s.sucursal_id, s.sucursal_nombre, e.empresa_id, e.empresa_nombre');
 		$this->db->from('sucursales s');
-		$this->db->join('empresas e', 'empresa_id');
-		$this->db->join('usuarios u', 'sucursal_id');
+		$this->db->join('empresas e', 's.empresa_id = e.empresa_id');
+		$this->db->join('usuarios u', 's.sucursal_id = u.sucursal_id');
 		$this->db->where('u.usuario_id', $user_id);
 		$query = $this->db->get();
 		return $query->row_array();
-	}
-
+	}	
+	
 	public function getGroupArray($id)
 	{
 		$this->db->select('permisos');
