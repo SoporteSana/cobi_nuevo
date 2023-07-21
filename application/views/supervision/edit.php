@@ -10,7 +10,6 @@
     </ol>
   </section>
 
-
   <section class="content">
 
     <div class="row">
@@ -121,32 +120,32 @@
 
                     <div class="form-group">
                       <label for="norecolectores">No. recolectores</label>
-                      <input readonly type="text" class="form-control" id="norecolectores" name="norecolectores" placeholder="norecolectores" autocomplete="off" value="<?php echo $registro_data['numrecolectores']; ?>" />
+                      <input readonly type="text" class="form-control" id="norecolectores" name="norecolectores" placeholder="norecolectores" autocomplete="off" value="<?php echo $registro_data['numrecolector']; ?>" />
                     </div>
 
                     <div class="form-group">
                       <label for="recolectores">recoelctor 1</label>
-                      <input readonly type="text" class="form-control" id="recolectores" name="recolectores" placeholder="recolectores" autocomplete="off" value="<?php echo $registro_data['recolector1']; ?>" />
+                      <input readonly type="text" class="form-control" id="recolectores" name="recolectores" placeholder="recolectores" autocomplete="off" value="<?php echo $registro_data['Recolector1']; ?>" />
                     </div>
 
                     <div class="form-group">
                       <label for="recolectores">recoelctor 2</label>
-                      <input readonly type="text" class="form-control" id="recolectores" name="recolectores" placeholder="recolectores" autocomplete="off" value="<?php echo $registro_data['recolector2']; ?>" />
+                      <input readonly type="text" class="form-control" id="recolectores" name="recolectores" placeholder="recolectores" autocomplete="off" value="<?php echo $registro_data['Recolector2']; ?>" />
                     </div>
 
                     <div class="form-group">
                       <label for="recolectores">recoelctor 3</label>
-                      <input readonly type="text" class="form-control" id="recolectores" name="recolectores" placeholder="recolectores" autocomplete="off" value="<?php echo $registro_data['recolector3']; ?>" />
+                      <input readonly type="text" class="form-control" id="recolectores" name="recolectores" placeholder="recolectores" autocomplete="off" value="<?php echo $registro_data['Recolector3']; ?>" />
                     </div>
 
                     <div class="form-group">
                       <label for="recolectores">recoelctor 4</label>
-                      <input readonly type="text" class="form-control" id="recolectores" name="recolectores" placeholder="recolectores" autocomplete="off" value="<?php echo $registro_data['recolector4']; ?>" />
+                      <input readonly type="text" class="form-control" id="recolectores" name="recolectores" placeholder="recolectores" autocomplete="off" value="<?php echo $registro_data['Recolector4']; ?>" />
                     </div>
 
                     <div class="form-group">
                       <label for="recolectores">recoelctor 5</label>
-                      <input readonly type="text" class="form-control" id="recolectores" name="recolectores" placeholder="recolectores" autocomplete="off" value="<?php echo $registro_data['recolector5']; ?>" />
+                      <input readonly type="text" class="form-control" id="recolectores" name="recolectores" placeholder="recolectores" autocomplete="off" value="<?php echo $registro_data['Recolector5']; ?>" />
                     </div>
 
                     <div class="form-group">
@@ -345,7 +344,6 @@
                       <div class="text-danger"><?php echo form_error('observaciones'); ?></div>
                     </div>
 
-
                   </div>
 
                   <div class="box-footer">
@@ -387,6 +385,51 @@
       var rendimiento = recorrido / litros;
       $('#Rendimiento').val(rendimiento.toFixed(2));
     });
+
+    var $pesoInputs = $('.peso-input');
+
+    $pesoInputs.on('input', function() {
+
+      var peso1 = Number($('#peso1').val());
+      var peso2 = Number($('#peso2').val());
+      var peso3 = Number($('#peso3').val());
+      var peso4 = Number($('#peso4').val());
+      var peso5 = Number($('#peso5').val());
+      var peso6 = Number($('#peso6').val());
+      var peso7 = Number($('#peso7').val());
+      var peso8 = Number($('#peso8').val());
+      var peso9 = Number($('#peso9').val());
+      var peso10 = Number($('#peso10').val());
+
+      var totalPeso = peso1 + peso2 + peso3 + peso4 + peso5 + peso6 + peso7 + peso8 + peso9 + peso10;
+
+      $('#totalpeso').val(totalPeso);
+    });
+
+    $("input").on("input", function() {
+      var Litroscargados = $("#Litroscargados").val();
+      var observaciones = $("#observaciones").val();
+
+      if (Litroscargados != "" && observaciones != "") {
+        $("#submitButton").prop("disabled", false);
+      } else {
+        $("#submitButton").prop("disabled", true);
+      }
+    });
+
+    /* $('#editar').submit(function() {
+         $('#loader').show();
+         $("#submitButton").prop("disabled", true);
+       })
+       .done(function() {
+         $('#loader').hide();
+         $("#submitButton").prop("disabled", false);
+       })
+       .fail(function() {
+         $('#loader').hide();
+         $("#submitButton").prop("disabled", false);
+       });
+     */
 
     $("#Tiro_1").autocomplete({
       source: "<?php echo base_url('supervision/ticketslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
@@ -569,52 +612,9 @@
       minLength: 1
     });
 
-    var $pesoInputs = $('.peso-input');
 
-    $pesoInputs.on('input', function() {
-
-      var peso1 = Number($('#peso1').val());
-      var peso2 = Number($('#peso2').val());
-      var peso3 = Number($('#peso3').val());
-      var peso4 = Number($('#peso4').val());
-      var peso5 = Number($('#peso5').val());
-      var peso6 = Number($('#peso6').val());
-      var peso7 = Number($('#peso7').val());
-      var peso8 = Number($('#peso8').val());
-      var peso9 = Number($('#peso9').val());
-      var peso10 = Number($('#peso10').val());
-
-      var totalPeso = peso1 + peso2 + peso3 + peso4 + peso5 + peso6 + peso7 + peso8 + peso9 + peso10;
-
-      $('#totalpeso').val(totalPeso);
-    });
-
-    $("input").on("input", function() {
-      var Litroscargados = $("#Litroscargados").val();
-      var observaciones = $("#observaciones").val();
-
-      if (Litroscargados != "" && observaciones != "") {
-        $("#submitButton").prop("disabled", false);
-      } else {
-        $("#submitButton").prop("disabled", true);
-      }
-    });
-
-    $('#editar').submit(function() {
-        $('#loader').show();
-        $("#submitButton").prop("disabled", true);
-      })
-      .done(function() {
-        $('#loader').hide();
-        $("#submitButton").prop("disabled", false);
-      })
-      .fail(function() {
-        $('#loader').hide();
-        $("#submitButton").prop("disabled", false);
-      });
 
   });
-
 
   function handleSelect() {
     var numTiros = $('#select').val();

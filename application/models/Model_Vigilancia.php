@@ -10,7 +10,7 @@ class Model_vigilancia extends CI_Model
 	public function getVigilanciaData($param1, $param2, $registro_id = null)
 	{
 	
-		$result = $this->db->query('CALL get_vigilancia(?, ?, ?, @result)', array($param1, $param2, $registro_id));
+		$result = $this->db->query('CALL vigilancia_supervision_index(?, ?, ?, @result)', array($param1, $param2, $registro_id));
 	
 		if ($registro_id !== null) {
 			$row_array = $result->row_array();

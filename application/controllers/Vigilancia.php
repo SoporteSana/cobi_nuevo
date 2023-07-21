@@ -50,7 +50,7 @@ class Vigilancia extends Admin_Controller
                 $value['ruta_nombre'],
                 $value['alias_nombre'],
                 $value['operador_nombre'],
-                $value['norecolectores'],
+                $value['numrecolector'],
                 $value['Recolector1'],
                 $value['Recolector2'],
                 $value['Recolector3'],

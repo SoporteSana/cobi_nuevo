@@ -205,7 +205,6 @@
 
     $("#numeroeconomico").autocomplete({
       source: function(request, response) {
-
         $.ajax({
           url: "<?= base_url() ?>vigilancia/unidadlist",
           type: 'post',

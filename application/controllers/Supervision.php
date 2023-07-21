@@ -26,9 +26,11 @@ class Supervision extends Admin_Controller
 
     public function fetchSupervicionData()
     {
+        $sucursal_id = $this->session->userdata('sucursal_id');
+        
         $result = array('data' => array());
 
-        $data = $this->model_supervicion->getSupervicionData();
+        $data = $this->model_supervicion->getSupervicionData($sucursal_id, 1);
 
         foreach ($data as $key => $value) {
 
@@ -48,12 +50,12 @@ class Supervision extends Admin_Controller
                 $value['ruta_nombre'],
                 $value['alias_nombre'],
                 $value['operador_nombre'],
-                $value['numrecolectores'],
-                $value['recolector1'],
-                $value['recolector2'],
-                $value['recolector3'],
-                $value['recolector4'],
-                $value['recolector5'],
+                $value['numrecolector'],
+                $value['Recolector1'],
+                $value['Recolector2'],
+                $value['Recolector3'],
+                $value['Recolector4'],
+                $value['Recolector5'],
                 $value['estatus'],
                 $button
 
@@ -65,6 +67,8 @@ class Supervision extends Admin_Controller
 
     public function update($registro_id)
     {
+        $sucursal_id = $this->session->userdata('sucursal_id');
+
         if (!in_array('updateSupervision', $this->permission)) {
             redirect('dashboard', 'refresh');
         }
@@ -199,7 +203,7 @@ class Supervision extends Admin_Controller
         } else {
             $user_id = $this->session->userdata('usuario_id');
             $asignaciones = $this->model_supervicion->getAsignacionData();
-            $registro_data = $this->model_supervicion->getSupervicionData($registro_id);
+            $registro_data = $this->model_supervicion->getSupervicionData($sucursal_id, 1, $registro_id);
             $hora_salida = new DateTime($registro_data['hora_salida']);
             $hora_entrada = new DateTime($registro_data['hora_entrada']);
             $duracion_ruta = $hora_salida->diff($hora_entrada)->format('%H:%I:%S');
@@ -211,24 +215,19 @@ class Supervision extends Admin_Controller
         }
     }
 
-    public function tiros($update, $tirosid)
+    public function tiros($create, $tirosid)
     {
-        $tirosArray = array(
-            'registro_id' => $update,
-            'tiro1' => isset($tirosid[0]) ? $tirosid[0] : 0,
-            'tiro2' => isset($tirosid[1]) ? $tirosid[1] : 0,
-            'tiro3' => isset($tirosid[2]) ? $tirosid[2] : 0,
-            'tiro4' => isset($tirosid[3]) ? $tirosid[3] : 0,
-            'tiro5' => isset($tirosid[4]) ? $tirosid[4] : 0,
-            'tiro6' => isset($tirosid[5]) ? $tirosid[5] : 0,
-            'tiro7' => isset($tirosid[6]) ? $tirosid[6] : 0,
-            'tiro8' => isset($tirosid[7]) ? $tirosid[7] : 0,
-            'tiro9' => isset($tirosid[8]) ? $tirosid[8] : 0,
-            'tiro10' => isset($tirosid[9]) ? $tirosid[9] : 0,
-            'numtiros' => $this->input->post('select'),
-        );
-
-        $this->model_supervicion->insertarTiros($tirosArray);
+        $tirosData = array();
+    
+        for ($i = 0; $i < count($tirosid); $i++) {
+            $tirosData[] = array(
+                'registro_id' => $create,
+                'numtiro' => $i + 1,
+                'ticket_id' => $tirosid[$i]
+            );
+        }
+    
+        $this->model_supervicion->insertarTiros($tirosData);
     }
 
     public function ticketslist($unidad_id)
@@ -250,4 +249,5 @@ class Supervision extends Admin_Controller
         }
         echo json_encode($data);
     }
+
 }

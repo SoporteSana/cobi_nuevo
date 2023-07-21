@@ -89,7 +89,7 @@
 
 										<div class="form-group">
 											<label for="norecolectores">No. recolectores</label>
-											<input readonly type="text" class="form-control" id="norecolectores" name="norecolectores" placeholder="norecolectores" autocomplete="off" value="<?php echo $registro_data['norecolectores']; ?>" />
+											<input readonly type="text" class="form-control" id="norecolectores" name="norecolectores" placeholder="norecolectores" autocomplete="off" value="<?php echo $registro_data['numrecolector']; ?>" />
 										</div>
 
 										<div class="form-group">
