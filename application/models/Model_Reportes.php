@@ -7,9 +7,9 @@ class Model_reportes extends CI_Model
 		parent::__construct();
 	}
 
-	public function getReporteCompletoData($param1, $param2, $registro_id = null)
+	public function getReporteCompletoData($param1, $param2)
 	{
-		$result = $this->db->query('CALL vigilancia_supervision_index(?, ?, @result)', array($param1, $param2, $registro_id));
+		$result = $this->db->query('CALL reporteCompleto_correcciones(?, ?, @result)', array($param1, $param2));
 		$result_array = $result->result_array();
 		$this->db->close();
 		return $result_array;

@@ -156,9 +156,12 @@ class Reportes extends Admin_Controller
 
 	public function fetchReporteCompletoData()
 	{
+
+		$sucursal_id = $this->session->userdata('sucursal_id');
+
 		$result = array('data' => array());
 
-		$data = $this->model_reportes->getReporteCompletoData();
+		$data = $this->model_reportes->getReporteCompletoData($sucursal_id, 2);
 
 		foreach ($data as $key => $value) {
 
@@ -192,27 +195,16 @@ class Reportes extends Admin_Controller
 				$value['totalpeso'],
 				$value['numtiros'],
 				$value['tiro1'],
-				$value['destinofinal1'],
 				$value['tiro2'],
-				$value['destinofinal2'],
 				$value['tiro3'],
-				$value['destinofinal3'],
 				$value['tiro4'],
-				$value['destinofinal4'],
 				$value['tiro5'],
-				$value['destinofinal5'],
 				$value['tiro6'],
-				$value['destinofinal6'],
 				$value['tiro7'],
-				$value['destinofinal7'],
 				$value['tiro8'],
-				$value['destinofinal8'],
 				$value['tiro9'],
-				$value['destinofinal9'],
 				$value['tiro10'],
-				$value['destinofinal10'],
-				$value['observaciones'],
-				$value['estatus'],
+				$value['estatus']
 
 			);
 		}
