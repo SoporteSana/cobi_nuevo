@@ -222,8 +222,8 @@ class Supervision extends Admin_Controller
         for ($i = 0; $i < count($tirosid); $i++) {
             $tirosData[] = array(
                 'registro_id' => $create,
-                'numtiro' => $i + 1,
-                'ticket_id' => $tirosid[$i]
+                'ticket_id' => $tirosid[$i],
+                'numtiro' => $i + 1
             );
         }
     

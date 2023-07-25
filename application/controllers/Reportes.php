@@ -156,7 +156,6 @@ class Reportes extends Admin_Controller
 
 	public function fetchReporteCompletoData()
 	{
-
 		$sucursal_id = $this->session->userdata('sucursal_id');
 
 		$result = array('data' => array());
@@ -177,12 +176,12 @@ class Reportes extends Admin_Controller
 				$value['ruta_nombre'],
 				$value['alias_nombre'],
 				$value['operador_nombre'],
-				$value['numrecolectores'],
-				$value['recolector1'],
-				$value['recolector2'],
-				$value['recolector3'],
-				$value['recolector4'],
-				$value['recolector5'],
+				$value['norecolectores'],
+				$value['Recolector1'],
+				$value['Recolector2'],
+				$value['Recolector3'],
+				$value['Recolector4'],
+				$value['Recolector5'],
 				$value['km_salida'],
 				$value['km_entrada'],
 				$value['recorrido'],
@@ -193,17 +192,28 @@ class Reportes extends Admin_Controller
 				$value['hora_tablero'],
 				$value['tiempo_ruta'],
 				$value['totalpeso'],
-				$value['numtiros'],
-				$value['tiro1'],
-				$value['tiro2'],
-				$value['tiro3'],
-				$value['tiro4'],
-				$value['tiro5'],
-				$value['tiro6'],
-				$value['tiro7'],
-				$value['tiro8'],
-				$value['tiro9'],
-				$value['tiro10'],
+				$value['notiros'],
+				$value['Tiro1'],
+				$value['DestinoTiro1'],
+				$value['Tiro2'],
+				$value['DestinoTiro2'],
+				$value['Tiro3'],
+				$value['DestinoTiro3'],
+				$value['Tiro4'],
+				$value['DestinoTiro4'],
+				$value['Tiro5'],
+				$value['DestinoTiro5'],
+				$value['Tiro6'],
+				$value['DestinoTiro6'],
+				$value['Tiro7'],
+				$value['DestinoTiro7'],
+				$value['Tiro8'],
+				$value['DestinoTiro8'],
+				$value['Tiro9'],
+				$value['DestinoTiro9'],
+				$value['Tiro10'],
+				$value['DestinoTiro10'],
+				$value['observaciones'],
 				$value['estatus']
 
 			);
