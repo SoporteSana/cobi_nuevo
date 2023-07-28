@@ -133,9 +133,9 @@
         <?php endif; ?>
 
         <?php if (in_array('createTicket', $user_permission) || in_array('updateTicket', $user_permission) || in_array('viewTicket', $user_permission) || in_array('deleteTicket', $user_permission)) : ?>
-          <li id="ticketNav">
-            <a href="<?php echo base_url('tickets/') ?>">
-              <i class="fa fa-files-o"></i> <span>Tickets</span>
+          <li id="manifiestosNav">
+            <a href="<?php echo base_url('manifiestos/') ?>">
+              <i class="fa fa-files-o"></i> <span>Manifiestos</span>
             </a>
           </li>
         <?php endif; ?>
