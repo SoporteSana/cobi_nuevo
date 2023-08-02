@@ -40,20 +40,19 @@
               <div class="col-md-2">
               </div>
               <div class="col-md-8">
-                <form id="create" role="form" action="<?php base_url('vigilancia/create') ?>" method="post" id="createForm" style=" display:inline!important;">
+                <form id="create" role="form" action="<?php base_url('manifiestos/update') ?>" method="post" id="createForm" style=" display:inline!important;">
                   <div class="box-body">
 
                     <div class="form-group">
                       <label for="nummanifiesto"># Manifiesto</label>
                       <input type="text" class="form-control" id="nummanifiesto" name="nummanifiesto" placeholder="numero manifiesto" value="<?php echo $registro_data[0]->nummanifiesto; ?>" />
-
                       <div class="text-danger"><?php echo form_error('nummanifiesto'); ?></div>
                     </div>
 
                     <div class="form-group">
                       <label for="numeroeconomico">Unidad</label>
                       <input type="text" class="form-control" id="numeroeconomico" name="numeroeconomico" placeholder="numero de unidad" value="<?php echo $registro_data[0]->unidad_numero; ?>" />
-                      <div class="text-danger"><?php echo form_error('numeroeconomico'); ?></div>
+                      <div class="text-danger"><?php echo form_error('numeroeconomico_id'); ?></div>
                     </div>
 
                     <div class="form-group">
@@ -74,6 +73,7 @@
                     <div class="form-group">
                       <label for="destino">Destino</label>
                       <input type="text" class="form-control" id="destino" name="destino" placeholder="destino" value="<?php echo $registro_data[0]->destinofinal_nombre; ?>">
+                      <div class="text-danger"><?php echo form_error('destino_id'); ?></div>
                     </div>
                     <div class="form-group">
                       <input type="hidden" name="destino_id" id="destino_id" value="<?php echo $registro_data[0]->destinofinal_id; ?>">
@@ -83,47 +83,40 @@
                       <label for="select">Folios</label>
                       <br>
                       <select id="select" name="select" onchange="handleSelect()" style="width:300px">
-                        <option value="0">Sin Folios</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
+                        <option value="0" <?php echo (count($folios) == 0) ? 'selected' : ''; ?>>Sin Folios</option>
+                        <?php for ($i = 1; $i <= 10; $i++) : ?>
+                          <option value="<?php echo $i; ?>" <?php echo (count($folios) == $i) ? 'selected' : ''; ?>><?php echo $i; ?></option>
+                        <?php endfor; ?>
                       </select>
                     </div>
 
-                    <!-- Folio fields -->
-                    <?php for ($i = 0; $i < count($folios); $i++) : ?>
-                      <div class="Folio">
-                        <label for="Folio_<?php echo ($i + 1); ?>">Folio <?php echo ($i + 1); ?></label>
-                        <input type="text" class="form-control" id="Folio_<?php echo ($i + 1); ?>" name="Folio_<?php echo ($i + 1); ?>" placeholder="numero folio" value="<?php echo isset($folios[$i]) ? $folios[$i] : ""; ?>" />
-                      </div>
-
-                      <div class="Folio">
-                        <label for="Descripcion_<?php echo ($i + 1); ?>">Descripcion</label>
-                        <input type="text" class="form-control" id="Descripcion_<?php echo ($i + 1); ?>" name="Descripcion_<?php echo ($i + 1); ?>" placeholder="Descripcion" value="<?php echo isset($descripciones[$i]) ? $descripciones[$i] : ""; ?>" autocomplete="off" />
-                      </div>
-
-                      <div class="Folio">
-                        <label for="Peso_<?php echo ($i + 1); ?>">Peso</label>
-                        <input type="text" class="form-control" id="Peso_<?php echo ($i + 1); ?>" name="Peso_<?php echo ($i + 1); ?>" placeholder="peso" value="<?php echo isset($pesos_folios[$i]) ? $pesos_folios[$i] : ""; ?>" autocomplete="off" />
+                    <?php for ($i = 0; $i < 10; $i++) : ?>
+                      <div class="group-folio" data-folio-index="<?php echo $i + 1; ?>" style="display: <?php echo $i < count($folios) ? 'block' : 'none'; ?>;">
+                        <input type="hidden" id="FolioId_<?php echo ($i + 1); ?>" name="FolioId_<?php echo ($i + 1); ?>" value="<?php echo isset($folios_ids[$i]) ? $folios_ids[$i] : ""; ?>" />
+                        <div class="Folio">
+                          <label for="Folio_<?php echo ($i + 1); ?>">Folio <?php echo ($i + 1); ?></label>
+                          <input type="text" class="form-control" id="Folio_<?php echo ($i + 1); ?>" name="Folio_<?php echo ($i + 1); ?>" placeholder="numero folio" value="<?php echo isset($folios[$i]) ? $folios[$i] : ""; ?>" />
+                        </div>
+                        <div class="Folio">
+                          <label for="Descripcion_<?php echo ($i + 1); ?>">Descripcion</label>
+                          <input type="text" class="form-control" id="Descripcion_<?php echo ($i + 1); ?>" name="Descripcion_<?php echo ($i + 1); ?>" placeholder="Descripcion" value="<?php echo isset($descripciones[$i]) ? $descripciones[$i] : ""; ?>" autocomplete="off" />
+                        </div>
+                        <div class="Folio">
+                          <label for="Peso_<?php echo ($i + 1); ?>">Peso</label>
+                          <input type="text" class="form-control" id="Peso_<?php echo ($i + 1); ?>" name="Peso_<?php echo ($i + 1); ?>" placeholder="peso" value="<?php echo isset($pesos_folios[$i]) ? $pesos_folios[$i] : ""; ?>" autocomplete="off" />
+                        </div>
                       </div>
                     <?php endfor; ?>
 
                     <div class="form-group">
                       <label for="pesototal">Peso Total</label>
-                      <input type="number" class="form-control" id="pesototal" name="pesototal" placeholder="peso total" autocomplete="off" />
+                      <input type="number" class="form-control" id="pesototal" name="pesototal" placeholder="peso total" value="<?php echo $registro_data[0]->peso_total; ?>" />
                       <div class="text-danger"><?php echo form_error('pesototal'); ?></div>
                     </div>
 
                     <div class="box-footer">
                       <button type="submit" class="btn btn-primary" id="submitButton" disabled>Guardar</button>
-                      <a href="<?php echo base_url('vigilancia/') ?>" class="btn btn-warning">Regresar</a>
+                      <a href="<?php echo base_url('manifiestos/') ?>" class="btn btn-warning">Regresar</a>
                     </div>
                 </form>
               </div>
@@ -286,17 +279,16 @@
 
   function handleSelect() {
     var numFolios = $('#select').val();
-    for (var i = 1; i <= 10; i++) {
-      if (i <= numFolios) {
-        $('#Folio_' + i).parent().show();
-        $('#Descripcion_' + i).parent().show();
-        $('#Peso_' + i).parent().show();
+
+    $('.group-folio').each(function() {
+      var folioIndex = $(this).data('folio-index');
+
+      if (folioIndex <= numFolios) {
+        $(this).show();
       } else {
-        $('#Folio_' + i).parent().hide();
-        $('#Descripcion_' + i).parent().hide();
-        $('#Peso_' + i).parent().hide();
+        $(this).hide();
       }
-    }
+    });
   }
 </script>
 

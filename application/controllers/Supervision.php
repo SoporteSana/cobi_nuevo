@@ -189,7 +189,7 @@ class Supervision extends Admin_Controller
 
             if (empty($duplicates)) {
                 $update = $this->model_supervicion->update($data, $registro_id);
-                $this->tiros($registro_id, $tirosid);
+                $this->tiros($registro_id, $tiros);
                 $this->session->set_flashdata('success', 'Actualizado con éxito');
                 redirect('supervision/', 'refresh');
             } else if (!empty($duplicates)) {
@@ -223,26 +223,26 @@ class Supervision extends Admin_Controller
             $tirosData[] = array(
                 'registro_id' => $create,
                 'numtiro' => $i + 1,
-                'ticket_id' => $tirosid[$i]
+                'manifiesto_id' => $tirosid[$i]
             );
         }
     
         $this->model_supervicion->insertarTiros($tirosData);
     }
 
-    public function ticketslist($unidad_id)
+    public function manifiestoslist($unidad_id)
     {
 
         $postData = $this->input->get('term');
 
-        $result = $this->model_supervicion->searchtickets($postData, $unidad_id);
+        $result = $this->model_supervicion->searchmanifiestos($postData, $unidad_id);
 
         $data = array();
         foreach ($result as $row) {
             $data[] = array(
-                'label' => 'Folio: ' . $row->folio . ' | Peso: ' . $row->peso,
-                'value' => $row->ticket_id,
-                'peso' => $row->peso,
+                'label' => 'Folio: ' . $row->nummanifiesto . ' | Peso: ' . $row->peso_total,
+                'value' => $row->manifiesto_id,
+                'peso' => $row->peso_total,
                 'destino' => $row->destinofinal_nombre
 
             );

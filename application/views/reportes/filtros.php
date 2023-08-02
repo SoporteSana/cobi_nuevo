@@ -69,88 +69,54 @@
                   <th>hora tablero</th>
                   <th>tempo ruta</th>
                   <th>perso total</th>
-                  <th># tiros</th>
-                  <th>tiro 1</th>
-                  <th>destino tiro 1</th>
-                  <th>tiro 2</th>
-                  <th>destino tiro 2</th>
-                  <th>tiro 3</th>
-                  <th>destino tiro 3</th>
-                  <th>tiro 4</th>
-                  <th>destino tiro 4</th>
-                  <th>tiro 5</th>
-                  <th>destino tiro 5</th>
-                  <th>tiro 6</th>
-                  <th>destino tiro 6</th>
-                  <th>tiro 7</th>
-                  <th>destino tiro 7</th>
-                  <th>tiro 8</th>
-                  <th>destino tiro 8</th>
-                  <th>tiro 9</th>
-                  <th>destino tiro 9</th>
-                  <th>tiro 10</th>
-                  <th>destino tiro 10</th>
-                  <th>observaciones</th>
+                  <th>destino final</th>
+                  <th># folios</th>
+                  <th>folio 1</th>
+                  <th>descripcion 1</th>
+                  <th>peso 1</th>
+                  <th>folio 2</th>
+                  <th>decripcion 2</th>
+                  <th>peso 2</th>
+                  <th>folio 3</th>
+                  <th>decripcion 3</th>
+                  <th>peso 3</th>
+                  <th>folio 4</th>
+                  <th>decripcion 4</th>
+                  <th>peso 4</th>
+                  <th>folio 5</th>
+                  <th>decripcion 5</th>
+                  <th>peso 5</th>
+                  <th>folio 6</th>
+                  <th>decripcion 6</th>
+                  <th>peso 6</th>
+                  <th>folio 7</th>
+                  <th>decripcion 7</th>
+                  <th>peso 7</th>
+                  <th>folio 8</th>
+                  <th>decripcion 8</th>
+                  <th>peso 8</th>
+                  <th>folio 9</th>
+                  <th>decripcion 9</th>
+                  <th>peso 9</th>
+                  <th>folio 10</th>
+                  <th>decripcion 10</th>
+                  <th>peso 10</th>
+                  <th>comentarios</th>
                   <th>estatus</th>
                 </tr>
               </thead>
               <tbody>
-                <?php foreach ($filtros as $filtro) : ?>
-                  <tr>
-                    <td><?= $filtro['registro_id'] ?></td>
-                    <td><?= $filtro['unidad_numero'] ?></td>
-                    <td><?= $filtro['asignacion_nombre'] ?></td>
-                    <td><?= $filtro['semana'] ?></td>
-                    <td><?= $filtro['nombres'] ?></td>
-                    <td><?= $filtro['dia'] ?></td>
-                    <td><?= $filtro['fecha_salida'] ?></td>
-                    <td><?= $filtro['turno_nombre'] ?></td>
-                    <td><?= $filtro['ruta_nombre'] ?></td>
-                    <td><?= $filtro['alias_nombre'] ?></td>
-                    <td><?= $filtro['operador_nombre'] ?></td>
-                    <td><?= $filtro['numrecolectores'] ?></td>
-                    <td><?= $filtro['recolector1'] ?></td>
-                    <td><?= $filtro['recolector2'] ?></td>
-                    <td><?= $filtro['recolector3'] ?></td>
-                    <td><?= $filtro['recolector4'] ?></td>
-                    <td><?= $filtro['recolector5'] ?></td>
-                    <td><?= $filtro['km_salida'] ?></td>
-                    <td><?= $filtro['km_entrada'] ?></td>
-                    <td><?= $filtro['recorrido'] ?></td>
-                    <td><?= $filtro['litroscargados'] ?></td>
-                    <td><?= $filtro['rendimiento'] ?></td>
-                    <td><?= $filtro['hora_salida'] ?></td>
-                    <td><?= $filtro['hora_entrada'] ?></td>
-                    <td><?= $filtro['hora_tablero'] ?></td>
-                    <td><?= $filtro['tiempo_ruta'] ?></td>
-                    <td><?= $filtro['totalpeso'] ?></td>
-                    <td><?= $filtro['numtiros'] ?></td>
-                    <td><?= $filtro['tiro1'] ?></td>
-                    <td><?= $filtro['destinofinal1'] ?></td>
-                    <td><?= $filtro['tiro2'] ?></td>
-                    <td><?= $filtro['destinofinal2'] ?></td>
-                    <td><?= $filtro['tiro3'] ?></td>
-                    <td><?= $filtro['destinofinal3'] ?></td>
-                    <td><?= $filtro['tiro4'] ?></td>
-                    <td><?= $filtro['destinofinal4'] ?></td>
-                    <td><?= $filtro['tiro5'] ?></td>
-                    <td><?= $filtro['destinofinal5'] ?></td>
-                    <td><?= $filtro['tiro6'] ?></td>
-                    <td><?= $filtro['destinofinal6'] ?></td>
-                    <td><?= $filtro['tiro7'] ?></td>
-                    <td><?= $filtro['destinofinal7'] ?></td>
-                    <td><?= $filtro['tiro8'] ?></td>
-                    <td><?= $filtro['destinofinal8'] ?></td>
-                    <td><?= $filtro['tiro9'] ?></td>
-                    <td><?= $filtro['destinofinal9'] ?></td>
-                    <td><?= $filtro['tiro10'] ?></td>
-                    <td><?= $filtro['destinofinal10'] ?></td>
-                    <td><?= $filtro['observaciones'] ?></td>
-                    <td><?= $filtro['estatus'] ?></td>
-
-                  </tr>
-                <?php endforeach; ?>
+                <?php if (isset($filtros['data'])) : ?>
+                  <?php foreach ($filtros['data'] as $filtro) : ?>
+                    <tr>
+                      <?php foreach ($filtro as $cell) : ?>
+                        <td><?= $cell ?></td>
+                      <?php endforeach; ?>
+                    </tr>
+                  <?php endforeach; ?>
+                <?php endif; ?>
               </tbody>
+
             </table>
           </div>
 
@@ -171,9 +137,11 @@
     var table = $('#manageTable').DataTable({
       'order': [],
       'columnDefs': [{
-          'targets': [25, 27, 29, 31, 33, 35, 37, 39, 41, 43],
+          'targets': Array.from({
+            length: 29
+          }, (_, i) => i + 30),
           'render': function(data, type, row) {
-            if (data == 0) {
+            if (data == '') {
               return '0';
             } else {
               return data;
@@ -181,7 +149,7 @@
           }
         },
         {
-          'targets': 49,
+          'targets': 60,
           'render': function(data, type, row) {
             if (data == 2) {
               return 'Finalizado';

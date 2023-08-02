@@ -54,9 +54,68 @@ class Reportes extends Admin_Controller
 			'destinofinal_nombre' => $this->input->post('destinofinal')
 		);
 
-		$filtros = $this->model_reportes->getFiltrosData($filtros);
-		$this->data['filtros'] = $filtros;
+		$result = array('data' => array());
+		$data = $this->model_reportes->getFiltrosData($filtros);
 
+		foreach ($data as $key => $value) {
+			// Dividir las columnas concatenadas
+			$recolectores = explode(',', trim($value['recolectores']));
+			$folios = explode(',', trim($value['folios']));
+			$descripciones = explode(',', trim($value['descripciones']));
+			$pesos_folios = explode(',', trim($value['pesos_folios']));
+
+			// Crear un array para almacenar los datos de esta fila
+			$rowData = array(
+				$value['registro_id'],
+				$value['unidad_numero'],
+				$value['asignacion_nombre'],
+				$value['semana'],
+				$value['nombres'],
+				$value['dia'],
+				$value['fecha_salida'],
+				$value['turno_nombre'],
+				$value['ruta_nombre'],
+				$value['alias_nombre'],
+				$value['operador_nombre'],
+				$value['numrecolectores'],
+			);
+
+			// Añadir 10 recolectores
+			for ($i = 0; $i < 5; $i++) {
+				$rowData[] = isset($recolectores[$i]) ? $recolectores[$i] : '';
+			}
+
+			// Continuar agregando el resto de los datos
+			$rowData = array_merge($rowData, array(
+				$value['km_salida'],
+				$value['km_entrada'],
+				$value['recorrido'],
+				$value['litroscargados'],
+				$value['rendimiento'],
+				$value['hora_salida'],
+				$value['hora_entrada'],
+				$value['hora_tablero'],
+				$value['tiempo_ruta'],
+				$value['peso_total'],
+				$value['destinofinal_nombre'],
+				$value['numfolios']
+			));
+
+			// Añadir 10 sets de columnas de folio (folio_id, folio, descripción, peso)
+			for ($i = 0; $i < 10; $i++) {
+				$rowData[] = isset($folios[$i]) ? $folios[$i] : '';
+				$rowData[] = isset($descripciones[$i]) ? $descripciones[$i] : '';
+				$rowData[] = isset($pesos_folios[$i]) ? $pesos_folios[$i] : '';
+			}
+
+			// Agregar las observaciones y el estatus al final
+			$rowData[] = $value['observaciones'];
+			$rowData[] = $value['estatus'];
+
+			$result['data'][$key] = $rowData;
+		}
+
+		$this->data['filtros'] = $result;
 		$this->render_template('reportes/filtros', $this->data);
 	}
 
@@ -156,16 +215,18 @@ class Reportes extends Admin_Controller
 
 	public function fetchReporteCompletoData()
 	{
-
-		$sucursal_id = $this->session->userdata('sucursal_id');
-
 		$result = array('data' => array());
-
-		$data = $this->model_reportes->getReporteCompletoData($sucursal_id, 2);
+		$data = $this->model_reportes->getReporteCompletoData();
 
 		foreach ($data as $key => $value) {
+			// Dividir las columnas concatenadas
+			$recolectores = explode(',', trim($value['recolectores']));
+			$folios = explode(',', trim($value['folios']));
+			$descripciones = explode(',', trim($value['descripciones']));
+			$pesos_folios = explode(',', trim($value['pesos_folios']));
 
-			$result['data'][$key] = array(
+			// Crear un array para almacenar los datos de esta fila
+			$rowData = array(
 				$value['registro_id'],
 				$value['unidad_numero'],
 				$value['asignacion_nombre'],
@@ -178,11 +239,15 @@ class Reportes extends Admin_Controller
 				$value['alias_nombre'],
 				$value['operador_nombre'],
 				$value['numrecolectores'],
-				$value['recolector1'],
-				$value['recolector2'],
-				$value['recolector3'],
-				$value['recolector4'],
-				$value['recolector5'],
+			);
+
+			// Añadir 10 recolectores
+			for ($i = 0; $i < 5; $i++) {
+				$rowData[] = isset($recolectores[$i]) ? $recolectores[$i] : '';
+			}
+
+			// Continuar agregando el resto de los datos
+			$rowData = array_merge($rowData, array(
 				$value['km_salida'],
 				$value['km_entrada'],
 				$value['recorrido'],
@@ -192,21 +257,23 @@ class Reportes extends Admin_Controller
 				$value['hora_entrada'],
 				$value['hora_tablero'],
 				$value['tiempo_ruta'],
-				$value['totalpeso'],
-				$value['numtiros'],
-				$value['tiro1'],
-				$value['tiro2'],
-				$value['tiro3'],
-				$value['tiro4'],
-				$value['tiro5'],
-				$value['tiro6'],
-				$value['tiro7'],
-				$value['tiro8'],
-				$value['tiro9'],
-				$value['tiro10'],
-				$value['estatus']
+				$value['peso_total'],
+				$value['destinofinal_nombre'],
+				$value['numfolios']
+			));
 
-			);
+			// Añadir 10 sets de columnas de folio (folio_id, folio, descripción, peso)
+			for ($i = 0; $i < 10; $i++) {
+				$rowData[] = isset($folios[$i]) ? $folios[$i] : '';
+				$rowData[] = isset($descripciones[$i]) ? $descripciones[$i] : '';
+				$rowData[] = isset($pesos_folios[$i]) ? $pesos_folios[$i] : '';
+			}
+
+			// Agregar las observaciones y el estatus al final
+			$rowData[] = $value['observaciones'];
+			$rowData[] = $value['estatus'];
+
+			$result['data'][$key] = $rowData;
 		}
 
 		echo json_encode($result);

@@ -65,28 +65,39 @@
                   <th>hora tablero</th>
                   <th>tempo ruta</th>
                   <th>perso total</th>
-                  <th># tiros</th>
-                  <th>tiro 1</th>
-                  <th>destino tiro 1</th>
-                  <th>tiro 2</th>
-                  <th>destino tiro 2</th>
-                  <th>tiro 3</th>
-                  <th>destino tiro 3</th>
-                  <th>tiro 4</th>
-                  <th>destino tiro 4</th>
-                  <th>tiro 5</th>
-                  <th>destino tiro 5</th>
-                  <th>tiro 6</th>
-                  <th>destino tiro 6</th>
-                  <th>tiro 7</th>
-                  <th>destino tiro 7</th>
-                  <th>tiro 8</th>
-                  <th>destino tiro 8</th>
-                  <th>tiro 9</th>
-                  <th>destino tiro 9</th>
-                  <th>tiro 10</th>
-                  <th>destino tiro 10</th>
-                  <th>observaciones</th>
+                  <th>destino final</th>
+                  <th># folios</th>
+                  <th>folio 1</th>
+                  <th>descripcion 1</th>
+                  <th>peso 1</th>
+                  <th>folio 2</th>
+                  <th>decripcion 2</th>
+                  <th>peso 2</th>
+                  <th>folio 3</th>
+                  <th>decripcion 3</th>
+                  <th>peso 3</th>
+                  <th>folio 4</th>
+                  <th>decripcion 4</th>
+                  <th>peso 4</th>
+                  <th>folio 5</th>
+                  <th>decripcion 5</th>
+                  <th>peso 5</th>
+                  <th>folio 6</th>
+                  <th>decripcion 6</th>
+                  <th>peso 6</th>
+                  <th>folio 7</th>
+                  <th>decripcion 7</th>
+                  <th>peso 7</th>
+                  <th>folio 8</th>
+                  <th>decripcion 8</th>
+                  <th>peso 8</th>
+                  <th>folio 9</th>
+                  <th>decripcion 9</th>
+                  <th>peso 9</th>
+                  <th>folio 10</th>
+                  <th>decripcion 10</th>
+                  <th>peso 10</th>
+                  <th>comentarios</th>
                   <th>estatus</th>
                 </tr>
               </thead>
@@ -111,9 +122,11 @@
       'ajax': 'fetchReporteCompletoData',
       'order': [],
       'columnDefs': [{
-          'targets': [25, 27, 29, 31, 33, 35, 37, 39, 41, 43],
+          'targets': Array.from({
+            length: 29
+          }, (_, i) => i + 30),
           'render': function(data, type, row) {
-            if (data == null) {
+            if (data == '') {
               return '0';
             } else {
               return data;
@@ -121,7 +134,7 @@
           }
         },
         {
-          'targets': 49,
+          'targets': 60,
           'render': function(data, type, row) {
             if (data == 2) {
               return 'Finalizado';

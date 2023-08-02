@@ -50,25 +50,25 @@ class Model_supervicion extends CI_Model
 		}
 	}
 
-	function searchtickets($term, $unidad_id)
+	function searchmanifiestos($term, $unidad_id)
 	{
 	
 		$sucursal_id = $this->session->userdata('sucursal_id');
 	
-		$this->db->select('t.ticket_id, t.folio, t.peso, d.destinofinal_nombre');
-		$this->db->from('tickets t');
-		$this->db->join('destinofinal d', 'd.destinofinal_id = t.destinofinal_id');
-		$this->db->like('t.folio', $term);
+		$this->db->select('m.manifiesto_id, m.nummanifiesto, m.peso_total, d.destinofinal_nombre');
+		$this->db->from('manifiestos m');
+		$this->db->join('destinofinal d', 'd.destinofinal_id = m.destinofinal_id');
+		$this->db->like('m.nummanifiesto', $term);
 		$this->db->group_start();
-		$this->db->where('t.sucursal_id', $sucursal_id);
-		$this->db->or_where('t.sucursal_id', 0);
+		$this->db->where('m.sucursal_id', $sucursal_id);
+		$this->db->or_where('m.sucursal_id', 0);
 		$this->db->group_end();
-		$this->db->where('t.estatus', 0);
+		$this->db->where('m.estatus', 0);
 		
 		if ($unidad_id == 0) {
-			$this->db->where('t.unidad_id', $unidad_id);
+			$this->db->where('m.unidad_id', $unidad_id);
 		} else {
-			$this->db->where_in('t.unidad_id', array($unidad_id, 0));
+			$this->db->where_in('m.unidad_id', array($unidad_id, 0));
 		}
 		
 		$query = $this->db->get();

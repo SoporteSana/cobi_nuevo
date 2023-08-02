@@ -432,7 +432,7 @@
      */
 
     $("#Tiro_1").autocomplete({
-      source: "<?php echo base_url('supervision/ticketslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
+      source: "<?php echo base_url('supervision/manifiestoslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
       select: function(event, ui) {
         $("#Tiro_1").val(ui.item.label);
         $("#Tiro1_id").val(ui.item.value);
@@ -451,7 +451,7 @@
 
 
     $("#Tiro_2").autocomplete({
-      source: "<?php echo base_url('supervision/ticketslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
+      source: "<?php echo base_url('supervision/manifiestoslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
       select: function(event, ui) {
         $("#Tiro_2").val(ui.item.label);
         $("#Tiro2_id").val(ui.item.value);
@@ -469,7 +469,7 @@
     });
 
     $("#Tiro_3").autocomplete({
-      source: "<?php echo base_url('supervision/ticketslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
+      source: "<?php echo base_url('supervision/manifiestoslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
       select: function(event, ui) {
         $("#Tiro_3").val(ui.item.label);
         $("#Tiro3_id").val(ui.item.value);
@@ -487,7 +487,7 @@
     });
 
     $("#Tiro_4").autocomplete({
-      source: "<?php echo base_url('supervision/ticketslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
+      source: "<?php echo base_url('supervision/manifiestoslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
       select: function(event, ui) {
         $("#Tiro_4").val(ui.item.label);
         $("#Tiro4_id").val(ui.item.value);
@@ -505,7 +505,7 @@
     });
 
     $("#Tiro_5").autocomplete({
-      source: "<?php echo base_url('supervision/ticketslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
+      source: "<?php echo base_url('supervision/manifiestoslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
       select: function(event, ui) {
         $("#Tiro_5").val(ui.item.label);
         $("#Tiro5_id").val(ui.item.value);
@@ -523,7 +523,7 @@
     });
 
     $("#Tiro_6").autocomplete({
-      source: "<?php echo base_url('supervision/ticketslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
+      source: "<?php echo base_url('supervision/manifiestoslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
       select: function(event, ui) {
         $("#Tiro_6").val(ui.item.label);
         $("#Tiro6_id").val(ui.item.value);
@@ -541,7 +541,7 @@
     });
 
     $("#Tiro_7").autocomplete({
-      source: "<?php echo base_url('supervision/ticketslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
+      source: "<?php echo base_url('supervision/manifiestoslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
       select: function(event, ui) {
         $("#Tiro_7").val(ui.item.label);
         $("#Tiro7_id").val(ui.item.value);
@@ -559,7 +559,7 @@
     });
 
     $("#Tiro_8").autocomplete({
-      source: "<?php echo base_url('supervision/ticketslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
+      source: "<?php echo base_url('supervision/manifiestoslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
       select: function(event, ui) {
         $("#Tiro_8").val(ui.item.label);
         $("#Tiro8_id").val(ui.item.value);
@@ -577,7 +577,7 @@
     });
 
     $("#Tiro_9").autocomplete({
-      source: "<?php echo base_url('supervision/ticketslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
+      source: "<?php echo base_url('supervision/manifiestoslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
       select: function(event, ui) {
         $("#Tiro_9").val(ui.item.label);
         $("#Tiro9_id").val(ui.item.value);
@@ -595,7 +595,7 @@
     });
 
     $("#Tiro_10").autocomplete({
-      source: "<?php echo base_url('supervision/ticketslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
+      source: "<?php echo base_url('supervision/manifiestoslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
       select: function(event, ui) {
         $("#Tiro_10").val(ui.item.label);
         $("#Tiro10_id").val(ui.item.value);
