@@ -113,14 +113,13 @@ class Correcciones extends Admin_Controller
             );
         }
 
-        $this->render_template('correcciones/filtros', $this->data,$result);
+        $this->render_template('correcciones/filtros', $this->data, $result);
     }
 
 
     public function getCorreccionData()
     {
         $result = array('data' => array());
-
         $data = $this->model_correcciones->getCorreccionData();
 
         foreach ($data as $key => $value) {
@@ -131,59 +130,63 @@ class Correcciones extends Admin_Controller
                 $button .= '<a href="' . base_url('correcciones/update/' . $value['registro_id']) . '" class="btn btn-default"><i class="fa fa-pencil"></i></a>';
             }
 
-            $result['data'][$key] = array(
+            // Dividir las columnas concatenadas
+            $recolectores = explode(',', trim($value['recolectores']));
+            $folios = explode(',', trim($value['folios']));
+            $descripciones = explode(',', trim($value['descripciones']));
+            $pesos_folios = explode(',', trim($value['pesos_folios']));
 
+            // Crear un array para almacenar los datos de esta fila
+            $rowData = array(
                 $value['registro_id'],
                 $value['unidad_numero'],
                 $value['asignacion_nombre'],
                 $value['semana'],
                 $value['nombres'],
+                $value['dia'],
+                $value['fecha_salida'],
                 $value['turno_nombre'],
                 $value['ruta_nombre'],
                 $value['alias_nombre'],
                 $value['operador_nombre'],
-                $value['hora_salida'],
-                $value['hora_entrada'],
                 $value['numrecolectores'],
-                $value['recolector1'],
-                $value['recolector2'],
-                $value['recolector3'],
-                $value['recolector4'],
-                $value['recolector5'],
+            );
+
+            // Añadir 10 recolectores
+            for ($i = 0; $i < 5; $i++) {
+                $rowData[] = isset($recolectores[$i]) ? $recolectores[$i] : '';
+            }
+
+            // Continuar agregando el resto de los datos
+            $rowData = array_merge($rowData, array(
                 $value['km_salida'],
                 $value['km_entrada'],
                 $value['recorrido'],
                 $value['litroscargados'],
                 $value['rendimiento'],
+                $value['hora_salida'],
+                $value['hora_entrada'],
                 $value['hora_tablero'],
                 $value['tiempo_ruta'],
-                $value['numtiros'],
-                $value['tiro1'],
-                $value['destinofinal1'],
-                $value['tiro2'],
-                $value['destinofinal2'],
-                $value['tiro3'],
-                $value['destinofinal3'],
-                $value['tiro4'],
-                $value['destinofinal4'],
-                $value['tiro5'],
-                $value['destinofinal5'],
-                $value['tiro6'],
-                $value['destinofinal6'],
-                $value['tiro7'],
-                $value['destinofinal7'],
-                $value['tiro8'],
-                $value['destinofinal8'],
-                $value['tiro9'],
-                $value['destinofinal9'],
-                $value['tiro10'],
-                $value['destinofinal10'],
-                $value['totalpeso'],
-                $value['observaciones'],
-                $value['estatus'],
-                $button
+                $value['peso_total'],
+                $value['destinofinal_nombre'],
+                $value['numfolios']
+            ));
 
-            );
+            // Añadir 10 sets de columnas de folio (folio_id, folio, descripción, peso)
+            for ($i = 0; $i < 10; $i++) {
+                $rowData[] = isset($folios[$i]) ? $folios[$i] : '';
+                $rowData[] = isset($descripciones[$i]) ? $descripciones[$i] : '';
+                $rowData[] = isset($pesos_folios[$i]) ? $pesos_folios[$i] : '';
+            }
+
+            // Agregar las observaciones y el estatus al final
+            $rowData[] = $value['observaciones'];
+            $rowData[] = $value['estatus'];
+
+            $rowData[] = $button;
+
+            $result['data'][$key] = $rowData;
         }
 
         echo json_encode($result);
@@ -304,8 +307,20 @@ class Correcciones extends Admin_Controller
                 redirect('correcciones/update/' . $registro_id, 'refresh');
             }
         } else {
-            $registro_data = $this->model_correcciones->getCorreccionData($registro_id);
-            $this->data['registro_data'] = $registro_data;
+
+            $data = $this->model_correcciones->getCorreccionData($registro_id);
+            $this->data['registro_data'] = $data;
+            $registro_obj = $data[0];
+            $recolector_ids = $registro_obj->recolector_id ? explode(',', $registro_obj->recolector_id) : [];
+            $recolectores = $registro_obj->recolectores ? explode(',', $registro_obj->recolectores) : [];
+            $folios = $registro_obj->folios ? explode(',', $registro_obj->folios) : [];
+            $descripciones = $registro_obj->descripciones ? explode(',', $registro_obj->descripciones) : [];
+            $pesos_folios = $registro_obj->pesos_folios ? explode(',', $registro_obj->pesos_folios) : [];
+            $this->data['recolector_ids'] = $recolector_ids;
+            $this->data['recolectores'] = $recolectores;
+            $this->data['folios'] = $folios;
+            $this->data['descripciones'] = $descripciones;
+            $this->data['pesos_folios'] = $pesos_folios;
             $this->render_template('correcciones/edit', $this->data);
         }
     }
@@ -407,19 +422,19 @@ class Correcciones extends Admin_Controller
         echo json_encode($data);
     }
 
-    public function ticketslist($unidad_id)
+    public function manifiestoslist($unidad_id)
     {
 
         $postData = $this->input->get('term');
 
-        $result = $this->model_correcciones->searchtickets($postData, $unidad_id);
+        $result = $this->model_correcciones->searchmanifiestos($postData, $unidad_id);
 
         $data = array();
         foreach ($result as $row) {
             $data[] = array(
-                'label' => 'Folio: ' . $row->folio . ' | Peso: ' . $row->peso,
-                'value' => $row->ticket_id,
-                'peso' => $row->peso,
+                'label' => 'Folio: ' . $row->nummanifiesto . ' | Peso: ' . $row->peso_total,
+                'value' => $row->manifiesto_id,
+                'peso' => $row->peso_total,
                 'destino' => $row->destinofinal_nombre
 
             );

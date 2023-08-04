@@ -1,4 +1,3 @@
-
 <div class="content-wrapper">
 
   <section class="content-header">
@@ -13,7 +12,7 @@
 
 
   <section class="content">
-    
+
     <div class="row">
       <div class="col-md-12 col-xs-12">
 
@@ -30,74 +29,87 @@
             <?php echo $this->session->flashdata('error'); ?>
           </div>
         <?php endif; ?>
-          
-          <div class="box-body">
-            <table id="manageTable" class="display responsive nowrap" style="width:100%">
-              <thead>
-                <tr>
-                <th>id</th>
-                  <th>Unidad</th>
-                  <th>asignacion</th>
-                  <th>semana</th>
-                  <th>supervisor</th>
-                  <th>turno</th>
-                  <th>ruta</th>
-                  <th>alias</th>
-                  <th>operador</th>
-                  <th>Hora de salida</th>
-                  <th>Hora de entrada</th>
-                  <th># recolectores</th>
-                  <th>Recoelctor 1</th>
-                  <th>Recoelctor 2</th>
-                  <th>Recoelctor 3</th>
-                  <th>Recoelctor 4</th>
-                  <th>Recoelctor 5</th>
-                  <th>km salida</th>
-                  <th>km entrada</th>
-                  <th>recorrido</th>
-                  <th>litros cargados</th>
-                  <th>rendimento</th>
-                  <th>hora tablero</th>
-                  <th>tiempo ruta</th>
-                  <th># tiros</th>
-                  <th>tiro 1</th>
-                  <th>destino tiro 1</th>
-                  <th>tiro 2</th>
-                  <th>destino tiro 2</th>
-                  <th>tiro 3</th>
-                  <th>destino tiro 3</th>
-                  <th>tiro 4</th>
-                  <th>destino tiro 4</th>
-                  <th>tiro 5</th>
-                  <th>destino tiro 5</th>
-                  <th>tiro 6</th>
-                  <th>destino tiro 6</th>
-                  <th>tiro 7</th>
-                  <th>destino tiro 7</th>
-                  <th>tiro 8</th>
-                  <th>destino tiro 8</th>
-                  <th>tiro 9</th>
-                  <th>destino tiro 9</th>
-                  <th>tiro 10</th>
-                  <th>destino tiro 10</th>
-                  <th>peso total</th>
-                  <th>cometarios</th>
-                  <th>estatus</th>
-                  <th>editar</th>
-                </tr>
-              </thead>
 
-            </table>
-          </div>
-         
+        <div class="box-body">
+          <table id="manageTable" class="display responsive nowrap" style="width:100%">
+            <thead>
+              <tr>
+                <th>id</th>
+                <th>Unidad</th>
+                <th>asignacion</th>
+                <th>semana</th>
+                <th>supervisor</th>
+                <th>dia</th>
+                <th>fecha</th>
+                <th>turno</th>
+                <th>ruta</th>
+                <th>alias</th>
+                <th>operador</th>
+                <th># recolectores</th>
+                <th>Recoelctor 1</th>
+                <th>Recoelctor 2</th>
+                <th>Recoelctor 3</th>
+                <th>Recoelctor 4</th>
+                <th>Recoelctor 5</th>
+                <th>km salida</th>
+                <th>km entrada</th>
+                <th>recorrido</th>
+                <th>litros cargados</th>
+                <th>rendimiento</th>
+                <th>hora salida</th>
+                <th>hora de entrada</th>
+                <th>hora tablero</th>
+                <th>tempo ruta</th>
+                <th>perso total</th>
+                <th>destino final</th>
+                <th># folios</th>
+                <th>folio 1</th>
+                <th>descripcion 1</th>
+                <th>peso 1</th>
+                <th>folio 2</th>
+                <th>decripcion 2</th>
+                <th>peso 2</th>
+                <th>folio 3</th>
+                <th>decripcion 3</th>
+                <th>peso 3</th>
+                <th>folio 4</th>
+                <th>decripcion 4</th>
+                <th>peso 4</th>
+                <th>folio 5</th>
+                <th>decripcion 5</th>
+                <th>peso 5</th>
+                <th>folio 6</th>
+                <th>decripcion 6</th>
+                <th>peso 6</th>
+                <th>folio 7</th>
+                <th>decripcion 7</th>
+                <th>peso 7</th>
+                <th>folio 8</th>
+                <th>decripcion 8</th>
+                <th>peso 8</th>
+                <th>folio 9</th>
+                <th>decripcion 9</th>
+                <th>peso 9</th>
+                <th>folio 10</th>
+                <th>decripcion 10</th>
+                <th>peso 10</th>
+                <th>comentarios</th>
+                <th>estatus</th>
+                <th>editar</th>
+              </tr>
+            </thead>
+
+          </table>
         </div>
-        
+
       </div>
-     
+
     </div>
 
-  </section>
- 
+</div>
+
+</section>
+
 </div>
 
 <script type="text/javascript">
@@ -109,17 +121,30 @@
       'ajax': 'getCorreccionData',
       'order': [],
       'columnDefs': [{
-        'targets': 47,
-        'render': function(data, type, row) {
-          if (data == 2) {
-            return 'Finalisado';
-          } else {
-            return 'Desconocido';
+          'targets': Array.from({
+            length: 29
+          }, (_, i) => i + 30),
+          'render': function(data, type, row) {
+            if (data == '') {
+              return '0';
+            } else {
+              return data;
+            }
+          }
+        },
+        {
+          'targets': 60,
+          'render': function(data, type, row) {
+            if (data == 2) {
+              return 'Finalizado';
+            } else {
+              return 'Desconocido';
+            }
           }
         }
-      }],
+      ],
       'createdRow': function(row, data, dataIndex) {
-       
+
       }
     });
   });
