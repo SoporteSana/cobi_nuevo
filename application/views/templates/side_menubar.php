@@ -133,6 +133,22 @@
         <?php endif; ?>
 
         <?php if (in_array('createTicket', $user_permission) || in_array('updateTicket', $user_permission) || in_array('viewTicket', $user_permission) || in_array('deleteTicket', $user_permission)) : ?>
+          <li id="categoriaproductosNav">
+            <a href="<?php echo base_url('categoriaproducto/') ?>">
+              <i class="fa fa-files-o"></i> <span>Tipo de Productos</span>
+            </a>
+          </li>
+        <?php endif; ?>
+
+        <?php if (in_array('createTicket', $user_permission) || in_array('updateTicket', $user_permission) || in_array('viewTicket', $user_permission) || in_array('deleteTicket', $user_permission)) : ?>
+          <li id="tipoproductosNav">
+            <a href="<?php echo base_url('tipoproducto/') ?>">
+              <i class="fa fa-files-o"></i> <span>Productos</span>
+            </a>
+          </li>
+        <?php endif; ?>
+
+        <?php if (in_array('createTicket', $user_permission) || in_array('updateTicket', $user_permission) || in_array('viewTicket', $user_permission) || in_array('deleteTicket', $user_permission)) : ?>
           <li id="manifiestosNav">
             <a href="<?php echo base_url('manifiestos/') ?>">
               <i class="fa fa-files-o"></i> <span>Manifiestos</span>

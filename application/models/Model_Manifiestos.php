@@ -162,4 +162,35 @@ class Model_Manifiestos extends CI_Model
 
 		return $response;
 	}
+
+	function searchresiduos($term)
+	{
+
+		$sucursal_id = $this->session->userdata('sucursal_id');
+
+		$this->db->select('tipo_producto.tipoProducto_id, categorias_producto.categoriaProducto_id, categorias_producto.categoriaProducto_nombre, tipo_producto.tipoProducto_nombre, tipo_producto.estatus');
+        $this->db->from('tipo_producto');
+        $this->db->join('categorias_producto', 'tipo_producto.categoriaProducto_id = categorias_producto.categoriaProducto_id', 'left');
+        $this->db->join('sucursales', 'sucursales.sucursal_id = categorias_producto.sucursal_id', 'left');
+        $this->db->join('empresas', 'empresas.empresa_id = sucursales.empresa_id', 'left');
+		$this->db->like('tipo_producto.tipoProducto_nombre', $term);
+        $this->db->where('tipo_producto.estatus', 0);
+        $this->db->where('categorias_producto.sucursal_id', $sucursal_id);
+        
+        $query = $this->db->get();
+        return $query->result();
+	}
+
+	public function getMedidasData()
+	{
+		$sucursal_id = $this->session->userdata('sucursal_id');
+
+		$this->db->SELECT('*');
+		$this->db->from('medidas');
+		$query  = $this->db->get();
+		$result = ($query->num_rows() > 0) ? $query->result_array() : array();
+
+		return $result;
+	}
+
 }

@@ -27,7 +27,7 @@ class Supervision extends Admin_Controller
     public function fetchSupervicionData()
     {
         $sucursal_id = $this->session->userdata('sucursal_id');
-        
+
         $result = array('data' => array());
 
         $data = $this->model_supervicion->getSupervicionData($sucursal_id, 1);
@@ -175,29 +175,46 @@ class Supervision extends Admin_Controller
                 $this->input->post('Tiro10_id')
             );
 
-            $tiros = array_filter($tirosid, function ($value) {
-                return !empty($value);
-            });
-
-            $count = array_count_values($tiros);
+            // Detectar duplicados
+            $count = array_count_values($tirosid);
             $duplicates = array();
+
             foreach ($count as $key => $value) {
                 if ($value > 1) {
                     $duplicates[] = $key;
                 }
             }
 
-            if (empty($duplicates)) {
-                $update = $this->model_supervicion->update($data, $registro_id);
+            // Si hay duplicados, los reemplazamos
+            if (!empty($duplicates)) {
+                foreach ($duplicates as $duplicateValue) {
+                    foreach ($tirosid as $index => $value) {
+                        if ($value == $duplicateValue) {
+                            $tirosid[$index] = 0;
+                        }
+                    }
+                }
+            }
+
+            // Verificamos de nuevo si hay duplicados después del reemplazo
+            $newCount = array_count_values($tirosid);
+            $newDuplicates = array();
+
+            foreach ($newCount as $key => $value) {
+                if ($value > 1 && $key != 0) { // Ignoramos el 0, ya que ahora es nuestro valor de reemplazo
+                    $newDuplicates[] = $key;
+                }
+            }
+
+            // Ahora decidimos qué hacer según si hay nuevos duplicados o no
+            if (empty($newDuplicates)) {
+                $tiros = $tirosid;
+                $this->model_supervicion->update($data, $registro_id);
                 $this->tiros($registro_id, $tiros);
                 $this->session->set_flashdata('success', 'Actualizado con éxito');
                 redirect('supervision/', 'refresh');
-            } else if (!empty($duplicates)) {
-
-                $this->session->set_flashdata('error', 'Tickets duplicados');
-                redirect('supervision/update/' . $registro_id, 'refresh');
             } else {
-                $this->session->set_flashdata('error', 'Ocurrio un error');
+                $this->session->set_flashdata('error', 'Tickets duplicados después de la corrección');
                 redirect('supervision/update/' . $registro_id, 'refresh');
             }
         } else {
@@ -218,7 +235,7 @@ class Supervision extends Admin_Controller
     public function tiros($create, $tirosid)
     {
         $tirosData = array();
-    
+
         for ($i = 0; $i < count($tirosid); $i++) {
             $tirosData[] = array(
                 'registro_id' => $create,
@@ -226,7 +243,7 @@ class Supervision extends Admin_Controller
                 'manifiesto_id' => $tirosid[$i]
             );
         }
-    
+
         $this->model_supervicion->insertarTiros($tirosData);
     }
 
@@ -249,5 +266,4 @@ class Supervision extends Admin_Controller
         }
         echo json_encode($data);
     }
-
 }

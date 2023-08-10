@@ -40,7 +40,7 @@
               <div class="col-md-2">
               </div>
               <div class="col-md-8">
-                <form id="create" role="form" action="<?php base_url('vigilancia/create') ?>" method="post" id="createForm" style=" display:inline!important;">
+                <form id="createForm" role="form" action="<?php echo base_url('manifiestos/create') ?>" method="post" style=" display:inline!important;">
                   <div class="box-body">
 
                     <div class="form-group">
@@ -78,205 +78,163 @@
                       <input type="hidden" name="destino_id" id="destino_id" value='0'>
                     </div>
 
-                    <div class="form-group">
-                      <label for="select">Folios</label>
-                      <br>
-                      <select id="select" name="select" onchange="handleSelect()" style="width:300px">
-                        <option value="0">Sin Folios</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                      </select>
-                    </div>
 
-                    <div class="Folio">
-                      <label for="Folio_1">Folio 1</label>
-                      <input type="text" class="form-control" id="Folio_1" name="Folio_1" placeholder="numero folio" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Descripcion_1">Descripcion</label>
-                      <input type="text" class="form-control" id="Descripcion_1" name="Descripcion_1" placeholder="Descripcion" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Peso_1">Peso</label>
-                      <input type="text" class="form-control" id="Peso_1" name="Peso_1" placeholder="peso" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Folio_2">Folio 2</label>
-                      <input type="text" class="form-control" id="Folio_2" name="Folio_2" placeholder="numero folio" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Descripcion_2">Descripcion</label>
-                      <input type="text" class="form-control" id="Descripcion_2" name="Descripcion_2" placeholder="Descripcion" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Peso_2">Peso</label>
-                      <input type="text" class="form-control" id="Peso_2" name="Peso_2" placeholder="peso" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Folio_3">Folio 3</label>
-                      <input type="text" class="form-control" id="Folio_3" name="Folio_3" placeholder="numero folio" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Descripcion_3">Descripcion</label>
-                      <input type="text" class="form-control" id="Descripcion_3" name="Descripcion_3" placeholder="Descripcion" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Peso_3">Peso</label>
-                      <input type="text" class="form-control" id="Peso_3" name="Peso_3" placeholder="peso" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Folio_4">Folio 4</label>
-                      <input type="text" class="form-control" id="Folio_4" name="Folio_4" placeholder="numero folio" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Descripcion_4">Descripcion</label>
-                      <input type="text" class="form-control" id="Descripcion_4" name="Descripcion_4" placeholder="Descripcion" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Peso_4">Peso</label>
-                      <input type="text" class="form-control" id="Peso_4" name="Peso_4" placeholder="peso" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Folio_5">Folio 5</label>
-                      <input type="text" class="form-control" id="Folio_5" name="Folio_5" placeholder="numero folio" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Descripcion_5">Descripcion</label>
-                      <input type="text" class="form-control" id="Descripcion_5" name="Descripcion_5" placeholder="Descripcion" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Peso_5">Peso</label>
-                      <input type="text" class="form-control" id="Peso_5" name="Peso_5" placeholder="peso" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Folio_6">Folio 6</label>
-                      <input type="text" class="form-control" id="Folio_6" name="Folio_6" placeholder="numero folio" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Descripcion_6">Descripcion</label>
-                      <input type="text" class="form-control" id="Descripcion_6" name="Descripcion_6" placeholder="Descripcion" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Peso_6">Peso</label>
-                      <input type="text" class="form-control" id="Peso_6" name="Peso_6" placeholder="peso" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Folio_7">Folio 7</label>
-                      <input type="text" class="form-control" id="Folio_7" name="Folio_7" placeholder="numero folio" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Descripcion_7">Descripcion</label>
-                      <input type="text" class="form-control" id="Descripcion_7" name="Descripcion_7" placeholder="Descripcion" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Peso_7">Peso</label>
-                      <input type="text" class="form-control" id="Peso_7" name="Peso_7" placeholder="peso" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Folio_8">Folio 8</label>
-                      <input type="text" class="form-control" id="Folio_8" name="Folio_8" placeholder="numero folio" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Descripcion_8">Descripcion</label>
-                      <input type="text" class="form-control" id="Descripcion_8" name="Descripcion_8" placeholder="Descripcion" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Peso_8">Peso</label>
-                      <input type="text" class="form-control" id="Peso_8" name="Peso_8" placeholder="peso" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Folio_9">Folio 9</label>
-                      <input type="text" class="form-control" id="Folio_9" name="Folio_9" placeholder="numero folio" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Descripcion_9">Descripcion</label>
-                      <input type="text" class="form-control" id="Descripcion_9" name="Descripcion_9" placeholder="Descripcion" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Peso_9">Peso</label>
-                      <input type="text" class="form-control" id="Peso_9" name="Peso_9" placeholder="peso" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Folio_10">Folio 10</label>
-                      <input type="text" class="form-control" id="Folio_10" name="Folio_10" placeholder="numero folio" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Descripcion_10">Descripcion</label>
-                      <input type="text" class="form-control" id="Descripcion_10" name="Descripcion_10" placeholder="Descripcion" autocomplete="off" />
-                    </div>
-
-                    <div class="Folio">
-                      <label for="Peso_10">Peso</label>
-                      <input type="text" class="form-control" id="Peso_10" name="Peso_10" placeholder="peso" autocomplete="off" />
-                    </div>
-
-                    <div class="form-group">
-                      <label for="pesototal">Peso Total</label>
-                      <input type="number" class="form-control" id="pesototal" name="pesototal" placeholder="peso total" autocomplete="off" />
-                      <div class="text-danger"><?php echo form_error('pesototal'); ?></div>
-                    </div>
-
-                    <div class="box-footer">
-                      <button type="submit" class="btn btn-primary" id="submitButton" disabled>Guardar</button>
-                      <a href="<?php echo base_url('vigilancia/') ?>" class="btn btn-warning">Regresar</a>
-                    </div>
-                </form>
-              </div>
-              <div class="col-md-2">
+                  </div>
+                  <!-- Botón para agregar a la tabla -->
+                  <button type="button" id="addResiduo" class="btn btn-info">Añadir Residuo</button>
+                  <!-- Tabla/Listado de residuos agregados -->
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Categoría</th>
+                        <th>Residuo</th>
+                        <th>Descripción</th>
+                        <th>Cantidad</th>
+                        <th>Medida</th>
+                        <th>Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody id="residuosList">
+                      <!-- Los elementos se agregarán dinámicamente aquí -->
+                    </tbody>
+                  </table>
+                  <div class="box-footer">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <a href="<?php echo base_url('manifiestos/') ?>" class="btn btn-warning">Regresar</a>
+                  </div>
               </div>
             </div>
           </div>
+          </form>
 
         </div>
-
+        <div class="col-md-2">
+        </div>
       </div>
-
     </div>
 
+</div>
 
-  </section>
+</div>
 
-  <div id="loader"></div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="addModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Agregar</h4>
+      </div>
+
+      <form role="form" action="#" method="post" id="createForm">
+
+        <div class="modal-body ui-front">
+
+          <div class="form-group">
+            <label for="categoria">Categoria</label>
+            <input readonly type="text" class="form-control" id="categoria" name="categoria" placeholder="categoria" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label for="producto">Producto</label>
+            <input type="text" class="form-control" id="producto" name="producto" placeholder="producto" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <input type="hidden" name="producto_id" id="producto_id" value='0'>
+          </div>
+          <div class="form-group">
+            <label for="descripcion">Descripcion</label>
+            <input type="text" class="form-control" id="descripcion" name="descripcion" placeholder="descripcion" autocomplete="off">
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="cantidad">Cantidad</label>
+                <input type="number" class="form-control" id="cantidad" name="cantidad" placeholder="cantidad" autocomplete="off">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="medida">Medida</label>
+                <select class="form-control" id="medida" name="medida">
+                  <?php foreach ($medidas as $medida) { ?>
+                    <option value="<?php echo $medida['medidas_id']; ?>">
+                      <?php echo $medida['medida_nombre']; ?>
+                    </option>
+                  <?php } ?>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary" id="btncrear">Crear</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+</section>
+
+<div id="loader"></div>
 </div>
 
 <script type="text/javascript">
   $(document).ready(function() {
+
+    $('#addResiduo').click(function() {
+      $('#addModal').modal('show'); // Este ID debe coincidir con el ID de tu modal
+    });
+
+    // Escuchar el evento click del botón eliminar
+    $('#residuosList').on('click', '.btnEliminar', function() {
+      $(this).closest('tr').remove(); // Busca la fila más cercana y la elimina
+    });
+
+    $('#btncrear').on('click', function(e) {
+      e.preventDefault(); // Prevenir el envío del formulario
+
+      var categoria = $('#categoria').val();
+      var producto = $('#producto').val();
+      var producto_id = $('#producto_id').val();
+      var descripcion = $('#descripcion').val();
+      var cantidad = $('#cantidad').val();
+      var medida = $('#medida').val();
+
+      // Añadir los valores a la tabla junto con los campos de entrada ocultos
+      $('#residuosList').append(`
+          <tr>
+              <td>
+                  ${categoria}
+                  <input type="hidden" name="categoria[]" value="${categoria}">
+              </td>
+              <td>
+                  ${producto}
+                  <input type="hidden" name="producto[]" value="${producto}">
+                  <input type="hidden" name="producto_id[]" value="${producto_id}">
+              </td>
+              <td>
+                  ${descripcion}
+                  <input type="hidden" name="descripcion[]" value="${descripcion}">
+              </td>
+              <td>
+                  ${cantidad}
+                  <input type="hidden" name="cantidad[]" value="${cantidad}">
+              </td>
+              <td>
+                  ${medida}
+                  <input type="hidden" name="medida[]" value="${medida}">
+              </td>
+              <td><button type="button" class="btn btn-danger btnEliminar">Eliminar</button></td>
+          </tr>
+      `);
+
+      // Cerrar el modal
+      $('#addModal').modal('hide');
+    });
 
     $("#manifiestosNav").addClass('active');
 
@@ -355,80 +313,22 @@
       },
     });
 
-    var camposPeso = document.querySelectorAll('[id^="Peso_"]');
-    var campoPesoTotal = document.getElementById("pesototal");
-
-    camposPeso.forEach(function(campoPeso) {
-      campoPeso.addEventListener('input', actualizarPesoTotal);
+    $("#producto").autocomplete({
+      source: "<?php echo base_url('manifiestos/residuoslist'); ?>",
+      select: function(event, ui) {
+        $("#producto").val(ui.item.label);
+        $("#producto_id").val(ui.item.value);
+        return false;
+      },
+      focus: function(event, ui) {
+        $("#producto").val(ui.item.label);
+        $("#categoria").val(ui.item.label2);
+        return false;
+      },
+      minLength: 2
     });
-
-    function actualizarPesoTotal() {
-      var suma = 0;
-      camposPeso.forEach(function(campoPeso) {
-        var valor = parseFloat(campoPeso.value);
-        if (!isNaN(valor)) {
-          suma += valor;
-        }
-      });
-      campoPesoTotal.value = suma.toFixed(2);
-    }
-
-    actualizarPesoTotal();
-
-    handleSelect();
-
-    $("input").on("input", function() {
-      var numeroeconomico = $("#numeroeconomico").val();
-      var numeroeconomico_id = $("#numeroeconomico_id").val();
-      var horatablero = $("#horatablero").val();
-      var alias = $("#alias").val();
-      var alias_id = $("#alias_id").val();
-      var operador = $("#operador").val();
-      var operador_id = $("#operador_id").val();
-      var kmsalida = $("#kmsalida").val();
-
-      if (numeroeconomico != "" && numeroeconomico_id != "" && horatablero != "" && alias != "" && operador != "" && kmsalida != "") {
-        $("#submitButton").prop("disabled", false);
-      } else {
-        $("#submitButton").prop("disabled", true);
-      }
-    });
-
-    $('#create').submit(function() {
-        $('#loader').show();
-        $("#submitButton").prop("disabled", true);
-      })
-      .done(function() {
-        $('#loader').hide();
-        $("#submitButton").prop("disabled", false);
-      })
-      .fail(function() {
-        $('#loader').hide();
-        $("#submitButton").prop("disabled", false);
-      });
 
   });
-
-  $(function() {
-    $('#horasalida').datetimepicker({
-      format: 'YYYY-MM-DD HH:mm:ss'
-    });
-  });
-
-  function handleSelect() {
-    var numFolios = $('#select').val();
-    for (var i = 1; i <= 10; i++) {
-      if (i <= numFolios) {
-        $('#Folio_' + i).parent().show();
-        $('#Descripcion_' + i).parent().show();
-        $('#Peso_' + i).parent().show();
-      } else {
-        $('#Folio_' + i).parent().hide();
-        $('#Descripcion_' + i).parent().hide();
-        $('#Peso_' + i).parent().hide();
-      }
-    }
-  }
 </script>
 
 <style type="text/css">

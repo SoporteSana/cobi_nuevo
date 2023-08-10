@@ -248,11 +248,11 @@ class Correcciones extends Admin_Controller
             );
 
             $recolectoresid = array(
-                $this->input->post('recolector_id1'),
-                $this->input->post('recolector_id2'),
-                $this->input->post('recolector_id3'),
-                $this->input->post('recolector_id4'),
-                $this->input->post('recolector_id5')
+                $this->input->post('RecolectorId_1'),
+                $this->input->post('RecolectorId_2'),
+                $this->input->post('RecolectorId_3'),
+                $this->input->post('RecolectorId_4'),
+                $this->input->post('RecolectorId_5')
             );
 
             $recolectores = array_filter($recolectoresid, function ($value) {
@@ -267,7 +267,7 @@ class Correcciones extends Admin_Controller
                 }
             }
 
-            $tirosid = array(
+            $manifiestosid = array(
                 $this->input->post('Tiro1_id'),
                 $this->input->post('Tiro2_id'),
                 $this->input->post('Tiro3_id'),
@@ -280,7 +280,7 @@ class Correcciones extends Admin_Controller
                 $this->input->post('Tiro10_id')
             );
 
-            $tiros = array_filter($tirosid, function ($value) {
+            $tiros = array_filter($manifiestosid, function ($value) {
                 return !empty($value);
             });
 
@@ -293,9 +293,9 @@ class Correcciones extends Admin_Controller
             }
 
             if (empty($duplicates)) {
-                $update = $this->model_correcciones->update($data, $registro_id);
+                $this->model_correcciones->update($data, $registro_id);
                 $this->tripulacion($registro_id, $recolectoresid);
-                $this->tiros($registro_id, $tirosid);
+                $this->tiros($registro_id, $tiros);
                 $this->session->set_flashdata('success', 'Actualizado con éxito');
                 redirect('correcciones/', 'refresh');
             } else if (!empty($duplicates)) {
@@ -325,25 +325,25 @@ class Correcciones extends Admin_Controller
         }
     }
 
-    public function tripulacion($update, $recolector_id_array)
+    public function tripulacion($registro_id, $recolector_id_array)
     {
-        $tripulacionData = array(
-            'registro_id' => $update,
-            'recolector1' => isset($recolector_id_array[0]) ? $recolector_id_array[0] : 0,
-            'recolector2' => isset($recolector_id_array[1]) ? $recolector_id_array[1] : 0,
-            'recolector3' => isset($recolector_id_array[2]) ? $recolector_id_array[2] : 0,
-            'recolector4' => isset($recolector_id_array[3]) ? $recolector_id_array[3] : 0,
-            'recolector5' => isset($recolector_id_array[4]) ? $recolector_id_array[4] : 0,
-            'numrecolectores' => $this->input->post('norecolectores'),
-        );
-
-        $this->model_correcciones->actualizarTripulacion($update, $tripulacionData);
+        $tripulacionData = array();
+    
+        for ($i = 0; $i < count($recolector_id_array); $i++) {
+            $tripulacionData[] = array(
+                'registro_id' => $registro_id,
+                'recolector_id' => $recolector_id_array[$i],
+                'numrecolector' => $i + 1
+            );
+        }
+    
+        $this->model_vigilancia->actualizarTripulacion($tripulacionData);
     }
 
-    public function tiros($update, $tirosid)
+    public function tiros($registro_id, $tirosid)
     {
         $tirosArray = array(
-            'registro_id' => $update,
+            'registro_id' => $registro_id,
             'tiro1' => isset($tirosid[0]) ? $tirosid[0] : 0,
             'tiro2' => isset($tirosid[1]) ? $tirosid[1] : 0,
             'tiro3' => isset($tirosid[2]) ? $tirosid[2] : 0,
@@ -357,7 +357,7 @@ class Correcciones extends Admin_Controller
             'numtiros' => $this->input->post('ntiros'),
         );
 
-        $this->model_correcciones->actualizarTiros($update, $tirosArray);
+        $this->model_correcciones->actualizarTiros($registro_id, $tirosArray);
     }
 
     public function asignacionlist()
