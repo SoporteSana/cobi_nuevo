@@ -10,7 +10,7 @@ class Manifiestos extends Admin_Controller
 
         $this->not_logged_in();
 
-        $this->data['page_title'] = 'Vigilancia';
+        $this->data['page_title'] = 'Manifiestos';
 
         $this->load->model('model_manifiestos');
 
@@ -28,46 +28,44 @@ class Manifiestos extends Admin_Controller
 
     public function fetchManifiestosData()
     {
+        $sucursal_id = $this->session->userdata('sucursal_id');
         $result = array('data' => array());
+        $manifiestos = $this->model_manifiestos->getManifiestosData($sucursal_id);
 
-        $data = $this->model_manifiestos->getManifiestosData();
+        foreach ($manifiestos as $manifiesto) {
+            $folio_ids = explode(',', $manifiesto['folio_ids']);
+            $productos = explode(',', $manifiesto['productos'] ?? '');
+            $descripciones = explode(',', $manifiesto['descripciones'] ?? '');
+            $medidas_ids = explode(',', $manifiesto['medidas_ids'] ?? '');
+            $medidas_nombres = explode(',', $manifiesto['medidas_nombres'] ?? '');
+            $total_cantidad_concatenadas = explode(',', $manifiesto['total_cantidad_concatenadas'] ?? '');
 
-        foreach ($data as $key => $value) {
-
-            // Dividir los folios, descripciones y pesos_folios en arrays
-            $folio_ids = explode(',', $value->folio_ids);
-            $folios = explode(',', $value->folios);
-            $descripciones = explode(',', $value->descripciones);
-            $pesos_folios = explode(',', $value->pesos_folios);
-
-            // Crear un array para almacenar los datos de este manifiesto
             $rowData = array(
-                $value->manifiesto_id,
-                $value->nummanifiesto,
-                $value->unidad_numero,
-                $value->destinofinal_nombre,
-                $value->peso_total
+                $manifiesto['manifiesto_id'],
+                $manifiesto['nummanifiesto'],
+                $manifiesto['fecha'],
+                $manifiesto['unidad_id'],
+                $manifiesto['unidad_numero'],
+                $manifiesto['destinofinal_id'],
+                $manifiesto['destinofinal_nombre']
             );
 
-            // Añadir 10 sets de columnas de folio (folio_id, folio, descripción, peso)
-            for ($i = 0; $i < 10; $i++) {
-                if (isset($folio_ids[$i])) {
-                    $rowData[] = $folio_ids[$i];
-                    $rowData[] = $folios[$i];
-                    $rowData[] = $descripciones[$i];
-                    $rowData[] = $pesos_folios[$i];
-                } else {
-                    $rowData[] = '';  // folio_id
-                    $rowData[] = '';  // folio
-                    $rowData[] = '';  // descripción
-                    $rowData[] = '';  // peso
-                }
+            foreach ($folio_ids as $i => $folio_id) {
+                $rowData[] = $folio_id;
+                $rowData[] = $productos[$i] ?? '';
+                $rowData[] = $descripciones[$i] ?? '';
+                $rowData[] = $medidas_ids[$i] ?? '';
+                $rowData[] = $medidas_nombres[$i] ?? '';
+                $rowData[] = $total_cantidad_concatenadas[$i] ?? '';
             }
 
-            // Suponiendo que tienes la capacidad de actualizar
-            $rowData[] = '<a href="' . base_url('manifiestos/update/' . $value->manifiesto_id) . '" class="btn btn-default"><i class="fa fa-pencil"></i></a>';
+            $button = '';
+            if (in_array('updateVigilancia', $this->permission)) {
+                $button .= '<a href="' . base_url('manifiestos/update/' . $manifiesto['manifiesto_id']) . '" class="btn btn-default"><i class="fa fa-pencil"></i></a>';
+            }
+            $rowData[] = $button;  // Agrega el botón a la última columna
 
-            $result['data'][$key] = $rowData;
+            $result['data'][] = $rowData;
         }
 
         echo json_encode($result);
@@ -133,23 +131,11 @@ class Manifiestos extends Admin_Controller
         }
     }
 
-
     public function folios($create, $folios_manifiestos)
     {
-        $foliosarray = array();
-
-        for ($i = 0; $i < count($folios_manifiestos); $i += 3) {
-            $foliosarray[] = array(
-                'tipoProducto_id' => $folios_manifiestos[$i],
-                'descripcion' => $folios_manifiestos[$i + 1],
-                'cantidad' => $folios_manifiestos[$i + 2],
-                'medidas_id' => $folios_manifiestos[$i + 3]
-            );
-        }
-        $folios_ids = $this->model_manifiestos->insertarFolios($foliosarray);
+        $folios_ids = $this->model_manifiestos->insertarFolios($folios_manifiestos);
 
         if ($folios_ids) {
-
             $manifiestofolio = array();
 
             foreach ($folios_ids as $folio_id) {
@@ -162,7 +148,6 @@ class Manifiestos extends Admin_Controller
             $this->model_manifiestos->insertarFolioManifiesto($manifiestofolio);
         }
     }
-
 
     public function update($manifiesto_id)
     {

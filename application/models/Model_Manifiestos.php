@@ -7,33 +7,21 @@ class Model_Manifiestos extends CI_Model
 		parent::__construct();
 	}
 
-	public function getManifiestosData($manifiesto_id = null)
+	public function getManifiestosData($param1 = null, $param2 = null)
 	{
-		$sucursal_id = $this->session->userdata('sucursal_id');
-
-		$this->db->select('manifiestos.manifiesto_id, manifiestos.nummanifiesto, unidades.unidad_id, unidades.unidad_numero, unidades.unidad_placas, destinofinal.destinofinal_id, destinofinal.destinofinal_nombre, manifiestos.fecha, manifiestos.peso_total,
-		GROUP_CONCAT(DISTINCT folios.folio_id) as folio_ids, GROUP_CONCAT(DISTINCT folios.folio) as folios,
-		GROUP_CONCAT(DISTINCT folios.descripcion) as descripciones, GROUP_CONCAT(DISTINCT folios.peso_folio) as pesos_folios');
-
-		$this->db->from('manifiestos');
-		$this->db->join('manifiestos_folios', 'manifiestos.manifiesto_id = manifiestos_folios.manifiesto_id', 'inner');
-		$this->db->join('destinofinal', 'manifiestos.destinofinal_id = destinofinal.destinofinal_id', 'inner');
-		$this->db->join('unidades', 'manifiestos.unidad_id = unidades.unidad_id', 'inner');
-		$this->db->join('folios', 'manifiestos_folios.folio_id = folios.folio_id', 'inner');
-		$this->db->where('manifiestos.sucursal_id', $sucursal_id);
-
-		// Si se proporcionó un ID de manifiesto, añade una cláusula WHERE adicional
-		if ($manifiesto_id != null) {
-			$this->db->where('manifiestos.manifiesto_id', $manifiesto_id);
+	
+		$result = $this->db->query('CALL fetch_manifiestos_data(?, ?)', array($param1, $param2));
+	
+		if ($param2 !== null) {
+			$row_array = $result->row_array();
+			$this->db->close();
+			return $row_array;
+		} else {
+			$result_array = $result->result_array();
+			$this->db->close();
+			return $result_array;
 		}
-
-		$this->db->group_by('manifiestos.manifiesto_id');
-
-		$query = $this->db->get();
-
-		return $query->result();
 	}
-
 
 	public function create($data)
 	{
@@ -169,16 +157,16 @@ class Model_Manifiestos extends CI_Model
 		$sucursal_id = $this->session->userdata('sucursal_id');
 
 		$this->db->select('tipo_producto.tipoProducto_id, categorias_producto.categoriaProducto_id, categorias_producto.categoriaProducto_nombre, tipo_producto.tipoProducto_nombre, tipo_producto.estatus');
-        $this->db->from('tipo_producto');
-        $this->db->join('categorias_producto', 'tipo_producto.categoriaProducto_id = categorias_producto.categoriaProducto_id', 'left');
-        $this->db->join('sucursales', 'sucursales.sucursal_id = categorias_producto.sucursal_id', 'left');
-        $this->db->join('empresas', 'empresas.empresa_id = sucursales.empresa_id', 'left');
+		$this->db->from('tipo_producto');
+		$this->db->join('categorias_producto', 'tipo_producto.categoriaProducto_id = categorias_producto.categoriaProducto_id', 'left');
+		$this->db->join('sucursales', 'sucursales.sucursal_id = categorias_producto.sucursal_id', 'left');
+		$this->db->join('empresas', 'empresas.empresa_id = sucursales.empresa_id', 'left');
 		$this->db->like('tipo_producto.tipoProducto_nombre', $term);
-        $this->db->where('tipo_producto.estatus', 0);
-        $this->db->where('categorias_producto.sucursal_id', $sucursal_id);
-        
-        $query = $this->db->get();
-        return $query->result();
+		$this->db->where('tipo_producto.estatus', 0);
+		$this->db->where('categorias_producto.sucursal_id', $sucursal_id);
+
+		$query = $this->db->get();
+		return $query->result();
 	}
 
 	public function getMedidasData()
@@ -192,5 +180,4 @@ class Model_Manifiestos extends CI_Model
 
 		return $result;
 	}
-
 }

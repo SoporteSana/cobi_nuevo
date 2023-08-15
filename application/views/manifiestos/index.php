@@ -42,62 +42,12 @@
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">unidades fuera</h3>
+            <h3 class="box-title">Manifiestos</h3>
           </div>
 
           <div class="box-body">
             <table id="manageTable" class="display responsive nowrap" style="width:100%">
               <thead>
-                <tr>
-                  <th>id</th>
-                  <th># manifiesto</th>
-                  <th>unidad</th>
-                  <th>destino final</th>
-                  <th>peso total</th>
-                  <th>id folio 1</th>
-                  <th># folio</th>
-                  <th>descripcion</th>
-                  <th>peso folio</th>
-                  <th>id folio 2</th>
-                  <th># folio</th>
-                  <th>descripcion</th>
-                  <th>peso folio</th>
-                  <th>id folio 3</th>
-                  <th># folio</th>
-                  <th>descripcion</th>
-                  <th>peso folio</th>
-                  <th>id folio 4</th>
-                  <th># folio</th>
-                  <th>descripcion</th>
-                  <th>peso folio</th>
-                  <th>id folio 5</th>
-                  <th># folio</th>
-                  <th>descripcion</th>
-                  <th>peso folio</th>
-                  <th>id folio 6</th>
-                  <th># folio</th>
-                  <th>descripcion</th>
-                  <th>peso folio</th>
-                  <th>id folio 7</th>
-                  <th># folio</th>
-                  <th>descripcion</th>
-                  <th>peso folio</th>
-                  <th>id folio 8</th>
-                  <th># folio</th>
-                  <th>descripcion</th>
-                  <th>peso folio</th>
-                  <th>id folio 9</th>
-                  <th># folio</th>
-                  <th>descripcion</th>
-                  <th>peso folio</th>
-                  <th>id folio 10</th>
-                  <th># folio</th>
-                  <th>descripcion</th>
-                  <th>peso folio</th>
-                  <?php if (in_array('updateVigilancia', $user_permission)) : ?>
-                    <th>Finalizar</th>
-                  <?php endif; ?>
-                </tr>
               </thead>
 
             </table>
@@ -115,47 +65,94 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
+    $.ajax({
+      url: 'fetchManifiestosData',
+      method: 'GET',
+      dataType: 'json',
+      success: function(response) {
+        if (response && Array.isArray(response['data'])) {
+          var maxProducts = 0;
+          response['data'].forEach(function(manifiesto) {
+            var numberOfProducts = (manifiesto.length - 5 - 1) / 6;
+            if (numberOfProducts > maxProducts) {
+              maxProducts = numberOfProducts;
+            }
+          });
 
-    $("#manifiestosNav").addClass('active');
+          // Define las columnas para DataTables
+          var columns = [{
+              title: "ID"
+            },
+            {
+              title: "Codigo"
+            },
+            {
+              title: "Fecha"
+            },
+            {
+              title: "Factura"
+            },
+            {
+              title: "Remision"
+            },
+            {
+              title: "Proveedor ID"
+            }
+            // ... agregar todas las otras columnas fijas aquí
+          ];
 
-    var table = $('#manageTable').DataTable({
-      'ajax': 'fetchManifiestosData',
-      'order': [],
-      'createdRow': function(row, data, dataIndex) {
+          for (var i = 0; i < maxProducts; i++) {
+            columns.push({
+              title: "Producto " + (i + 1)
+            });
+            columns.push({
+              title: "Descripción " + (i + 1)
+            });
+            columns.push({
+              title: "Cantidad " + (i + 1)
+            });
+            columns.push({
+              title: "Unidad " + (i + 1)
+            });
+            columns.push({
+              title: "Peso " + (i + 1)
+            });
+            columns.push({
+              title: "Acciones " + (i + 1)
+            });
+          }
 
+          // Llena el encabezado de la tabla
+          var thead = $("#manageTable thead");
+          var row = $("<tr>");
+          columns.forEach(function(col) {
+            row.append($("<th>").text(col.title));
+          });
+          thead.append(row);
+
+          // Asegurarse de que cada fila tiene el mismo número de columnas
+          response['data'].forEach(function(manifiesto, index) {
+            while (manifiesto.length < columns.length) {
+              manifiesto.push("");
+            }
+            response['data'][index] = manifiesto;
+          });
+
+          // Inicializa DataTables
+          $('#manageTable').DataTable({
+            data: response['data'],
+            columns: columns
+          });
+
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.error('Error en la llamada AJAX:', textStatus, errorThrown);
       }
     });
-
-    $('#exportar_excel').click(function() {
-      exportarExcel();
-    });
   });
-
-  function exportarExcel() {
-    var table = $('#manageTable').DataTable();
-    var data = table.data().toArray();
-
-    var header = [];
-    table.columns().every(function() {
-      header.push(this.header().textContent.trim());
-    });
-
-    data.unshift(header);
-
-    var sheet = XLSX.utils.json_to_sheet(data, {
-      skipHeader: true
-    });
-    var workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, sheet, 'Hoja 1');
-
-    var nombreArchivo = 'exportacion.xlsx';
-    XLSX.writeFile(workbook, nombreArchivo);
-  }
-
-  setInterval(function() {
-    location.reload();
-  }, 60000); // 60000 = 1 minuto en milisegundos
 </script>
+
 
 <style type="text/css">
   #loader {
