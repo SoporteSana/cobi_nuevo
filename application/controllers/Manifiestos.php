@@ -40,36 +40,55 @@ class Manifiestos extends Admin_Controller
             $medidas_nombres = explode(',', $manifiesto['medidas_nombres'] ?? '');
             $total_cantidad_concatenadas = explode(',', $manifiesto['total_cantidad_concatenadas'] ?? '');
 
-            $rowData = array(
-                $manifiesto['manifiesto_id'],
-                $manifiesto['nummanifiesto'],
-                $manifiesto['fecha'],
-                $manifiesto['unidad_id'],
-                $manifiesto['unidad_numero'],
-                $manifiesto['destinofinal_id'],
-                $manifiesto['destinofinal_nombre']
+            $objData = array(
+                'manifiesto_id' => $manifiesto['manifiesto_id'],
+                'nummanifiesto' => $manifiesto['nummanifiesto'],
+                'fecha' => $manifiesto['fecha'],
+                'unidad_numero' => $manifiesto['unidad_numero'],
+                'destinofinal_nombre' => $manifiesto['destinofinal_nombre'],
+                'productos' => array()
             );
 
             foreach ($folio_ids as $i => $folio_id) {
-                $rowData[] = $folio_id;
-                $rowData[] = $productos[$i] ?? '';
-                $rowData[] = $descripciones[$i] ?? '';
-                $rowData[] = $medidas_ids[$i] ?? '';
-                $rowData[] = $medidas_nombres[$i] ?? '';
-                $rowData[] = $total_cantidad_concatenadas[$i] ?? '';
+                $producto = array(
+                    'folio_id' => $folio_id,
+                    'producto' => $productos[$i] ?? '',
+                    'descripcion' => $descripciones[$i] ?? '',
+                    'medida_id' => $medidas_ids[$i] ?? '',
+                    'medida_nombre' => $medidas_nombres[$i] ?? '',
+                    'total_cantidad_concatenada' => $total_cantidad_concatenadas[$i] ?? ''
+                );
+                $objData['productos'][] = $producto;
             }
 
-            $button = '';
             if (in_array('updateVigilancia', $this->permission)) {
-                $button .= '<a href="' . base_url('manifiestos/update/' . $manifiesto['manifiesto_id']) . '" class="btn btn-default"><i class="fa fa-pencil"></i></a>';
+                $objData['button'] = '<a href="' . base_url('manifiestos/update/' . $manifiesto['manifiesto_id']) . '" class="btn btn-default"><i class="fa fa-pencil"></i></a>';
             }
-            $rowData[] = $button;  // Agrega el botón a la última columna
 
-            $result['data'][] = $rowData;
+            $result['data'][] = $objData;
         }
 
         echo json_encode($result);
     }
+
+    public function showProducts($manifiesto_id)
+    {
+       
+        $result = $this->model_manifiestos->getProducts($manifiesto_id);
+
+       
+        echo json_encode($result);
+    }
+
+    public function showProductopesos($manifiesto_id)
+    {
+       
+        $result = $this->model_manifiestos->getpesostotales($manifiesto_id);
+
+       
+        echo json_encode($result);
+    }
+
 
     public function create()
     {

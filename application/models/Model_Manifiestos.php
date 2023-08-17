@@ -9,9 +9,9 @@ class Model_Manifiestos extends CI_Model
 
 	public function getManifiestosData($param1 = null, $param2 = null)
 	{
-	
+
 		$result = $this->db->query('CALL fetch_manifiestos_data(?, ?)', array($param1, $param2));
-	
+
 		if ($param2 !== null) {
 			$row_array = $result->row_array();
 			$this->db->close();
@@ -103,6 +103,43 @@ class Model_Manifiestos extends CI_Model
 				}
 			}
 		}
+	}
+
+	public function getProducts($id)
+	{
+		$this->db->select('folios.folio_id, categorias_producto.categoriaProducto_nombre, tipo_producto.tipoProducto_nombre, folios.descripcion, medidas.medida_nombre, , folios.cantidad');
+		$this->db->from('manifiestos');
+		$this->db->join('manifiestos_folios', 'manifiestos.manifiesto_id = manifiestos_folios.manifiesto_id');
+		$this->db->join('folios', 'manifiestos_folios.folio_id = folios.folio_id');
+		$this->db->join('tipo_producto', 'tipo_producto.tipoProducto_id = folios.tipoProducto_id');
+		$this->db->join('categorias_producto', 'categorias_producto.categoriaProducto_id = tipo_producto.categoriaProducto_id');
+		$this->db->join('medidas', 'medidas.medidas_id = folios.medidas_id');
+		$this->db->where('manifiestos.manifiesto_id', $id);
+
+		$query = $this->db->get();
+
+		$results = $query->result_array();
+
+		return $results;
+	}
+
+	public function getpesostotales($idmanifiesto)
+	{
+		$this->db->select('medidas.medida_nombre AS "Medidas nombres", SUM(folios.cantidad) AS "Peso Total"');
+		$this->db->from('manifiestos');
+		$this->db->join('manifiestos_folios', 'manifiestos.manifiesto_id = manifiestos_folios.manifiesto_id');
+		$this->db->join('folios', 'manifiestos_folios.folio_id = folios.folio_id');
+		$this->db->join('tipo_producto', 'tipo_producto.tipoProducto_id = folios.tipoProducto_id');
+		$this->db->join('categorias_producto', 'categorias_producto.categoriaProducto_id = tipo_producto.categoriaProducto_id');
+		$this->db->join('medidas', 'medidas.medidas_id = folios.medidas_id');
+		$this->db->where('manifiestos.manifiesto_id', $idmanifiesto);
+		$this->db->group_by('medidas.medida_nombre');
+
+		$query = $this->db->get();
+
+		$results = $query->result_array();
+
+		return $results;
 	}
 
 	function searchUnidad($postData)
