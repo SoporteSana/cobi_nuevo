@@ -176,10 +176,10 @@
                     </div>
 
                     <div class="form-group">
-                      <label for="select"># de tiros</label>
+                      <label for="select"># Manifiestos</label>
                       <br>
                       <select id="select" name="select" onchange="handleSelect()" style="width:300px">
-                        <option value="0">Sin Tiros</option>
+                        <option value="0">Sin Manifiestos</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -194,7 +194,7 @@
                     </div>
 
                     <div class="Tiro">
-                      <label for="Tiro_1">Tiro 1</label>
+                      <label for="Tiro_1">Manifiesto 1</label>
                       <input type="text" class="form-control" id="Tiro_1" name="Tiro_1" placeholder="nombre" autocomplete="off" />
                     </div>
 
@@ -208,7 +208,7 @@
                     </div>
 
                     <div class="Tiro">
-                      <label for="Tiro_2">Tiro 2</label>
+                      <label for="Tiro_2">Manifiesto 2</label>
                       <input type="text" class="form-control" id="Tiro_2" name="Tiro_2" placeholder="nombre" autocomplete="off" />
                     </div>
 
@@ -222,7 +222,7 @@
                     </div>
 
                     <div class="Tiro">
-                      <label for="Tiro_3">Tiro 3</label>
+                      <label for="Tiro_3">Manifiesto 3</label>
                       <input type="text" class="form-control" id="Tiro_3" name="Tiro_3" placeholder="nombre" autocomplete="off" />
                     </div>
 
@@ -236,7 +236,7 @@
                     </div>
 
                     <div class="Tiro">
-                      <label for="Tiro_4">Tiro 4</label>
+                      <label for="Tiro_4">Manifiesto 4</label>
                       <input type="text" class="form-control" id="Tiro_4" name="Tiro_4" placeholder="nombre" autocomplete="off" />
                     </div>
 
@@ -250,7 +250,7 @@
                     </div>
 
                     <div class="Tiro">
-                      <label for="Tiro_5">Tiro 5</label>
+                      <label for="Tiro_5">Manifiesto 5</label>
                       <input type="text" class="form-control" id="Tiro_5" name="Tiro_5" placeholder="nombre" autocomplete="off" />
                     </div>
 
@@ -264,7 +264,7 @@
                     </div>
 
                     <div class="Tiro">
-                      <label for="Tiro_6">Tiro 6</label>
+                      <label for="Tiro_6">Manifiesto 6</label>
                       <input type="text" class="form-control" id="Tiro_6" name="Tiro_6" placeholder="nombre" autocomplete="off" />
                     </div>
 
@@ -278,7 +278,7 @@
                     </div>
 
                     <div class="Tiro">
-                      <label for="Tiro_7">Tiro 7</label>
+                      <label for="Tiro_7">Manifiesto 7</label>
                       <input type="text" class="form-control" id="Tiro_7" name="Tiro_7" placeholder="nombre" autocomplete="off" />
                     </div>
 
@@ -292,7 +292,7 @@
                     </div>
 
                     <div class="Tiro">
-                      <label for="Tiro_8">Tiro 8</label>
+                      <label for="Tiro_8">Manifiesto 8</label>
                       <input type="text" class="form-control" id="Tiro_8" name="Tiro_8" placeholder="nombre" autocomplete="off" />
                     </div>
 
@@ -306,7 +306,7 @@
                     </div>
 
                     <div class="Tiro">
-                      <label for="Tiro_9">Tiro 9</label>
+                      <label for="Tiro_9">Manifiesto 9</label>
                       <input type="text" class="form-control" id="Tiro_9" name="Tiro_9" placeholder="nombre" autocomplete="off" />
                     </div>
 
@@ -320,7 +320,7 @@
                     </div>
 
                     <div class="Tiro">
-                      <label for="Tiro_10">Tiro 10</label>
+                      <label for="Tiro_10">Manifiesto 10</label>
                       <input type="text" class="form-control" id="Tiro_10" name="Tiro_10" placeholder="nombre" autocomplete="off" />
                     </div>
 
@@ -331,11 +331,6 @@
 
                     <div class="peso-input">
                       <input type="hidden" name="peso10" id="peso10">
-                    </div>
-
-                    <div class="form-group">
-                      <label for="totalpeso">Total de pesos</label>
-                      <input readonly type="number" class="form-control" id="totalpeso" name="totalpeso" placeholder="totalpeso" autocomplete="off" />
                     </div>
 
                     <div class="form-group">
@@ -440,9 +435,6 @@
       },
       focus: function(event, ui) {
         $("#Tiro_1").val(ui.item.label);
-        $('#peso1')
-          .val(ui.item.peso)
-          .trigger("input");
         $("#detinofinal1").val(ui.item.destino);
         return false;
       },

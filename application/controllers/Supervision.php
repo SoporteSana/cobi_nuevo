@@ -80,71 +80,9 @@ class Supervision extends Admin_Controller
         $this->form_validation->set_rules('Litroscargados', 'Litroscargados', 'trim|required');
         $this->form_validation->set_rules('observaciones', 'observaciones', 'trim|required');
 
-        if ($this->input->post('select') == 1) {
-            $this->form_validation->set_rules('Tiro1_id', 'Tiro 1', 'trim|required');
-        } else if ($this->input->post('select') == 2) {
-            $this->form_validation->set_rules('Tiro1_id', 'Tiro 1', 'trim|required');
-            $this->form_validation->set_rules('Tiro2_id', 'Tiro 2', 'trim|required');
-        } else if ($this->input->post('select') == 3) {
-            $this->form_validation->set_rules('Tiro1_id', 'Tiro 1', 'trim|required');
-            $this->form_validation->set_rules('Tiro2_id', 'Tiro 2', 'trim|required');
-            $this->form_validation->set_rules('Tiro3_id', 'Tiro 3', 'trim|required');
-        } else if ($this->input->post('select') == 4) {
-            $this->form_validation->set_rules('Tiro1_id', 'Tiro 1', 'trim|required');
-            $this->form_validation->set_rules('Tiro2_id', 'Tiro 2', 'trim|required');
-            $this->form_validation->set_rules('Tiro3_id', 'Tiro 3', 'trim|required');
-            $this->form_validation->set_rules('Tiro4_id', 'Tiro 4', 'trim|required');
-        } else if ($this->input->post('select') == 5) {
-            $this->form_validation->set_rules('Tiro1_id', 'Tiro 1', 'trim|required');
-            $this->form_validation->set_rules('Tiro2_id', 'Tiro 2', 'trim|required');
-            $this->form_validation->set_rules('Tiro3_id', 'Tiro 3', 'trim|required');
-            $this->form_validation->set_rules('Tiro4_id', 'Tiro 4', 'trim|required');
-            $this->form_validation->set_rules('Tiro5_id', 'Tiro 5', 'trim|required');
-        } else if ($this->input->post('select') == 6) {
-            $this->form_validation->set_rules('Tiro1_id', 'Tiro 1', 'trim|required');
-            $this->form_validation->set_rules('Tiro2_id', 'Tiro 2', 'trim|required');
-            $this->form_validation->set_rules('Tiro3_id', 'Tiro 3', 'trim|required');
-            $this->form_validation->set_rules('Tiro4_id', 'Tiro 4', 'trim|required');
-            $this->form_validation->set_rules('Tiro5_id', 'Tiro 5', 'trim|required');
-            $this->form_validation->set_rules('Tiro6_id', 'Tiro 6', 'trim|required');
-        } else if ($this->input->post('select') == 7) {
-            $this->form_validation->set_rules('Tiro1_id', 'Tiro 1', 'trim|required');
-            $this->form_validation->set_rules('Tiro2_id', 'Tiro 2', 'trim|required');
-            $this->form_validation->set_rules('Tiro3_id', 'Tiro 3', 'trim|required');
-            $this->form_validation->set_rules('Tiro4_id', 'Tiro 4', 'trim|required');
-            $this->form_validation->set_rules('Tiro5_id', 'Tiro 5', 'trim|required');
-            $this->form_validation->set_rules('Tiro6_id', 'Tiro 6', 'trim|required');
-            $this->form_validation->set_rules('Tiro7_id', 'Tiro 7', 'trim|required');
-        } else if ($this->input->post('select') == 8) {
-            $this->form_validation->set_rules('Tiro1_id', 'Tiro 1', 'trim|required');
-            $this->form_validation->set_rules('Tiro2_id', 'Tiro 2', 'trim|required');
-            $this->form_validation->set_rules('Tiro3_id', 'Tiro 3', 'trim|required');
-            $this->form_validation->set_rules('Tiro4_id', 'Tiro 4', 'trim|required');
-            $this->form_validation->set_rules('Tiro5_id', 'Tiro 5', 'trim|required');
-            $this->form_validation->set_rules('Tiro6_id', 'Tiro 6', 'trim|required');
-            $this->form_validation->set_rules('Tiro7_id', 'Tiro 7', 'trim|required');
-            $this->form_validation->set_rules('Tiro8_id', 'Tiro 8', 'trim|required');
-        } else if ($this->input->post('select') == 9) {
-            $this->form_validation->set_rules('Tiro1_id', 'Tiro 1', 'trim|required');
-            $this->form_validation->set_rules('Tiro2_id', 'Tiro 2', 'trim|required');
-            $this->form_validation->set_rules('Tiro3_id', 'Tiro 3', 'trim|required');
-            $this->form_validation->set_rules('Tiro4_id', 'Tiro 4', 'trim|required');
-            $this->form_validation->set_rules('Tiro5_id', 'Tiro 5', 'trim|required');
-            $this->form_validation->set_rules('Tiro6_id', 'Tiro 6', 'trim|required');
-            $this->form_validation->set_rules('Tiro7_id', 'Tiro 7', 'trim|required');
-            $this->form_validation->set_rules('Tiro8_id', 'Tiro 8', 'trim|required');
-            $this->form_validation->set_rules('Tiro9_id', 'Tiro 9', 'trim|required');
-        } else if ($this->input->post('select') == 10) {
-            $this->form_validation->set_rules('Tiro1_id', 'Tiro 1', 'trim|required');
-            $this->form_validation->set_rules('Tiro2_id', 'Tiro 2', 'trim|required');
-            $this->form_validation->set_rules('Tiro3_id', 'Tiro 3', 'trim|required');
-            $this->form_validation->set_rules('Tiro4_id', 'Tiro 4', 'trim|required');
-            $this->form_validation->set_rules('Tiro5_id', 'Tiro 5', 'trim|required');
-            $this->form_validation->set_rules('Tiro6_id', 'Tiro 6', 'trim|required');
-            $this->form_validation->set_rules('Tiro7_id', 'Tiro 7', 'trim|required');
-            $this->form_validation->set_rules('Tiro8_id', 'Tiro 8', 'trim|required');
-            $this->form_validation->set_rules('Tiro9_id', 'Tiro 9', 'trim|required');
-            $this->form_validation->set_rules('Tiro10_id', 'Tiro 10', 'trim|required');
+        $selectValue = $this->input->post('select');
+        for ($i = 1; $i <= $selectValue; $i++) {
+            $this->form_validation->set_rules("Tiro{$i}_id", "Tiro {$i}", 'trim|required');
         }
 
         if ($this->form_validation->run() == TRUE) {
@@ -162,60 +100,22 @@ class Supervision extends Admin_Controller
                 'updated_at' => date('Y-m-d h:i:s')
             );
 
-            $tirosid = array(
-                $this->input->post('Tiro1_id'),
-                $this->input->post('Tiro2_id'),
-                $this->input->post('Tiro3_id'),
-                $this->input->post('Tiro4_id'),
-                $this->input->post('Tiro5_id'),
-                $this->input->post('Tiro6_id'),
-                $this->input->post('Tiro7_id'),
-                $this->input->post('Tiro8_id'),
-                $this->input->post('Tiro9_id'),
-                $this->input->post('Tiro10_id')
-            );
-
-            // Detectar duplicados
-            $count = array_count_values($tirosid);
-            $duplicates = array();
-
-            foreach ($count as $key => $value) {
-                if ($value > 1) {
-                    $duplicates[] = $key;
-                }
+            $tirosid = array();
+            for ($i = 1; $i <= 10; $i++) {
+                $tirosid[] = $this->input->post("Tiro{$i}_id");
             }
 
-            // Si hay duplicados, los reemplazamos
-            if (!empty($duplicates)) {
-                foreach ($duplicates as $duplicateValue) {
-                    foreach ($tirosid as $index => $value) {
-                        if ($value == $duplicateValue) {
-                            $tirosid[$index] = 0;
-                        }
-                    }
-                }
-            }
+            $tirosid = array_filter($tirosid, function($value) { return !is_null($value) && $value !== ''; });
 
-            // Verificamos de nuevo si hay duplicados después del reemplazo
-            $newCount = array_count_values($tirosid);
-            $newDuplicates = array();
-
-            foreach ($newCount as $key => $value) {
-                if ($value > 1 && $key != 0) { // Ignoramos el 0, ya que ahora es nuestro valor de reemplazo
-                    $newDuplicates[] = $key;
-                }
-            }
-
-            // Ahora decidimos qué hacer según si hay nuevos duplicados o no
-            if (empty($newDuplicates)) {
-                $tiros = $tirosid;
+            $duplicates = array_diff_assoc($tirosid, array_unique($tirosid));
+            if (count($duplicates) > 0) {
+                $this->session->set_flashdata('error', 'Tickets duplicados detectados');
+                redirect('supervision/update/' . $registro_id, 'refresh');
+            } else {
                 $this->model_supervicion->update($data, $registro_id);
-                $this->tiros($registro_id, $tiros);
+                $this->tiros($registro_id, $tirosid);
                 $this->session->set_flashdata('success', 'Actualizado con éxito');
                 redirect('supervision/', 'refresh');
-            } else {
-                $this->session->set_flashdata('error', 'Tickets duplicados después de la corrección');
-                redirect('supervision/update/' . $registro_id, 'refresh');
             }
         } else {
             $user_id = $this->session->userdata('usuario_id');
@@ -257,9 +157,8 @@ class Supervision extends Admin_Controller
         $data = array();
         foreach ($result as $row) {
             $data[] = array(
-                'label' => 'Folio: ' . $row->nummanifiesto . ' | Peso: ' . $row->peso_total,
+                'label' => 'Folio: ' . $row->nummanifiesto,
                 'value' => $row->manifiesto_id,
-                'peso' => $row->peso_total,
                 'destino' => $row->destinofinal_nombre
 
             );

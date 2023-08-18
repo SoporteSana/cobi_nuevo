@@ -2,7 +2,7 @@
 
   <section class="content-header">
     <h1>
-      Actualizar Manifiestos
+      Manifiestos
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -40,105 +40,201 @@
               <div class="col-md-2">
               </div>
               <div class="col-md-8">
-                <form id="create" role="form" action="<?php base_url('manifiestos/update') ?>" method="post" id="createForm" style=" display:inline!important;">
+                <form id="createForm" role="form" action="<?php echo base_url('manifiestos/create') ?>" method="post" style=" display:inline!important;">
                   <div class="box-body">
 
                     <div class="form-group">
                       <label for="nummanifiesto"># Manifiesto</label>
-                      <input type="text" class="form-control" id="nummanifiesto" name="nummanifiesto" placeholder="numero manifiesto" value="<?php echo $registro_data[0]->nummanifiesto; ?>" />
+                      <input type="text" class="form-control" id="nummanifiesto" name="nummanifiesto" placeholder="numero manifiesto" autocomplete="off" />
                       <div class="text-danger"><?php echo form_error('nummanifiesto'); ?></div>
                     </div>
 
                     <div class="form-group">
                       <label for="numeroeconomico">Unidad</label>
-                      <input type="text" class="form-control" id="numeroeconomico" name="numeroeconomico" placeholder="numero de unidad" value="<?php echo $registro_data[0]->unidad_numero; ?>" />
-                      <div class="text-danger"><?php echo form_error('numeroeconomico_id'); ?></div>
+                      <input type="text" class="form-control" id="numeroeconomico" name="numeroeconomico" placeholder="numero de unidad" autocomplete="off" />
+                      <div class="text-danger"><?php echo form_error('numeroeconomico'); ?></div>
                     </div>
 
                     <div class="form-group">
-                      <input type="hidden" name="numeroeconomico_id" id="numeroeconomico_id" value="<?php echo $registro_data[0]->unidad_id; ?>">
+                      <input type="hidden" name="numeroeconomico_id" id="numeroeconomico_id">
                     </div>
 
                     <div class="form-group">
                       <label for="placas">Placas</label>
-                      <input readonly type="text" class="form-control" id="placas" name="placas" placeholder="placas" value="<?php echo $registro_data[0]->unidad_placas; ?>">
+                      <input readonly type="text" class="form-control" id="placas" name="placas" placeholder="placas" autocomplete="off">
                     </div>
 
                     <div class="form-group">
                       <label for="fecha">Fecha:</label>
-                      <input type="text" class="form-control datetimepicker-input" id="fecha" name="fecha" data-toggle="datetimepicker" data-target="#horasalida" value="<?php echo $registro_data[0]->fecha; ?>" />
+                      <input type="text" class="form-control datetimepicker-input" id="fecha" name="fecha" data-toggle="datetimepicker" data-target="#horasalida" value="<?php echo set_value('hora_salida', $hora_salida); ?>" />
                       <div class="text-danger"><?php echo form_error('fecha'); ?></div>
                     </div>
 
                     <div class="form-group">
                       <label for="destino">Destino</label>
-                      <input type="text" class="form-control" id="destino" name="destino" placeholder="destino" value="<?php echo $registro_data[0]->destinofinal_nombre; ?>">
-                      <div class="text-danger"><?php echo form_error('destino_id'); ?></div>
+                      <input type="text" class="form-control" id="destino" name="destino" placeholder="destino" autocomplete="off">
                     </div>
                     <div class="form-group">
-                      <input type="hidden" name="destino_id" id="destino_id" value="<?php echo $registro_data[0]->destinofinal_id; ?>">
+                      <input type="hidden" name="destino_id" id="destino_id" value='0'>
                     </div>
 
-                    <div class="form-group">
-                      <label for="select">Folios</label>
-                      <br>
-                      <select id="select" name="select" onchange="handleSelect()" style="width:300px">
-                        <option value="0" <?php echo (count($folios) == 0) ? 'selected' : ''; ?>>Sin Folios</option>
-                        <?php for ($i = 1; $i <= 10; $i++) : ?>
-                          <option value="<?php echo $i; ?>" <?php echo (count($folios) == $i) ? 'selected' : ''; ?>><?php echo $i; ?></option>
-                        <?php endfor; ?>
-                      </select>
-                    </div>
 
-                    <?php for ($i = 0; $i < 10; $i++) : ?>
-                      <div class="group-folio" data-folio-index="<?php echo $i + 1; ?>" style="display: <?php echo $i < count($folios) ? 'block' : 'none'; ?>;">
-                        <input type="hidden" id="FolioId_<?php echo ($i + 1); ?>" name="FolioId_<?php echo ($i + 1); ?>" value="<?php echo isset($folios_ids[$i]) ? $folios_ids[$i] : ""; ?>" />
-                        <div class="Folio">
-                          <label for="Folio_<?php echo ($i + 1); ?>">Folio <?php echo ($i + 1); ?></label>
-                          <input type="text" class="form-control" id="Folio_<?php echo ($i + 1); ?>" name="Folio_<?php echo ($i + 1); ?>" placeholder="numero folio" value="<?php echo isset($folios[$i]) ? $folios[$i] : ""; ?>" />
-                        </div>
-                        <div class="Folio">
-                          <label for="Descripcion_<?php echo ($i + 1); ?>">Descripcion</label>
-                          <input type="text" class="form-control" id="Descripcion_<?php echo ($i + 1); ?>" name="Descripcion_<?php echo ($i + 1); ?>" placeholder="Descripcion" value="<?php echo isset($descripciones[$i]) ? $descripciones[$i] : ""; ?>" autocomplete="off" />
-                        </div>
-                        <div class="Folio">
-                          <label for="Peso_<?php echo ($i + 1); ?>">Peso</label>
-                          <input type="text" class="form-control" id="Peso_<?php echo ($i + 1); ?>" name="Peso_<?php echo ($i + 1); ?>" placeholder="peso" value="<?php echo isset($pesos_folios[$i]) ? $pesos_folios[$i] : ""; ?>" autocomplete="off" />
-                        </div>
-                      </div>
-                    <?php endfor; ?>
-
-                    <div class="form-group">
-                      <label for="pesototal">Peso Total</label>
-                      <input type="number" class="form-control" id="pesototal" name="pesototal" placeholder="peso total" value="<?php echo $registro_data[0]->peso_total; ?>" />
-                      <div class="text-danger"><?php echo form_error('pesototal'); ?></div>
-                    </div>
-
-                    <div class="box-footer">
-                      <button type="submit" class="btn btn-primary" id="submitButton" disabled>Guardar</button>
-                      <a href="<?php echo base_url('manifiestos/') ?>" class="btn btn-warning">Regresar</a>
-                    </div>
-                </form>
-              </div>
-              <div class="col-md-2">
+                  </div>
+                  <!-- Botón para agregar a la tabla -->
+                  <button type="button" id="addResiduo" class="btn btn-info">Añadir Residuo</button>
+                  <!-- Tabla/Listado de residuos agregados -->
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Categoría</th>
+                        <th>Residuo</th>
+                        <th>Descripción</th>
+                        <th>Cantidad</th>
+                        <th>Medida</th>
+                        <th>Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody id="residuosList">
+                      <!-- Los elementos se agregarán dinámicamente aquí -->
+                    </tbody>
+                  </table>
+                  <div class="box-footer">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <a href="<?php echo base_url('manifiestos/') ?>" class="btn btn-warning">Regresar</a>
+                  </div>
               </div>
             </div>
           </div>
+          </form>
 
         </div>
-
+        <div class="col-md-2">
+        </div>
       </div>
-
     </div>
 
+</div>
 
-  </section>
+</div>
 
-  <div id="loader"></div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="addModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Agregar</h4>
+      </div>
+
+      <form role="form" action="#" method="post" id="createForm">
+
+        <div class="modal-body ui-front">
+
+          <div class="form-group">
+            <label for="categoria">Categoria</label>
+            <input readonly type="text" class="form-control" id="categoria" name="categoria" placeholder="categoria" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label for="producto">Producto</label>
+            <input type="text" class="form-control" id="producto" name="producto" placeholder="producto" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <input type="hidden" name="producto_id" id="producto_id" value='0'>
+          </div>
+          <div class="form-group">
+            <label for="descripcion">Descripcion</label>
+            <input type="text" class="form-control" id="descripcion" name="descripcion" placeholder="descripcion" autocomplete="off">
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="cantidad">Cantidad</label>
+                <input type="number" class="form-control" id="cantidad" name="cantidad" placeholder="cantidad" autocomplete="off">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="medida">Medida</label>
+                <select class="form-control" id="medida" name="medida">
+                  <?php foreach ($medidas as $medida) { ?>
+                    <option value="<?php echo $medida['medidas_id']; ?>">
+                      <?php echo $medida['medida_nombre']; ?>
+                    </option>
+                  <?php } ?>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary" id="btncrear">Crear</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+</section>
+
+<div id="loader"></div>
 </div>
 
 <script type="text/javascript">
   $(document).ready(function() {
+
+    $('#addResiduo').click(function() {
+      $('#addModal').modal('show'); // Este ID debe coincidir con el ID de tu modal
+    });
+
+    // Escuchar el evento click del botón eliminar
+    $('#residuosList').on('click', '.btnEliminar', function() {
+      $(this).closest('tr').remove(); // Busca la fila más cercana y la elimina
+    });
+
+    $('#btncrear').on('click', function(e) {
+      e.preventDefault(); // Prevenir el envío del formulario
+
+      var categoria = $('#categoria').val();
+      var producto = $('#producto').val();
+      var producto_id = $('#producto_id').val();
+      var descripcion = $('#descripcion').val();
+      var cantidad = $('#cantidad').val();
+      var medida = $('#medida').val();
+
+      // Añadir los valores a la tabla junto con los campos de entrada ocultos
+      $('#residuosList').append(`
+          <tr>
+              <td>
+                  ${categoria}
+                  <input type="hidden" name="categoria[]" value="${categoria}">
+              </td>
+              <td>
+                  ${producto}
+                  <input type="hidden" name="producto[]" value="${producto}">
+                  <input type="hidden" name="producto_id[]" value="${producto_id}">
+              </td>
+              <td>
+                  ${descripcion}
+                  <input type="hidden" name="descripcion[]" value="${descripcion}">
+              </td>
+              <td>
+                  ${cantidad}
+                  <input type="hidden" name="cantidad[]" value="${cantidad}">
+              </td>
+              <td>
+                  ${medida}
+                  <input type="hidden" name="medida[]" value="${medida}">
+              </td>
+              <td><button type="button" class="btn btn-danger btnEliminar">Eliminar</button></td>
+          </tr>
+      `);
+
+      // Cerrar el modal
+      $('#addModal').modal('hide');
+    });
 
     $("#manifiestosNav").addClass('active');
 
@@ -217,79 +313,22 @@
       },
     });
 
-    var camposPeso = document.querySelectorAll('[id^="Peso_"]');
-    var campoPesoTotal = document.getElementById("pesototal");
-
-    camposPeso.forEach(function(campoPeso) {
-      campoPeso.addEventListener('input', actualizarPesoTotal);
+    $("#producto").autocomplete({
+      source: "<?php echo base_url('manifiestos/residuoslist'); ?>",
+      select: function(event, ui) {
+        $("#producto").val(ui.item.label);
+        $("#producto_id").val(ui.item.value);
+        return false;
+      },
+      focus: function(event, ui) {
+        $("#producto").val(ui.item.label);
+        $("#categoria").val(ui.item.label2);
+        return false;
+      },
+      minLength: 2
     });
-
-    function actualizarPesoTotal() {
-      var suma = 0;
-      camposPeso.forEach(function(campoPeso) {
-        var valor = parseFloat(campoPeso.value);
-        if (!isNaN(valor)) {
-          suma += valor;
-        }
-      });
-      campoPesoTotal.value = suma.toFixed(2);
-    }
-
-    actualizarPesoTotal();
-
-    handleSelect();
-
-    $("input").on("input", function() {
-      var numeroeconomico = $("#numeroeconomico").val();
-      var numeroeconomico_id = $("#numeroeconomico_id").val();
-      var horatablero = $("#horatablero").val();
-      var alias = $("#alias").val();
-      var alias_id = $("#alias_id").val();
-      var operador = $("#operador").val();
-      var operador_id = $("#operador_id").val();
-      var kmsalida = $("#kmsalida").val();
-
-      if (numeroeconomico != "" && numeroeconomico_id != "" && horatablero != "" && alias != "" && operador != "" && kmsalida != "") {
-        $("#submitButton").prop("disabled", false);
-      } else {
-        $("#submitButton").prop("disabled", true);
-      }
-    });
-
-    $('#create').submit(function() {
-        $('#loader').show();
-        $("#submitButton").prop("disabled", true);
-      })
-      .done(function() {
-        $('#loader').hide();
-        $("#submitButton").prop("disabled", false);
-      })
-      .fail(function() {
-        $('#loader').hide();
-        $("#submitButton").prop("disabled", false);
-      });
 
   });
-
-  $(function() {
-    $('#horasalida').datetimepicker({
-      format: 'YYYY-MM-DD HH:mm:ss'
-    });
-  });
-
-  function handleSelect() {
-    var numFolios = $('#select').val();
-
-    $('.group-folio').each(function() {
-      var folioIndex = $(this).data('folio-index');
-
-      if (folioIndex <= numFolios) {
-        $(this).show();
-      } else {
-        $(this).hide();
-      }
-    });
-  }
 </script>
 
 <style type="text/css">

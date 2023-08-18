@@ -55,7 +55,7 @@ class Model_supervicion extends CI_Model
 	
 		$sucursal_id = $this->session->userdata('sucursal_id');
 	
-		$this->db->select('m.manifiesto_id, m.nummanifiesto, m.peso_total, d.destinofinal_nombre');
+		$this->db->select('m.manifiesto_id, m.nummanifiesto, d.destinofinal_nombre');
 		$this->db->from('manifiestos m');
 		$this->db->join('destinofinal d', 'd.destinofinal_id = m.destinofinal_id');
 		$this->db->like('m.nummanifiesto', $term);

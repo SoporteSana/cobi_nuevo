@@ -188,7 +188,7 @@
             data: "manifiesto_id",
             render: function(data, type, row) {
               return `<button class="btn btn-primary" onclick="fetchProductDetails(${data})">Ver productos</button>
-                            <a href="editRoute/${data}" class="btn btn-warning">Editar</a>`;
+                            <a href="update/${data}" class="btn btn-warning">Editar</a>`;
             }
           }
         ];

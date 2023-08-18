@@ -317,7 +317,7 @@ CREATE TABLE IF NOT EXISTS `folios` (
   CONSTRAINT `FK_folios_tipo_producto` FOREIGN KEY (`tipoProducto_id`) REFERENCES `tipo_producto` (`tipoProducto_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- Volcando datos para la tabla ecolsur.folios: ~6 rows (aproximadamente)
+-- Volcando datos para la tabla ecolsur.folios: ~8 rows (aproximadamente)
 INSERT INTO `folios` (`folio_id`, `tipoProducto_id`, `descripcion`, `cantidad`, `medidas_id`) VALUES
 	(1, 2, 'usado', 500, 1),
 	(2, 3, 'usado', 10, 3),
@@ -331,7 +331,15 @@ INSERT INTO `folios` (`folio_id`, `tipoProducto_id`, `descripcion`, `cantidad`, 
 
 -- Volcando estructura para vista ecolsur.folios_agregados
 -- Creando tabla temporal para superar errores de dependencia de VIEW
-CREATE TABLE `folios_agregados` 
+CREATE TABLE `folios_agregados` (
+	`manifiesto_id` INT(10) NOT NULL,
+	`nummanifiesto` INT(10) NOT NULL,
+	`numfolios` BIGINT(19) NOT NULL,
+	`folio_ids` TEXT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`cantidades` TEXT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`medida_nombre` VARCHAR(50) NULL COLLATE 'utf8mb4_spanish_ci',
+	`pesos totales` DECIMAL(32,0) NULL,
+	`descripciones` TEXT NULL COLLATE 'utf8mb4_spanish_ci'
 ) ENGINE=MyISAM;
 
 -- Volcando estructura para tabla ecolsur.grupos
@@ -382,11 +390,11 @@ CREATE TABLE IF NOT EXISTS `manifiestos` (
   CONSTRAINT `FK_tickets_unidades` FOREIGN KEY (`unidad_id`) REFERENCES `unidades` (`unidad_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
 
--- Volcando datos para la tabla ecolsur.manifiestos: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla ecolsur.manifiestos: ~1 rows (aproximadamente)
 INSERT INTO `manifiestos` (`manifiesto_id`, `nummanifiesto`, `sucursal_id`, `unidad_id`, `fecha`, `destinofinal_id`, `estatus`, `created_at`, `updated_at`) VALUES
-	(1, 111, 1, 6, '2023-08-10', 1, 0, '2023-08-10 18:22:44', NULL),
-	(2, 999, 1, 56, '2023-08-10', 1, 0, '2023-08-10 18:41:15', NULL),
-	(3, 3333, 1, 6, '2023-08-17', 1, 0, '2023-08-17 11:49:24', NULL);
+	(1, 111, 1, 25, '2023-08-10', 1, 0, '2023-08-10 18:22:44', NULL),
+	(2, 999, 1, 25, '2023-08-10', 1, 0, '2023-08-10 18:41:15', NULL),
+	(3, 3333, 1, 25, '2023-08-17', 1, 0, '2023-08-17 11:49:24', NULL);
 
 -- Volcando estructura para tabla ecolsur.manifiestos_folios
 CREATE TABLE IF NOT EXISTS `manifiestos_folios` (
@@ -398,7 +406,7 @@ CREATE TABLE IF NOT EXISTS `manifiestos_folios` (
   CONSTRAINT `FK__manifiestos` FOREIGN KEY (`manifiesto_id`) REFERENCES `manifiestos` (`manifiesto_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- Volcando datos para la tabla ecolsur.manifiestos_folios: ~6 rows (aproximadamente)
+-- Volcando datos para la tabla ecolsur.manifiestos_folios: ~9 rows (aproximadamente)
 INSERT INTO `manifiestos_folios` (`manifiesto_id`, `folio_id`) VALUES
 	(1, 1),
 	(1, 2),
@@ -419,7 +427,7 @@ CREATE TABLE IF NOT EXISTS `medidas` (
   PRIMARY KEY (`medidas_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- Volcando datos para la tabla ecolsur.medidas: ~3 rows (aproximadamente)
+-- Volcando datos para la tabla ecolsur.medidas: ~2 rows (aproximadamente)
 INSERT INTO `medidas` (`medidas_id`, `medida_nombre`, `created_at`, `updated_at`) VALUES
 	(1, 'KG', '2023-08-09 17:15:37', '2023-08-09 17:15:44'),
 	(2, 'L', '2023-08-09 17:16:07', '2023-08-09 17:16:08'),
@@ -1227,9 +1235,12 @@ CREATE TABLE IF NOT EXISTS `registros` (
   CONSTRAINT `FK_registros_sucursales` FOREIGN KEY (`sucursal_id`) REFERENCES `sucursales` (`sucursal_id`),
   CONSTRAINT `FK_registros_unidades` FOREIGN KEY (`unidad_id`) REFERENCES `unidades` (`unidad_id`),
   CONSTRAINT `FK_registros_usuarios` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`usuario_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
 
 -- Volcando datos para la tabla ecolsur.registros: ~0 rows (aproximadamente)
+INSERT INTO `registros` (`registro_id`, `sucursal_id`, `unidad_id`, `semana`, `dia`, `fecha_entrada`, `hora_salida`, `fecha_salida`, `hora_tablero`, `alias_id`, `operador_id`, `km_salida`, `km_entrada`, `tiempo_ruta`, `hora_entrada`, `asignacion_id`, `usuario_id`, `observaciones`, `recorrido`, `litroscargados`, `rendimiento`, `totalpeso`, `estatus`, `created_at`, `updated_at`) VALUES
+	(1, 1, 10, 33, 'Viernes', '0000-00-00', '2023-08-18 11:25:48', '2023-08-18', 5, 27, 86, 3456, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2023-08-18 18:26:16', NULL),
+	(2, 1, 25, 33, 'Viernes', '2023-08-18', '2023-08-18 11:31:41', '2023-08-18', 5, 27, 86, 1235, 3000, '01:00:42', '2023-08-18 12:32:23', 1, 4, 'N/A', 1765, 60, 29, NULL, 2, '2023-08-18 18:32:11', '2023-08-18 08:34:45');
 
 -- Volcando estructura para tabla ecolsur.rutas
 CREATE TABLE IF NOT EXISTS `rutas` (
@@ -1421,7 +1432,7 @@ CREATE TABLE IF NOT EXISTS `tipo_producto` (
   CONSTRAINT `FK_tipo_producto_categorias_producto` FOREIGN KEY (`categoriaProducto_id`) REFERENCES `categorias_producto` (`categoriaProducto_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- Volcando datos para la tabla ecolsur.tipo_producto: ~3 rows (aproximadamente)
+-- Volcando datos para la tabla ecolsur.tipo_producto: ~2 rows (aproximadamente)
 INSERT INTO `tipo_producto` (`tipoProducto_id`, `tipoProducto_nombre`, `categoriaProducto_id`, `estatus`, `created_at`, `updated_at`) VALUES
 	(1, 'geringas', 3, 0, '2023-08-08 07:36:32', '2023-08-08 08:19:54'),
 	(2, 'papel', 4, 0, '2023-08-08 08:24:49', NULL),
@@ -1440,15 +1451,18 @@ CREATE TABLE IF NOT EXISTS `tiros` (
   KEY `FK_tiros_registros` (`registro_id`),
   CONSTRAINT `FK_tiros_manifiestos` FOREIGN KEY (`manifiesto_id`) REFERENCES `manifiestos` (`manifiesto_id`),
   CONSTRAINT `FK_tiros_registros` FOREIGN KEY (`registro_id`) REFERENCES `registros` (`registro_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- Volcando datos para la tabla ecolsur.tiros: ~0 rows (aproximadamente)
+INSERT INTO `tiros` (`tiro_id`, `registro_id`, `manifiesto_id`, `numtiro`, `created_at`, `updated_at`) VALUES
+	(11, 2, 1, 1, NULL, NULL),
+	(12, 2, 2, 2, NULL, NULL);
 
 -- Volcando estructura para tabla ecolsur.tripulacion
 CREATE TABLE IF NOT EXISTS `tripulacion` (
   `tripulacion_id` int NOT NULL AUTO_INCREMENT,
   `registro_id` int DEFAULT NULL,
-  `recolector_id` int DEFAULT NULL,
+  `recolector_id` int DEFAULT '0',
   `numrecolector` int DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -1457,9 +1471,16 @@ CREATE TABLE IF NOT EXISTS `tripulacion` (
   KEY `FK_tripulacion_recolectores` (`recolector_id`),
   CONSTRAINT `FK_tripulacion_recolectores` FOREIGN KEY (`recolector_id`) REFERENCES `recolectores` (`recolector_id`),
   CONSTRAINT `FK_tripulacion_registros` FOREIGN KEY (`registro_id`) REFERENCES `registros` (`registro_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- Volcando datos para la tabla ecolsur.tripulacion: ~0 rows (aproximadamente)
+INSERT INTO `tripulacion` (`tripulacion_id`, `registro_id`, `recolector_id`, `numrecolector`, `created_at`, `updated_at`) VALUES
+	(1, 1, 49, 1, NULL, NULL),
+	(2, 1, 117, 2, NULL, NULL),
+	(3, 1, 188, 3, NULL, NULL),
+	(4, 1, 349, 4, NULL, NULL),
+	(5, 1, 353, 5, NULL, NULL),
+	(6, 2, 74, 1, NULL, NULL);
 
 -- Volcando estructura para tabla ecolsur.turnos
 CREATE TABLE IF NOT EXISTS `turnos` (
@@ -1708,7 +1729,7 @@ DELIMITER ;
 -- Volcando estructura para vista ecolsur.folios_agregados
 -- Eliminando tabla temporal y crear estructura final de VIEW
 DROP TABLE IF EXISTS `folios_agregados`;
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `folios_agregados` AS select `manifiestos_folios`.`manifiesto_id` AS `manifiesto_id`,`manifiestos`.`nummanifiesto` AS `nummanifiesto`,count(`manifiestos_folios`.`folio_id`) AS `numfolios`,group_concat(`folios`.`folio_id` separator ',') AS `folio_ids`,group_concat(`folios`.`folio` separator ',') AS `folios`,group_concat(`folios`.`descripcion` separator ',') AS `descripciones`,group_concat(`folios`.`peso_folio` separator ',') AS `pesos_folios` from ((`manifiestos_folios` join `folios` on((`manifiestos_folios`.`folio_id` = `folios`.`folio_id`))) join `manifiestos` on((`manifiestos_folios`.`manifiesto_id` = `manifiestos`.`manifiesto_id`))) group by `manifiestos_folios`.`manifiesto_id`;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `folios_agregados` AS select `m1`.`manifiesto_id` AS `manifiesto_id`,`m1`.`nummanifiesto` AS `nummanifiesto`,count(`m1`.`folio_id`) AS `numfolios`,group_concat(`m1`.`folio_id` separator ',') AS `folio_ids`,group_concat(`m1`.`cantidad` separator ',') AS `cantidades`,`m1`.`medida_nombre` AS `medida_nombre`,sum(`m1`.`cantidad`) AS `pesos totales`,group_concat(`m1`.`descripcion` separator ',') AS `descripciones` from (select `mf`.`manifiesto_id` AS `manifiesto_id`,`m`.`nummanifiesto` AS `nummanifiesto`,`mf`.`folio_id` AS `folio_id`,`f`.`cantidad` AS `cantidad`,`md`.`medida_nombre` AS `medida_nombre`,`f`.`descripcion` AS `descripcion` from (((`manifiestos_folios` `mf` join `folios` `f` on((`mf`.`folio_id` = `f`.`folio_id`))) join `manifiestos` `m` on((`mf`.`manifiesto_id` = `m`.`manifiesto_id`))) join `medidas` `md` on((`md`.`medidas_id` = `f`.`medidas_id`)))) `m1` group by `m1`.`manifiesto_id`,`m1`.`nummanifiesto`,`m1`.`medida_nombre`;
 
 -- Volcando estructura para vista ecolsur.num_tripulacion
 -- Eliminando tabla temporal y crear estructura final de VIEW
