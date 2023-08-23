@@ -13,7 +13,7 @@ class Model_Manifiestos extends CI_Model
 		$result = $this->db->query('CALL fetch_manifiestos_data(?, ?)', array($param1, $param2));
 
 		if ($param2 !== null) {
-			$row_array = $result->row_array();
+			$row_array = $result->result();
 			$this->db->close();
 			return $row_array;
 		} else {
@@ -30,6 +30,16 @@ class Model_Manifiestos extends CI_Model
 			return ($insert == true) ? $this->db->insert_id() : false;
 		}
 	}
+
+	public function getupdate($id)
+	{
+		$this->db->select('*');
+		$this->db->from('folios_agregados');
+		$this->db->where('manifiesto_id', $id);
+		$query = $this->db->get();
+		return $query->result();
+	}
+
 
 	public function insertarFolios($folios)
 	{

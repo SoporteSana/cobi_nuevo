@@ -43,77 +43,108 @@
                 <form id="createForm" role="form" action="<?php echo base_url('manifiestos/create') ?>" method="post" style=" display:inline!important;">
                   <div class="box-body">
 
-                    <div class="form-group">
-                      <label for="nummanifiesto"># Manifiesto</label>
-                      <input type="text" class="form-control" id="nummanifiesto" name="nummanifiesto" placeholder="numero manifiesto" autocomplete="off" />
-                      <div class="text-danger"><?php echo form_error('nummanifiesto'); ?></div>
-                    </div>
+                    <!-- Mostrar manifiesto_id y nummanifiesto fuera de la tabla -->
+                    <?php if (isset($registros[0])) : ?>
+                      <div class="form-group">
+                        <label for="nummanifiesto"># Manifiesto</label>
+                        <input type="text" class="form-control" id="nummanifiesto" name="nummanifiesto" placeholder="numero manifiesto" value="<?= $registros[0]->nummanifiesto; ?>" />
+                        <div class="text-danger"><?php echo form_error('nummanifiesto'); ?></div>
+                      </div>
 
-                    <div class="form-group">
-                      <label for="numeroeconomico">Unidad</label>
-                      <input type="text" class="form-control" id="numeroeconomico" name="numeroeconomico" placeholder="numero de unidad" autocomplete="off" />
-                      <div class="text-danger"><?php echo form_error('numeroeconomico'); ?></div>
-                    </div>
+                      <div class="form-group">
+                        <label for="fecha">Fecha</label>
+                        <input type="text" class="form-control" id="fecha" name="nummanifiesto" placeholder="fecha manifiesto" value="<?= $registros[0]->fecha; ?>" />
+                        <div class="text-danger"><?php echo form_error('nummanifiesto'); ?></div>
+                      </div>
 
-                    <div class="form-group">
-                      <input type="hidden" name="numeroeconomico_id" id="numeroeconomico_id">
-                    </div>
+                      <div class="form-group">
+                        <label for="unidad">Unidad</label>
+                        <input type="text" class="form-control" id="unidad" name="nummanifiesto" placeholder="unidad manifiesto" value="<?= $registros[0]->unidad_numero; ?>" />
+                        <div class="text-danger"><?php echo form_error('nummanifiesto'); ?></div>
+                      </div>
 
-                    <div class="form-group">
-                      <label for="placas">Placas</label>
-                      <input readonly type="text" class="form-control" id="placas" name="placas" placeholder="placas" autocomplete="off">
-                    </div>
+                      <div class="form-group">
+                        <label for="destino">Destino</label>
+                        <input type="text" class="form-control" id="destino" name="nummanifiesto" placeholder="destino manifiesto" value="<?= $registros[0]->destinofinal_nombre; ?>" />
+                        <div class="text-danger"><?php echo form_error('nummanifiesto'); ?></div>
+                      </div>
 
-                    <div class="form-group">
-                      <label for="fecha">Fecha:</label>
-                      <input type="text" class="form-control datetimepicker-input" id="fecha" name="fecha" data-toggle="datetimepicker" data-target="#horasalida" value="<?php echo set_value('hora_salida', $hora_salida); ?>" />
-                      <div class="text-danger"><?php echo form_error('fecha'); ?></div>
-                    </div>
+                    <?php endif; ?>
 
-                    <div class="form-group">
-                      <label for="destino">Destino</label>
-                      <input type="text" class="form-control" id="destino" name="destino" placeholder="destino" autocomplete="off">
-                    </div>
-                    <div class="form-group">
-                      <input type="hidden" name="destino_id" id="destino_id" value='0'>
-                    </div>
+                    <!-- Botón para agregar a la tabla -->
+                    <button type="button" id="addResiduo" class="btn btn-info">Añadir Residuo</button>
+
+                    <table id="residuosList" class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Folios</th>
+                          <th>Categoria</th>
+                          <th>Residuo</th>
+                          <th>Descripcion</th>
+                          <th>Cantidad</th>
+                          <th>Medida</th>
+                          <th>Peso total</th>
+                          <th>Acciones</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php foreach ($registros as $registro) : ?>
+                          <?php if (is_object($registro)) : ?>
+                            <tr>
+                              <td>
+                                <?= $registro->folio_ids; ?>
+                                <input type="hidden" name="folio_ids[]" value="<?= $registro->folio_ids; ?>">
+                              </td>
+                              <td>
+                                <?= $registro->categoriaProducto_nombre; ?>
+                                <input type="hidden" name="folio_ids[]" value="<?= $registro->categoriaProducto_nombre; ?>">
+                              </td>
+                              <td>
+                                <?= $registro->tipoProducto_nombre; ?>
+                                <input type="hidden" name="cantidades[]" value="<?= $registro->tipoProducto_nombre; ?>">
+                              </td>
+                              <td>
+                                <?= $registro->descripciones; ?>
+                                <input type="hidden" name="medida_nombre[]" value="<?= $registro->descripciones; ?>">
+                              </td>
+                              <td>
+                                <?= $registro->cantidades; ?>
+                                <input type="hidden" name="pesos_totales[]" value="<?= $registro->cantidades; ?>">
+                              </td>
+                              <td>
+                                <?= $registro->medida_nombre; ?>
+                                <input type="hidden" name="descripciones[]" value="<?= $registro->medida_nombre; ?>">
+                              </td>
+                              <td>
+                                <?= $registro->pesos_totales; ?>
+                                <input type="hidden" name="descripciones2[]" value="<?= $registro->pesos_totales; ?>">
+                              </td>
+                              <td>
+                                <button type="button" class="btn btn-danger btnEliminar">Eliminar</button>
+                              </td>
+                            </tr>
+                          <?php endif; ?>
+                        <?php endforeach; ?>
+                      </tbody>
+                    </table>
 
 
-                  </div>
-                  <!-- Botón para agregar a la tabla -->
-                  <button type="button" id="addResiduo" class="btn btn-info">Añadir Residuo</button>
-                  <!-- Tabla/Listado de residuos agregados -->
-                  <table class="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th>Categoría</th>
-                        <th>Residuo</th>
-                        <th>Descripción</th>
-                        <th>Cantidad</th>
-                        <th>Medida</th>
-                        <th>Acciones</th>
-                      </tr>
-                    </thead>
-                    <tbody id="residuosList">
-                      <!-- Los elementos se agregarán dinámicamente aquí -->
-                    </tbody>
-                  </table>
-                  <div class="box-footer">
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                    <a href="<?php echo base_url('manifiestos/') ?>" class="btn btn-warning">Regresar</a>
+                    <div class="box-footer">
+                      <button type="submit" class="btn btn-primary">Guardar</button>
+                      <a href="<?php echo base_url('manifiestos/') ?>" class="btn btn-warning">Regresar</a>
+                    </div>
                   </div>
               </div>
             </div>
-          </div>
-          </form>
+            </form>
 
-        </div>
-        <div class="col-md-2">
+          </div>
+          <div class="col-md-2">
+          </div>
         </div>
       </div>
-    </div>
 
-</div>
+    </div>
 
 </div>
 
@@ -240,7 +271,6 @@
 
     $("#numeroeconomico").autocomplete({
       source: function(request, response) {
-
         $.ajax({
           url: "<?= base_url() ?>manifiestos/unidadlist",
           type: 'post',
@@ -254,9 +284,8 @@
         });
       },
       select: function(event, ui) {
-
-        $('#numeroeconomico').val(ui.item.label); // display the selected text
-        $('#numeroeconomico_id').val(ui.item.value); // save selected id to input
+        $('#numeroeconomico').val(ui.item.label);
+        $('#numeroeconomico_id').val(ui.item.value);
         $('#placas').val(ui.item.label2);
         return false;
       },
@@ -287,7 +316,6 @@
 
     $("#destino").autocomplete({
       source: function(request, response) {
-
         $.ajax({
           url: "<?= base_url() ?>manifiestos/destinolist",
           type: 'post',
@@ -301,9 +329,8 @@
         });
       },
       select: function(event, ui) {
-
-        $('#destino').val(ui.item.label); // display the selected text
-        $('#destino_id').val(ui.item.value); // save selected id to input
+        $('#destino').val(ui.item.label);
+        $('#destino_id').val(ui.item.value);
         return false;
       },
       focus: function(event, ui) {
@@ -327,9 +354,9 @@
       },
       minLength: 2
     });
-
   });
 </script>
+
 
 <style type="text/css">
   #loader {

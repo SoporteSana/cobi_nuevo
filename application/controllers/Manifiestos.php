@@ -26,11 +26,11 @@ class Manifiestos extends Admin_Controller
         $this->render_template('manifiestos/index', $this->data);
     }
 
-    public function fetchManifiestosData()
+    public function fetchManifiestosData($manifiesto = null)
     {
         $sucursal_id = $this->session->userdata('sucursal_id');
         $result = array('data' => array());
-        $manifiestos = $this->model_manifiestos->getManifiestosData($sucursal_id);
+        $manifiestos = $this->model_manifiestos->getManifiestosData($sucursal_id, $manifiesto);
 
         foreach ($manifiestos as $manifiesto) {
             $folio_ids = explode(',', $manifiesto['folio_ids']);
@@ -71,21 +71,67 @@ class Manifiestos extends Admin_Controller
         echo json_encode($result);
     }
 
+    public function fetchManifiestosDataedit($manifiesto = null)
+    {
+        $sucursal_id = $this->session->userdata('sucursal_id');
+        $result = array('data' => array());
+        $manifiestos = $this->model_manifiestos->getManifiestosData($sucursal_id, $manifiesto);
+    
+        foreach ($manifiestos as $manifiesto) {
+            $folio_ids = explode(',', $manifiesto->folio_ids);
+            $productos = explode(',', $manifiesto->productos ?? '');
+            $descripciones = explode(',', $manifiesto->descripciones ?? '');
+            $medidas_ids = explode(',', $manifiesto->medidas_ids ?? '');
+            $medidas_nombres = explode(',', $manifiesto->medidas_nombres ?? '');
+            $total_cantidad_concatenadas = explode(',', $manifiesto->total_cantidad_concatenadas ?? '');
+    
+            $objData = array(
+                'manifiesto_id' => $manifiesto->manifiesto_id,
+                'nummanifiesto' => $manifiesto->nummanifiesto,
+                'fecha' => $manifiesto->fecha,
+                'unidad_numero' => $manifiesto->unidad_numero,
+                'destinofinal_nombre' => $manifiesto->destinofinal_nombre,
+                'productos' => array()
+            );
+    
+            foreach ($folio_ids as $i => $folio_id) {
+                $producto = array(
+                    'folio_id' => $folio_id,
+                    'producto' => $productos[$i] ?? '',
+                    'descripcion' => $descripciones[$i] ?? '',
+                    'medida_id' => $medidas_ids[$i] ?? '',
+                    'medida_nombre' => $medidas_nombres[$i] ?? '',
+                    'total_cantidad_concatenada' => $total_cantidad_concatenadas[$i] ?? ''
+                );
+                $objData['productos'][] = $producto;
+            }
+    
+            if (in_array('updateVigilancia', $this->permission)) {
+                $objData['button'] = '<a href="' . base_url('manifiestos/update/' . $manifiesto->manifiesto_id) . '" class="btn btn-default"><i class="fa fa-pencil"></i></a>';
+            }
+    
+            $result['data'][] = $objData;
+        }
+            return $result;
+  
+    }
+    
+
     public function showProducts($manifiesto_id)
     {
-       
+
         $result = $this->model_manifiestos->getProducts($manifiesto_id);
 
-       
+
         echo json_encode($result);
     }
 
     public function showProductopesos($manifiesto_id)
     {
-       
+
         $result = $this->model_manifiestos->getpesostotales($manifiesto_id);
 
-       
+
         echo json_encode($result);
     }
 
@@ -170,6 +216,8 @@ class Manifiestos extends Admin_Controller
 
     public function update($manifiesto_id)
     {
+
+        $sucursal_id = $this->session->userdata('sucursal_id');
 
         if (!in_array('updateVigilancia', $this->permission)) {
             redirect('dashboard', 'refresh');
@@ -257,17 +305,10 @@ class Manifiestos extends Admin_Controller
             }
         } else {
 
-            $registro_data = $this->model_manifiestos->getManifiestosData($manifiesto_id);
-            $this->data['registro_data'] = $registro_data;
-            $registro_obj = $registro_data[0];
-            $folios_ids = $registro_obj->folio_ids ? explode(',', $registro_obj->folio_ids) : [];
-            $folios = $registro_obj->folios ? explode(',', $registro_obj->folios) : [];
-            $descripciones = $registro_obj->descripciones ? explode(',', $registro_obj->descripciones) : [];
-            $pesos_folios = $registro_obj->pesos_folios ? explode(',', $registro_obj->pesos_folios) : [];
-            $this->data['folios_ids'] = $folios_ids;
-            $this->data['folios'] = $folios;
-            $this->data['descripciones'] = $descripciones;
-            $this->data['pesos_folios'] = $pesos_folios;
+            $registros =  $this->fetchManifiestosDataedit($manifiesto_id);
+            $this->data['registros'] = $registros;
+            $medidas = $this->model_manifiestos->getMedidasData();
+            $this->data['medidas'] = $medidas;
             $this->render_template('manifiestos/update', $this->data);
         }
     }
