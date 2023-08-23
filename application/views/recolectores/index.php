@@ -34,6 +34,11 @@
           <br /> <br />
         <?php endif; ?>
 
+        <?php if (in_array('createRecolector', $user_permission)) : ?>
+          <button type="button" id="exportar_excel" class="btn btn-danger">Exportar a Excel</button>
+          <br /> <br />
+        <?php endif; ?>
+
         <div class="box-body">
           <table id="manageTable" class="table table-bordered table-striped">
             <thead>
@@ -243,7 +248,44 @@
           return false;
         });
 
+        $('#exportar_excel').click(function() {
+          exportarExcel();
+        });
+
       });
+
+      function exportarExcel() {
+        var table = $('#manageTable').DataTable();
+
+        // Estos son los índices de las columnas que quieres exportar
+        var columnsToExport = [0];
+
+        var data = [];
+
+        table.rows().every(function(rowIdx, tableLoop, rowLoop) {
+          var row = [];
+          columnsToExport.forEach(function(colIdx) {
+            row.push(this.cell(rowIdx, colIdx).data());
+          }, this);
+          data.push(row);
+        });
+
+        var header = [];
+        columnsToExport.forEach(function(colIdx) {
+          header.push(table.column(colIdx).header().textContent.trim());
+        });
+        data.unshift(header);
+
+        var sheet = XLSX.utils.json_to_sheet(data, {
+          skipHeader: true
+        });
+
+        var workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, sheet, 'Hoja 1');
+
+        var nombreArchivo = 'exportacion.xlsx';
+        XLSX.writeFile(workbook, nombreArchivo);
+      }
 
       function updateTurnos(id) {
         $.ajax({
