@@ -31,6 +31,15 @@ class Model_Manifiestos extends CI_Model
 		}
 	}
 
+	public function deletemanifiesto($data, $id)
+	{
+		if ($data && $id) {
+			$this->db->where('manifiesto_id', $id);
+			$update = $this->db->update('manifiestos', $data);
+			return ($update == true) ? true : false;
+		}
+	}
+
 	public function getupdate($id)
 	{
 		$this->db->select('*');
@@ -168,7 +177,7 @@ class Model_Manifiestos extends CI_Model
 			$records = $this->db->get('unidades')->result();
 
 			foreach ($records as $row) {
-				$response[] = array("value" => $row->unidad_id, "label" => $row->unidad_numero, "label2" => $row->unidad_placas);
+				$response[] = array("value" => $row->unidad_id, "label" => $row->unidad_numero);
 			}
 		}
 
@@ -200,7 +209,6 @@ class Model_Manifiestos extends CI_Model
 
 	function searchresiduos($term)
 	{
-
 		$sucursal_id = $this->session->userdata('sucursal_id');
 
 		$this->db->select('tipo_producto.tipoProducto_id, categorias_producto.categoriaProducto_id, categorias_producto.categoriaProducto_nombre, tipo_producto.tipoProducto_nombre, tipo_producto.estatus');
@@ -226,5 +234,44 @@ class Model_Manifiestos extends CI_Model
 		$result = ($query->num_rows() > 0) ? $query->result_array() : array();
 
 		return $result;
+	}
+
+
+	public function delete($folioId)
+	{
+		$this->db->trans_start(); // Inicia la transacción
+
+		// Eliminar de la tabla 'manifiestos_folios'
+		$this->db->where('folio_id', $folioId);
+		$this->db->delete('manifiestos_folios');
+
+		// Si la eliminación en 'manifiestos_folios' fue exitosa
+		if ($this->db->trans_status()) {
+			// Eliminar de la tabla 'folios'
+			$this->db->where('folio_id', $folioId);
+			$this->db->delete('folios');
+		}
+
+		$this->db->trans_complete(); // Finaliza la transacción
+
+		return $this->db->trans_status(); // Devuelve el estado de la transacción
+	}
+
+	public function agregarfolios($data)
+	{
+		if ($data) {
+			$insert = $this->db->insert('folios', $data);
+
+			return $insert ? $this->db->insert_id() : false;
+		}
+	}
+
+	public function agregarmanifiestosfolios($data)
+	{
+		if (!empty($data)) {
+			$this->db->insert('manifiestos_folios', $data);
+			return true;
+		}
+		return false;
 	}
 }

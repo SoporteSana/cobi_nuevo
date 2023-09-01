@@ -76,46 +76,79 @@ class Manifiestos extends Admin_Controller
         $sucursal_id = $this->session->userdata('sucursal_id');
         $result = array('data' => array());
         $manifiestos = $this->model_manifiestos->getManifiestosData($sucursal_id, $manifiesto);
-    
+
         foreach ($manifiestos as $manifiesto) {
             $folio_ids = explode(',', $manifiesto->folio_ids);
+            $categoria_nombre = explode(',', $manifiesto->categoria_nombre ?? '');
             $productos = explode(',', $manifiesto->productos ?? '');
             $descripciones = explode(',', $manifiesto->descripciones ?? '');
-            $medidas_ids = explode(',', $manifiesto->medidas_ids ?? '');
+            $cantidad = explode(',', $manifiesto->cantidad ?? '');
             $medidas_nombres = explode(',', $manifiesto->medidas_nombres ?? '');
             $total_cantidad_concatenadas = explode(',', $manifiesto->total_cantidad_concatenadas ?? '');
-    
+
             $objData = array(
                 'manifiesto_id' => $manifiesto->manifiesto_id,
                 'nummanifiesto' => $manifiesto->nummanifiesto,
                 'fecha' => $manifiesto->fecha,
+                'unidad_id' => $manifiesto->unidad_id,
                 'unidad_numero' => $manifiesto->unidad_numero,
+                'destinofinal_id' => $manifiesto->destinofinal_id,
                 'destinofinal_nombre' => $manifiesto->destinofinal_nombre,
                 'productos' => array()
             );
-    
+
             foreach ($folio_ids as $i => $folio_id) {
                 $producto = array(
-                    'folio_id' => $folio_id,
-                    'producto' => $productos[$i] ?? '',
-                    'descripcion' => $descripciones[$i] ?? '',
-                    'medida_id' => $medidas_ids[$i] ?? '',
-                    'medida_nombre' => $medidas_nombres[$i] ?? '',
-                    'total_cantidad_concatenada' => $total_cantidad_concatenadas[$i] ?? ''
+                    'folio_id' => $folio_id ?? 'sin datos',
+                    'categoria_nombre' => $categoria_nombre[$i] ?? 'sin datos',
+                    'producto' => $productos[$i] ?? 'sin datos',
+                    'descripcion' => $descripciones[$i] ?? 'sin datos',
+                    'cantidad' => $cantidad[$i] ?? 'sin datos',
+                    'medida_nombre' => $medidas_nombres[$i] ?? 'sin datos',
+                    'total_cantidad_concatenada' => $total_cantidad_concatenadas[$i] ?? 'sin datos'
                 );
                 $objData['productos'][] = $producto;
             }
-    
+
             if (in_array('updateVigilancia', $this->permission)) {
                 $objData['button'] = '<a href="' . base_url('manifiestos/update/' . $manifiesto->manifiesto_id) . '" class="btn btn-default"><i class="fa fa-pencil"></i></a>';
             }
-    
+
             $result['data'][] = $objData;
         }
-            return $result;
-  
+        return $result;
     }
-    
+
+    public function eliminar()
+	{
+		if (!in_array('deleteTicket', $this->permission)) {
+			redirect('dashboard', 'refresh');
+		}
+
+		$ticket_id = $this->input->post('ticket_id');
+
+		$response = array();
+		if ($ticket_id) {
+			$data = array(
+				'estatus' => 3,
+			);
+
+			$update = $this->model_tickets->deletemanifiesto($data, $ticket_id);
+			if ($update == true) {
+				$response['success'] = true;
+				$response['messages'] = "Eliminado con éxito";
+			} else {
+				$response['success'] = false;
+				$response['messages'] = "Ocurrio un error";
+			}
+		} else {
+			$response['success'] = false;
+			$response['messages'] = "Ocurrio un error";
+		}
+
+		echo json_encode($response);
+	}
+
 
     public function showProducts($manifiesto_id)
     {
@@ -216,7 +249,6 @@ class Manifiestos extends Admin_Controller
 
     public function update($manifiesto_id)
     {
-
         $sucursal_id = $this->session->userdata('sucursal_id');
 
         if (!in_array('updateVigilancia', $this->permission)) {
@@ -228,83 +260,22 @@ class Manifiestos extends Admin_Controller
         }
 
         $this->form_validation->set_rules('nummanifiesto', 'numero manifiesto', 'trim|required');
-        $this->form_validation->set_rules('numeroeconomico_id', 'numero unidad', 'trim|required');
-        $this->form_validation->set_rules('fecha', 'fecha', 'trim|required');
-        $this->form_validation->set_rules('destino_id', 'destino', 'trim|required');
-        $this->form_validation->set_rules('pesototal', 'peso total', 'trim|required');
 
         if ($this->form_validation->run() == TRUE) {
 
             $data = array(
                 'nummanifiesto' => $this->input->post('nummanifiesto'),
-                'unidad_id' => $this->input->post('numeroeconomico_id'),
                 'fecha' => $this->input->post('fecha'),
-                'destinofinal_id' => $this->input->post('destino_id'),
-                'peso_total' => $this->input->post('pesototal'),
-                'updated_at' => date('Y-m-d h:i:s')
+                'unidad_id' => $this->input->post('unidad_id'),
+                'destinofinal_id' => $this->input->post('destino_id')
             );
 
-            $folios_manifiestos = array(
-                $this->input->post('FolioId_1'),
-                $this->input->post('Folio_1'),
-                $this->input->post('Descripcion_1'),
-                $this->input->post('Peso_1'),
-                $this->input->post('FolioId_2'),
-                $this->input->post('Folio_2'),
-                $this->input->post('Descripcion_2'),
-                $this->input->post('Peso_2'),
-                $this->input->post('FolioId_3'),
-                $this->input->post('Folio_3'),
-                $this->input->post('Descripcion_3'),
-                $this->input->post('Peso_3'),
-                $this->input->post('FolioId_4'),
-                $this->input->post('Folio_4'),
-                $this->input->post('Descripcion_4'),
-                $this->input->post('Peso_4'),
-                $this->input->post('FolioId_5'),
-                $this->input->post('Folio_5'),
-                $this->input->post('Descripcion_5'),
-                $this->input->post('Peso_5'),
-                $this->input->post('FolioId_6'),
-                $this->input->post('Folio_6'),
-                $this->input->post('Descripcion_6'),
-                $this->input->post('Peso_6'),
-                $this->input->post('FolioId_7'),
-                $this->input->post('Folio_7'),
-                $this->input->post('Descripcion_7'),
-                $this->input->post('Peso_7'),
-                $this->input->post('FolioId_8'),
-                $this->input->post('Folio_8'),
-                $this->input->post('Descripcion_8'),
-                $this->input->post('Peso_8'),
-                $this->input->post('FolioId_9'),
-                $this->input->post('Folio_9'),
-                $this->input->post('Descripcion_9'),
-                $this->input->post('Peso_9'),
-                $this->input->post('FolioId_10'),
-                $this->input->post('Folio_10'),
-                $this->input->post('Descripcion_10'),
-                $this->input->post('Peso_10'),
+            // Actualizar el manifiesto principal
+            $this->model_manifiestos->update($data, $manifiesto_id);
 
-            );
-
-            $folios_manifiestos = array_filter($folios_manifiestos);
-
-            if (count($folios_manifiestos) > 0) {
-                $this->model_manifiestos->update($data, $manifiesto_id);
-                $this->actualizarfolios($manifiesto_id, $folios_manifiestos);
-                $this->session->set_flashdata('success', 'Creado con éxito');
-                redirect('manifiestos/', 'refresh');
-            } else if (!empty($duplicates)) {
-
-                $this->session->set_flashdata('error', 'Recolectores duplicados');
-                redirect('manifiestos/create', 'refresh');
-            } else {
-                $this->session->set_flashdata('error', 'Ocurrio un error');
-                redirect('manifiestos/create', 'refresh');
-            }
+            $this->session->set_flashdata('success', 'Actualizado con éxito');
+            redirect('manifiestos/', 'refresh');
         } else {
-
             $registros =  $this->fetchManifiestosDataedit($manifiesto_id);
             $this->data['registros'] = $registros;
             $medidas = $this->model_manifiestos->getMedidasData();
@@ -358,6 +329,41 @@ class Manifiestos extends Admin_Controller
         }
     }
 
+    public function eliminarProducto()
+    {
+        $productoId = $this->input->post('producto_id');
+        $this->model_manifiestos->delete($productoId);
+    }
+
+    public function addfolio($manifiesto_id)
+    {
+
+        $data = array(
+            'tipoProducto_id' => $this->input->post('producto_id'),
+            'descripcion' => $this->input->post('descripcion'),
+            'cantidad' => $this->input->post('cantidad'),
+            'medidas_id' => $this->input->post('medida')
+        );
+
+        $folio_id = $this->model_manifiestos->agregarfolios($data);
+
+        if ($folio_id) {
+
+            $foliosData = array(
+                'manifiesto_id' => $manifiesto_id,
+                'folio_id' => $folio_id
+            );
+
+            $this->model_manifiestos->agregarmanifiestosfolios($foliosData);
+        }
+
+        $registros =  $this->fetchManifiestosDataedit($manifiesto_id);
+        $this->data['registros'] = $registros;
+        $medidas = $this->model_manifiestos->getMedidasData();
+        $this->data['medidas'] = $medidas;
+        $this->render_template('manifiestos/update', $this->data);
+    }
+
     public function unidadlist()
     {
 
@@ -400,7 +406,8 @@ class Manifiestos extends Admin_Controller
             $data[] = array(
                 'label' => $row->tipoProducto_nombre,
                 'label2' => $row->categoriaProducto_nombre,
-                'value' => $row->tipoProducto_id
+                'value' => $row->tipoProducto_id,
+                'value2' => $row->categoriaProducto_id
 
             );
         }

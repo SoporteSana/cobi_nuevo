@@ -31,7 +31,7 @@
 
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Finaisar registro</h3>
+            <h3 class="box-title">Finalisar registro</h3>
           </div>
 
           <div class="container-fluid">

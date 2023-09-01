@@ -28,10 +28,6 @@
           <a href="<?php echo base_url('manifiestos/create') ?>" class="btn btn-primary">Agregar</a> <br /> <br />
         <?php endif; ?>
 
-        <?php if (in_array('deleteVigilancia', $user_permission)) : ?>
-          <button type="button" id="exportar_excel" class="btn btn-danger">Exportar a Excel</button> <br /> <br />
-        <?php endif; ?>
-
         <div class="box">
           <div class="box-header">
             <h3 class="box-title">Manifiestos</h3>
@@ -152,6 +148,58 @@
     }
   }
 
+  function deleteRecord(manifiestoId) {
+    if (window.confirm("¿Estás seguro de que deseas ocultar este registro?")) {
+      // Realizar la actualización del estado utilizando una solicitud AJAX
+      fetch(`/eliminar/${manifiestoId}`, {
+        method: 'POST', // O el método HTTP que prefieras para actualizar
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          estado: 'oculto'
+        }) // Cambia 'oculto' por el estado deseado
+      }).then(response => {
+        // Manejar la respuesta del servidor
+        if (response.ok) {
+          // Registro actualizado con éxito, puedes realizar acciones adicionales si es necesario
+        } else {
+          // Error al actualizar el registro, manejar el error
+        }
+      });
+
+      // Después de actualizar el estado con éxito, puedes realizar acciones como recargar la tabla o actualizar la interfaz de usuario
+    }
+  }
+
+  function removemanifiesto(id) {
+    if (id) {
+      $("#removeForm").on('submit', function() {
+        var form = $(this);
+        spinner.show();
+        $("#btneliminar").attr("disabled", true);
+        $(".text-danger").remove();
+
+        // Aquí puedes usar el 'id' en tu solicitud AJAX
+        var ticket_id = id;
+
+        $.ajax({
+          url: form.attr('action'),
+          type: form.attr('method'),
+          data: {
+            ticket_id: ticket_id // Usar 'ticket_id' en lugar de 'id'
+          },
+          dataType: 'json',
+          success: function(response) {
+            // Resto del código
+          }
+        });
+
+        return false;
+      });
+    }
+  }
+
   $(document).ready(function() {
 
     $.ajax({
@@ -185,8 +233,10 @@
             title: "Acciones",
             data: "manifiesto_id",
             render: function(data, type, row) {
-              return `<button class="btn btn-primary" onclick="fetchProductDetails(${data})">Ver productos</button>
-                            <a href="update/${data}" class="btn btn-warning">Editar</a>`;
+              return `
+            <button class="btn btn-primary" onclick="fetchProductDetails(${data})">Ver productos</button>
+            <a href="update/${data}" class="btn btn-warning">Editar</a>
+            <button class="btn btn-danger" onclick="removemanifiesto(${data})" data-id="${data}">Eliminar</button>`;
             }
           }
         ];
