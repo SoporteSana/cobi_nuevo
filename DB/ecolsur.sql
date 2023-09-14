@@ -234,75 +234,70 @@ INSERT INTO `empresas` (`empresa_id`, `empresa_nombre`, `estatus`, `created_at`,
 
 -- Volcando estructura para procedimiento ecolsur.fetch_manifiestos_data
 DELIMITER //
-CREATE PROCEDURE `fetch_manifiestos_data`(p_sucursal_id INT, p_manifiesto_id INT)
+CREATE PROCEDURE `fetch_manifiestos_data`(
+	IN `p_sucursal_id` INT,
+	IN `p_manifiesto_id` INT
+)
+    NO SQL
+    SQL SECURITY INVOKER
 BEGIN
-
-    DROP TEMPORARY TABLE IF EXISTS temp_results;
-
-    CREATE TEMPORARY TABLE temp_results (
-        manifiesto_id INT,
-        nummanifiesto VARCHAR(255),
-        fecha DATE,
-        unidad_id INT,
-        unidad_numero VARCHAR(255),
-        destinofinal_id INT,
-        destinofinal_nombre VARCHAR(255),
-        folio_ids TEXT,
-        productos_id TEXT,
-        productos TEXT,
-        descripciones TEXT,
-        medidas_ids TEXT,
-        medidas_nombres TEXT,
-        total_cantidad_concatenadas TEXT
-    );
-
-    INSERT INTO temp_results
-    SELECT 
-        manifiestos.manifiesto_id, 
-        manifiestos.nummanifiesto, 
-        manifiestos.fecha,
-        unidades.unidad_id,
-        unidades.unidad_numero, 
-        destinofinal.destinofinal_id,
-        destinofinal.destinofinal_nombre,
-        GROUP_CONCAT(folios.folio_id),
-        GROUP_CONCAT(tipo_producto.tipoProducto_id),
-        GROUP_CONCAT(tipo_producto.tipoProducto_nombre),
-        GROUP_CONCAT(folios.descripcion),
-        GROUP_CONCAT(folios.medidas_id),
-        GROUP_CONCAT(medidas.medida_nombre),
-        GROUP_CONCAT(sub.total)
-    FROM 
-        manifiestos 
-    INNER JOIN manifiestos_folios ON manifiestos.manifiesto_id = manifiestos_folios.manifiesto_id 
-    INNER JOIN destinofinal ON manifiestos.destinofinal_id = destinofinal.destinofinal_id
-    INNER JOIN unidades ON manifiestos.unidad_id = unidades.unidad_id
-    INNER JOIN folios ON manifiestos_folios.folio_id = folios.folio_id
-    INNER JOIN tipo_producto ON tipo_producto.tipoProducto_id = folios.tipoProducto_id
-    INNER JOIN Medidas ON Folios.medidas_id = Medidas.medidas_id
-    LEFT JOIN (
-        SELECT 
-            manifiesto_id,
-            medidas_id,
-            SUM(cantidad) AS total
-        FROM
-            folios
-        INNER JOIN manifiestos_folios ON folios.folio_id = manifiestos_folios.folio_id
-        GROUP BY 
-            manifiesto_id, 
-            medidas_id
-    ) AS sub ON manifiestos.manifiesto_id = sub.manifiesto_id AND folios.medidas_id = sub.medidas_id
-    WHERE 
-        (manifiestos.sucursal_id = p_sucursal_id OR p_sucursal_id IS NULL) AND 
-        (manifiestos_folios.manifiesto_id = p_manifiesto_id OR p_manifiesto_id IS NULL)
-    GROUP BY 
-        manifiestos.manifiesto_id;
-
-    SELECT * FROM temp_results;
-
-    DROP TEMPORARY TABLE temp_results;
-
-END//
+DROP TEMPORARY TABLE IF EXISTS temp_results;
+CREATE TEMPORARY TABLE temp_results (
+ manifiesto_id INT,
+ nummanifiesto VARCHAR(255),
+ fecha DATE,
+ unidad_id INT,
+ unidad_numero VARCHAR(255),
+ destinofinal_id INT,
+ destinofinal_nombre VARCHAR(255),
+ folio_ids TEXT,
+ categoria_id TEXT,
+ categoria_nombre TEXT,
+ productos_id TEXT,
+ productos TEXT,
+ descripciones TEXT,
+ cantidad TEXT,
+ medidas_nombres TEXT,
+ total_cantidad_concatenadas TEXT
+);
+INSERT INTO temp_results
+SELECT 
+ manifiestos.manifiesto_id, 
+ manifiestos.nummanifiesto, 
+ manifiestos.fecha,
+ unidades.unidad_id,
+ unidades.unidad_numero, 
+ destinofinal.destinofinal_id,
+ destinofinal.destinofinal_nombre, IFNULL(GROUP_CONCAT(folios.folio_id), NULL), -- Use IFNULL to handle NULL case
+IFNULL(GROUP_CONCAT(categorias_producto.categoriaProducto_id), NULL), IFNULL(GROUP_CONCAT(categorias_producto.categoriaProducto_nombre), NULL), IFNULL(GROUP_CONCAT(tipo_producto.tipoProducto_id), NULL), IFNULL(GROUP_CONCAT(tipo_producto.tipoProducto_nombre), NULL), IFNULL(GROUP_CONCAT(folios.descripcion), NULL), IFNULL(GROUP_CONCAT(folios.cantidad), NULL), IFNULL(GROUP_CONCAT(medidas.medida_nombre), NULL), IFNULL(GROUP_CONCAT(sub.total), NULL)
+FROM 
+ manifiestos
+left JOIN manifiestos_folios ON manifiestos.manifiesto_id = manifiestos_folios.manifiesto_id
+left JOIN destinofinal ON manifiestos.destinofinal_id = destinofinal.destinofinal_id
+left JOIN unidades ON manifiestos.unidad_id = unidades.unidad_id
+left JOIN folios ON manifiestos_folios.folio_id = folios.folio_id
+left JOIN tipo_producto ON tipo_producto.tipoProducto_id = folios.tipoProducto_id
+left JOIN categorias_producto ON tipo_producto.categoriaProducto_id = categorias_producto.categoriaProducto_id
+left JOIN Medidas ON Folios.medidas_id = Medidas.medidas_id
+LEFT JOIN (
+SELECT 
+ manifiesto_id,
+ medidas_id, SUM(cantidad) AS total
+FROM
+ folios
+left JOIN manifiestos_folios ON folios.folio_id = manifiestos_folios.folio_id
+GROUP BY 
+ manifiesto_id, 
+ medidas_id
+) AS sub ON manifiestos.manifiesto_id = sub.manifiesto_id AND folios.medidas_id = sub.medidas_id
+WHERE 
+  (manifiestos.sucursal_id = p_sucursal_id OR p_sucursal_id IS NULL) AND 
+  (p_manifiesto_id IS NULL OR manifiestos_folios.manifiesto_id = p_manifiesto_id)
+GROUP BY 
+  manifiestos.manifiesto_id;
+SELECT *
+FROM temp_results;
+DROP TEMPORARY TABLE temp_results; END//
 DELIMITER ;
 
 -- Volcando estructura para tabla ecolsur.folios
@@ -313,32 +308,31 @@ CREATE TABLE IF NOT EXISTS `folios` (
   `cantidad` int DEFAULT NULL,
   `medidas_id` int DEFAULT NULL,
   PRIMARY KEY (`folio_id`),
-  KEY `FK_folios_tipo_producto` (`tipoProducto_id`) USING BTREE,
-  CONSTRAINT `FK_folios_tipo_producto` FOREIGN KEY (`tipoProducto_id`) REFERENCES `tipo_producto` (`tipoProducto_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+  KEY `FK_folios_tipo_producto` (`tipoProducto_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- Volcando datos para la tabla ecolsur.folios: ~8 rows (aproximadamente)
+-- Volcando datos para la tabla ecolsur.folios: ~2 rows (aproximadamente)
 INSERT INTO `folios` (`folio_id`, `tipoProducto_id`, `descripcion`, `cantidad`, `medidas_id`) VALUES
-	(1, 2, 'usado', 500, 1),
-	(2, 3, 'usado', 10, 3),
-	(3, 1, 'usado', 50, 1),
-	(4, 1, 'usado2', 50, 1),
-	(5, 3, 'usado3', 50, 1),
-	(6, 2, 'usado4', 50, 3),
-	(7, 1, 'usado', 123, 1),
-	(8, 2, 'usado', 4444, 2),
-	(9, 3, 'usado', 6666, 3);
+	(45, 2, 'usado50', 50, 1),
+	(46, 1, 'usado501', 5, 3);
 
 -- Volcando estructura para vista ecolsur.folios_agregados
 -- Creando tabla temporal para superar errores de dependencia de VIEW
 CREATE TABLE `folios_agregados` (
 	`manifiesto_id` INT(10) NOT NULL,
 	`nummanifiesto` INT(10) NOT NULL,
+	`fecha` DATE NOT NULL,
+	`unidad_id` INT(10) NOT NULL,
+	`unidad_numero` VARCHAR(50) NULL COLLATE 'utf8mb3_spanish_ci',
+	`destinofinal_id` INT(10) NOT NULL,
+	`destinofinal_nombre` VARCHAR(50) NOT NULL COLLATE 'utf8mb3_spanish_ci',
 	`numfolios` BIGINT(19) NOT NULL,
 	`folio_ids` TEXT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`categoriaProducto_nombre` TEXT NULL COLLATE 'utf8mb4_spanish_ci',
+	`tipoProducto_nombre` TEXT NULL COLLATE 'utf8mb4_spanish_ci',
 	`cantidades` TEXT NULL COLLATE 'utf8mb4_0900_ai_ci',
 	`medida_nombre` VARCHAR(50) NULL COLLATE 'utf8mb4_spanish_ci',
-	`pesos totales` DECIMAL(32,0) NULL,
+	`pesos_totales` DECIMAL(32,0) NULL,
 	`descripciones` TEXT NULL COLLATE 'utf8mb4_spanish_ci'
 ) ENGINE=MyISAM;
 
@@ -390,11 +384,11 @@ CREATE TABLE IF NOT EXISTS `manifiestos` (
   CONSTRAINT `FK_tickets_unidades` FOREIGN KEY (`unidad_id`) REFERENCES `unidades` (`unidad_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
 
--- Volcando datos para la tabla ecolsur.manifiestos: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla ecolsur.manifiestos: ~0 rows (aproximadamente)
 INSERT INTO `manifiestos` (`manifiesto_id`, `nummanifiesto`, `sucursal_id`, `unidad_id`, `fecha`, `destinofinal_id`, `estatus`, `created_at`, `updated_at`) VALUES
-	(1, 111, 1, 25, '2023-08-10', 1, 0, '2023-08-10 18:22:44', NULL),
-	(2, 999, 1, 25, '2023-08-10', 1, 0, '2023-08-10 18:41:15', NULL),
-	(3, 3333, 1, 25, '2023-08-17', 1, 0, '2023-08-17 11:49:24', NULL);
+	(1, 1, 1, 2, '2023-09-01', 1, 0, '2023-09-01 11:31:54', NULL),
+	(2, 456, 1, 2, '2023-09-02', 1, 0, '2023-09-02 16:32:35', NULL),
+	(3, 698, 1, 21, '2023-09-04', 1, 0, '2023-09-04 08:42:56', NULL);
 
 -- Volcando estructura para tabla ecolsur.manifiestos_folios
 CREATE TABLE IF NOT EXISTS `manifiestos_folios` (
@@ -406,17 +400,10 @@ CREATE TABLE IF NOT EXISTS `manifiestos_folios` (
   CONSTRAINT `FK__manifiestos` FOREIGN KEY (`manifiesto_id`) REFERENCES `manifiestos` (`manifiesto_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- Volcando datos para la tabla ecolsur.manifiestos_folios: ~9 rows (aproximadamente)
+-- Volcando datos para la tabla ecolsur.manifiestos_folios: ~2 rows (aproximadamente)
 INSERT INTO `manifiestos_folios` (`manifiesto_id`, `folio_id`) VALUES
-	(1, 1),
-	(1, 2),
-	(2, 3),
-	(2, 4),
-	(2, 5),
-	(2, 6),
-	(3, 7),
-	(3, 8),
-	(3, 9);
+	(3, 45),
+	(3, 46);
 
 -- Volcando estructura para tabla ecolsur.medidas
 CREATE TABLE IF NOT EXISTS `medidas` (
@@ -1237,7 +1224,7 @@ CREATE TABLE IF NOT EXISTS `registros` (
   CONSTRAINT `FK_registros_usuarios` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`usuario_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
 
--- Volcando datos para la tabla ecolsur.registros: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla ecolsur.registros: ~2 rows (aproximadamente)
 INSERT INTO `registros` (`registro_id`, `sucursal_id`, `unidad_id`, `semana`, `dia`, `fecha_entrada`, `hora_salida`, `fecha_salida`, `hora_tablero`, `alias_id`, `operador_id`, `km_salida`, `km_entrada`, `tiempo_ruta`, `hora_entrada`, `asignacion_id`, `usuario_id`, `observaciones`, `recorrido`, `litroscargados`, `rendimiento`, `totalpeso`, `estatus`, `created_at`, `updated_at`) VALUES
 	(1, 1, 10, 33, 'Viernes', '0000-00-00', '2023-08-18 11:25:48', '2023-08-18', 5, 27, 86, 3456, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2023-08-18 18:26:16', NULL),
 	(2, 1, 25, 33, 'Viernes', '2023-08-18', '2023-08-18 11:31:41', '2023-08-18', 5, 27, 86, 1235, 3000, '01:00:42', '2023-08-18 12:32:23', 1, 4, 'N/A', 1765, 60, 29, NULL, 2, '2023-08-18 18:32:11', '2023-08-18 08:34:45');
@@ -1453,7 +1440,7 @@ CREATE TABLE IF NOT EXISTS `tiros` (
   CONSTRAINT `FK_tiros_registros` FOREIGN KEY (`registro_id`) REFERENCES `registros` (`registro_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- Volcando datos para la tabla ecolsur.tiros: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla ecolsur.tiros: ~2 rows (aproximadamente)
 INSERT INTO `tiros` (`tiro_id`, `registro_id`, `manifiesto_id`, `numtiro`, `created_at`, `updated_at`) VALUES
 	(11, 2, 1, 1, NULL, NULL),
 	(12, 2, 2, 2, NULL, NULL);
@@ -1473,7 +1460,7 @@ CREATE TABLE IF NOT EXISTS `tripulacion` (
   CONSTRAINT `FK_tripulacion_registros` FOREIGN KEY (`registro_id`) REFERENCES `registros` (`registro_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
--- Volcando datos para la tabla ecolsur.tripulacion: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla ecolsur.tripulacion: ~5 rows (aproximadamente)
 INSERT INTO `tripulacion` (`tripulacion_id`, `registro_id`, `recolector_id`, `numrecolector`, `created_at`, `updated_at`) VALUES
 	(1, 1, 49, 1, NULL, NULL),
 	(2, 1, 117, 2, NULL, NULL),
@@ -1729,7 +1716,7 @@ DELIMITER ;
 -- Volcando estructura para vista ecolsur.folios_agregados
 -- Eliminando tabla temporal y crear estructura final de VIEW
 DROP TABLE IF EXISTS `folios_agregados`;
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `folios_agregados` AS select `m1`.`manifiesto_id` AS `manifiesto_id`,`m1`.`nummanifiesto` AS `nummanifiesto`,count(`m1`.`folio_id`) AS `numfolios`,group_concat(`m1`.`folio_id` separator ',') AS `folio_ids`,group_concat(`m1`.`cantidad` separator ',') AS `cantidades`,`m1`.`medida_nombre` AS `medida_nombre`,sum(`m1`.`cantidad`) AS `pesos totales`,group_concat(`m1`.`descripcion` separator ',') AS `descripciones` from (select `mf`.`manifiesto_id` AS `manifiesto_id`,`m`.`nummanifiesto` AS `nummanifiesto`,`mf`.`folio_id` AS `folio_id`,`f`.`cantidad` AS `cantidad`,`md`.`medida_nombre` AS `medida_nombre`,`f`.`descripcion` AS `descripcion` from (((`manifiestos_folios` `mf` join `folios` `f` on((`mf`.`folio_id` = `f`.`folio_id`))) join `manifiestos` `m` on((`mf`.`manifiesto_id` = `m`.`manifiesto_id`))) join `medidas` `md` on((`md`.`medidas_id` = `f`.`medidas_id`)))) `m1` group by `m1`.`manifiesto_id`,`m1`.`nummanifiesto`,`m1`.`medida_nombre`;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `folios_agregados` AS select `m1`.`manifiesto_id` AS `manifiesto_id`,`m1`.`nummanifiesto` AS `nummanifiesto`,`m1`.`fecha` AS `fecha`,`m1`.`unidad_id` AS `unidad_id`,`m1`.`unidad_numero` AS `unidad_numero`,`m1`.`destinofinal_id` AS `destinofinal_id`,`m1`.`destinofinal_nombre` AS `destinofinal_nombre`,count(`m1`.`folio_id`) AS `numfolios`,group_concat(`m1`.`folio_id` separator ',') AS `folio_ids`,group_concat(`m1`.`categoriaProducto_nombre` separator ',') AS `categoriaProducto_nombre`,group_concat(`m1`.`tipoProducto_nombre` separator ',') AS `tipoProducto_nombre`,group_concat(`m1`.`cantidad` separator ',') AS `cantidades`,`m1`.`medida_nombre` AS `medida_nombre`,sum(`m1`.`cantidad`) AS `pesos_totales`,group_concat(`m1`.`descripcion` separator ',') AS `descripciones` from (select `mf`.`manifiesto_id` AS `manifiesto_id`,`m`.`nummanifiesto` AS `nummanifiesto`,`m`.`fecha` AS `fecha`,`u`.`unidad_id` AS `unidad_id`,`u`.`unidad_numero` AS `unidad_numero`,`df`.`destinofinal_id` AS `destinofinal_id`,`df`.`destinofinal_nombre` AS `destinofinal_nombre`,`mf`.`folio_id` AS `folio_id`,`f`.`cantidad` AS `cantidad`,`md`.`medida_nombre` AS `medida_nombre`,`f`.`descripcion` AS `descripcion`,`categorias_producto`.`categoriaProducto_nombre` AS `categoriaProducto_nombre`,`tipo_producto`.`tipoProducto_nombre` AS `tipoProducto_nombre` from (((((((`manifiestos_folios` `mf` join `folios` `f` on((`mf`.`folio_id` = `f`.`folio_id`))) join `manifiestos` `m` on((`mf`.`manifiesto_id` = `m`.`manifiesto_id`))) join `medidas` `md` on((`md`.`medidas_id` = `f`.`medidas_id`))) join `unidades` `u` on((`m`.`manifiesto_id` = `u`.`unidad_id`))) join `destinofinal` `df` on((`m`.`destinofinal_id` = `df`.`destinofinal_id`))) join `tipo_producto` on((`f`.`tipoProducto_id` = `tipo_producto`.`tipoProducto_id`))) join `categorias_producto` on((`tipo_producto`.`tipoProducto_id` = `categorias_producto`.`categoriaProducto_id`)))) `m1` group by `m1`.`manifiesto_id`,`m1`.`nummanifiesto`,`m1`.`medida_nombre`;
 
 -- Volcando estructura para vista ecolsur.num_tripulacion
 -- Eliminando tabla temporal y crear estructura final de VIEW

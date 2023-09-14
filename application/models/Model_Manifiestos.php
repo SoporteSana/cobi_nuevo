@@ -31,15 +31,6 @@ class Model_Manifiestos extends CI_Model
 		}
 	}
 
-	public function deletemanifiesto($data, $id)
-	{
-		if ($data && $id) {
-			$this->db->where('manifiesto_id', $id);
-			$update = $this->db->update('manifiestos', $data);
-			return ($update == true) ? true : false;
-		}
-	}
-
 	public function getupdate($id)
 	{
 		$this->db->select('*');
@@ -134,6 +125,7 @@ class Model_Manifiestos extends CI_Model
 		$this->db->join('categorias_producto', 'categorias_producto.categoriaProducto_id = tipo_producto.categoriaProducto_id');
 		$this->db->join('medidas', 'medidas.medidas_id = folios.medidas_id');
 		$this->db->where('manifiestos.manifiesto_id', $id);
+		$this->db->where('folios.estatus', 0);
 
 		$query = $this->db->get();
 
@@ -153,6 +145,7 @@ class Model_Manifiestos extends CI_Model
 		$this->db->join('medidas', 'medidas.medidas_id = folios.medidas_id');
 		$this->db->where('manifiestos.manifiesto_id', $idmanifiesto);
 		$this->db->group_by('medidas.medida_nombre');
+		$this->db->where('folios.estatus', 0);
 
 		$query = $this->db->get();
 
@@ -241,16 +234,34 @@ class Model_Manifiestos extends CI_Model
 	{
 		$this->db->trans_start(); // Inicia la transacción
 
-		// Eliminar de la tabla 'manifiestos_folios'
+		// Actualizar el estatus en la tabla 'manifiestos_folios'
+		$data = array('estatus' => 1); // Valor que deseas establecer en la columna 'estatus'
 		$this->db->where('folio_id', $folioId);
-		$this->db->delete('manifiestos_folios');
+		$this->db->update('manifiestos_folios', $data);
 
-		// Si la eliminación en 'manifiestos_folios' fue exitosa
+		// Si la actualización en 'manifiestos_folios' fue exitosa
 		if ($this->db->trans_status()) {
-			// Eliminar de la tabla 'folios'
+			// Actualizar el estatus en la tabla 'folios'
 			$this->db->where('folio_id', $folioId);
-			$this->db->delete('folios');
+			$this->db->update('folios', $data);
 		}
+
+		$this->db->trans_complete(); // Finaliza la transacción
+
+		return $this->db->trans_status(); // Devuelve el estado de la transacción
+	}
+
+	public function deletemanifiesto($folioId)
+	{
+		$this->db->trans_start(); // Inicia la transacción
+
+		$data = array('estatus' => 1); // Valor que deseas establecer en la columna 'estatus'
+
+		$this->db->where('manifiesto_id', $folioId);
+		$this->db->update('manifiestos_folios', $data);
+
+		$this->db->where('manifiesto_id', $folioId);
+		$this->db->update('manifiestos', $data);
 
 		$this->db->trans_complete(); // Finaliza la transacción
 

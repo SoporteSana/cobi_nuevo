@@ -50,54 +50,6 @@
                   <th>alias</th>
                   <th>operador</th>
                   <th># recolectores</th>
-                  <th>Recoelctor 1</th>
-                  <th>Recoelctor 2</th>
-                  <th>Recoelctor 3</th>
-                  <th>Recoelctor 4</th>
-                  <th>Recoelctor 5</th>
-                  <th>km salida</th>
-                  <th>km entrada</th>
-                  <th>recorrido</th>
-                  <th>litros cargados</th>
-                  <th>rendimiento</th>
-                  <th>hora salida</th>
-                  <th>hora de entrada</th>
-                  <th>hora tablero</th>
-                  <th>tempo ruta</th>
-                  <th>perso total</th>
-                  <th>destino final</th>
-                  <th># folios</th>
-                  <th>folio 1</th>
-                  <th>descripcion 1</th>
-                  <th>peso 1</th>
-                  <th>folio 2</th>
-                  <th>decripcion 2</th>
-                  <th>peso 2</th>
-                  <th>folio 3</th>
-                  <th>decripcion 3</th>
-                  <th>peso 3</th>
-                  <th>folio 4</th>
-                  <th>decripcion 4</th>
-                  <th>peso 4</th>
-                  <th>folio 5</th>
-                  <th>decripcion 5</th>
-                  <th>peso 5</th>
-                  <th>folio 6</th>
-                  <th>decripcion 6</th>
-                  <th>peso 6</th>
-                  <th>folio 7</th>
-                  <th>decripcion 7</th>
-                  <th>peso 7</th>
-                  <th>folio 8</th>
-                  <th>decripcion 8</th>
-                  <th>peso 8</th>
-                  <th>folio 9</th>
-                  <th>decripcion 9</th>
-                  <th>peso 9</th>
-                  <th>folio 10</th>
-                  <th>decripcion 10</th>
-                  <th>peso 10</th>
-                  <th>comentarios</th>
                   <th>estatus</th>
                 </tr>
               </thead>
@@ -121,20 +73,8 @@
     var table = $('#manageTable').DataTable({
       'ajax': 'fetchReporteCompletoData',
       'order': [],
-      'columnDefs': [{
-          'targets': Array.from({
-            length: 29
-          }, (_, i) => i + 30),
-          'render': function(data, type, row) {
-            if (data == '') {
-              return '0';
-            } else {
-              return data;
-            }
-          }
-        },
+      'columnDefs': [
         {
-          'targets': 60,
           'render': function(data, type, row) {
             if (data == 2) {
               return 'Finalizado';

@@ -220,64 +220,42 @@ class Reportes extends Admin_Controller
 
 		foreach ($data as $key => $value) {
 			// Dividir las columnas concatenadas
-			$recolectores = explode(',', trim($value['recolectores']));
-			$folios = explode(',', trim($value['folios']));
+			$folio_ids = explode(',', trim($value['folio_ids']));
+			$productos = explode(',', trim($value['productos']));
+			$categoria_nombre = explode(',', trim($value['categoria_nombre']));
 			$descripciones = explode(',', trim($value['descripciones']));
-			$pesos_folios = explode(',', trim($value['pesos_folios']));
+			$cantidad = explode(',', trim($value['cantidad']));
+			$medidas_nombres = explode(',', trim($value['medidas_nombres']));
+
+			// Obtener el número de elementos en los arrays divididos
+			$numElementos = count($productos);
 
 			// Crear un array para almacenar los datos de esta fila
 			$rowData = array(
-				$value['registro_id'],
+				$value['manifiesto_id'],
+				$value['nummanifiesto'],
+				$value['fecha'],
 				$value['unidad_numero'],
-				$value['asignacion_nombre'],
-				$value['semana'],
-				$value['nombres'],
-				$value['dia'],
-				$value['fecha_salida'],
-				$value['turno_nombre'],
-				$value['ruta_nombre'],
-				$value['alias_nombre'],
-				$value['operador_nombre'],
-				$value['numrecolectores'],
+				$value['destinofinal_nombre'],
+				$value['total_cantidad_concatenadas'],
 			);
 
-			// Añadir 10 recolectores
-			for ($i = 0; $i < 5; $i++) {
-				$rowData[] = isset($recolectores[$i]) ? $recolectores[$i] : '';
-			}
-
-			// Continuar agregando el resto de los datos
-			$rowData = array_merge($rowData, array(
-				$value['km_salida'],
-				$value['km_entrada'],
-				$value['recorrido'],
-				$value['litroscargados'],
-				$value['rendimiento'],
-				$value['hora_salida'],
-				$value['hora_entrada'],
-				$value['hora_tablero'],
-				$value['tiempo_ruta'],
-				$value['peso_total'],
-				$value['destinofinal_nombre'],
-				$value['numfolios']
-			));
-
-			// Añadir 10 sets de columnas de folio (folio_id, folio, descripción, peso)
-			for ($i = 0; $i < 10; $i++) {
-				$rowData[] = isset($folios[$i]) ? $folios[$i] : '';
+			// Utilizar el número de elementos para iterar solo por las filas necesarias
+			for ($i = 0; $i < $numElementos; $i++) {
+				$rowData[] = isset($folio_ids[$i]) ? $folio_ids[$i] : '';
+				$rowData[] = isset($productos[$i]) ? $productos[$i] : '';
+				$rowData[] = isset($categoria_nombre[$i]) ? $categoria_nombre[$i] : '';
 				$rowData[] = isset($descripciones[$i]) ? $descripciones[$i] : '';
-				$rowData[] = isset($pesos_folios[$i]) ? $pesos_folios[$i] : '';
+				$rowData[] = isset($cantidad[$i]) ? $cantidad[$i] : '';
+				$rowData[] = isset($medidas_nombres[$i]) ? $medidas_nombres[$i] : '';
 			}
-
-			// Agregar las observaciones y el estatus al final
-			$rowData[] = $value['observaciones'];
-			$rowData[] = $value['estatus'];
 
 			$result['data'][$key] = $rowData;
 		}
 
 		echo json_encode($result);
 	}
+
 
 	public function unidadlist()
 	{

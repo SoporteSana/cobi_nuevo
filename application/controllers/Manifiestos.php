@@ -335,6 +335,11 @@ class Manifiestos extends Admin_Controller
         $this->model_manifiestos->delete($productoId);
     }
 
+    public function eliminarManifiesto($data)
+    {
+        $this->model_manifiestos->deletemanifiesto($data);
+    }
+
     public function addfolio($manifiesto_id)
     {
 

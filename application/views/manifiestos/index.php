@@ -172,33 +172,29 @@
     }
   }
 
-  function removemanifiesto(id) {
-    if (id) {
-      $("#removeForm").on('submit', function() {
-        var form = $(this);
-        spinner.show();
-        $("#btneliminar").attr("disabled", true);
-        $(".text-danger").remove();
+  function removemanifiesto(data) {
+    if (data) {
+      // Mostrar el spinner y deshabilitar el botón
+      $("#btneliminar").attr("disabled", true);
+      $(".text-danger").remove();
+      window.location.reload();
 
-        // Aquí puedes usar el 'id' en tu solicitud AJAX
-        var ticket_id = id;
-
-        $.ajax({
-          url: form.attr('action'),
-          type: form.attr('method'),
-          data: {
-            ticket_id: ticket_id // Usar 'ticket_id' en lugar de 'id'
-          },
-          dataType: 'json',
-          success: function(response) {
-            // Resto del código
-          }
-        });
-
-        return false;
+      $.ajax({
+        url: 'eliminarManifiesto/' + data, // Reemplaza 'URL_DEL_CONTROLADOR' con la URL correcta del controlador
+        type: 'POST', // O el método HTTP que necesites
+        dataType: 'json',
+        success: function(response) {
+          window.location.reload(); // Reemplaza 'nuevaPagina.html' con la URL de la página a la que deseas redirigir al usuario
+        },
+        complete: function() {
+          // Ocultar el spinner y habilitar el botón después de completar la solicitud
+          $("#btneliminar").attr("disabled", false);
+        }
       });
     }
   }
+
+
 
   $(document).ready(function() {
 

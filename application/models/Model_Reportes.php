@@ -7,30 +7,19 @@ class Model_reportes extends CI_Model
 		parent::__construct();
 	}
 
-	public function getReporteCompletoData()
+	public function getReporteCompletoData($param1 = null, $param2 = null)
 	{
-		$this->db->select('registros.registro_id, unidades.unidad_numero, asignaciones.asignacion_nombre, registros.semana, usuarios.nombres, registros.dia, registros.fecha_salida, turnos.turno_nombre, rutas.ruta_nombre, alias.alias_nombre, operadores.operador_nombre, num_tripulacion.numrecolectores, num_tripulacion.recolectores, registros.km_salida, registros.km_entrada, registros.recorrido, registros.litroscargados, registros.rendimiento, registros.hora_salida, registros.hora_entrada, registros.hora_tablero, registros.tiempo_ruta, manifiestos.peso_total, destinofinal.destinofinal_nombre, folios_agregados.numfolios, folios_agregados.folio_ids, folios_agregados.folios, folios_agregados.descripciones, folios_agregados.pesos_folios, registros.observaciones, registros.estatus');
-		$this->db->distinct();
-		$this->db->from('registros');
-		$this->db->join('unidades', 'unidades.unidad_id = registros.unidad_id');
-		$this->db->join('operadores', 'operadores.operador_id = registros.operador_id');
-		$this->db->join('alias', 'alias.alias_id = registros.alias_id');
-		$this->db->join('asignaciones', 'asignaciones.asignacion_id = registros.asignacion_id');
-		$this->db->join('usuarios', 'usuarios.usuario_id = registros.usuario_id');
-		$this->db->join('rutas', 'rutas.ruta_id = alias.ruta_id');
-		$this->db->join('turnos', 'turnos.turno_id = alias.turno_id');
-		$this->db->join('tiros', 'registros.registro_id = tiros.registro_id');
-		$this->db->join('manifiestos_folios', 'tiros.manifiesto_id = manifiestos_folios.manifiesto_id');
-		$this->db->join('manifiestos', 'manifiestos.manifiesto_id = manifiestos_folios.manifiesto_id');
-		$this->db->join('destinofinal', 'manifiestos.destinofinal_id = destinofinal.destinofinal_id');
-		$this->db->join('folios_agregados', 'manifiestos_folios.manifiesto_id = folios_agregados.manifiesto_id', 'left');
-		$this->db->join('num_tripulacion', 'registros.registro_id = num_tripulacion.registro_id', 'left');
+		$result = $this->db->query('CALL fetch_manifiestos_data(?, ?)', array($param1, $param2));
 
-		$query = $this->db->get();
-
-		$result = ($query->num_rows() > 0) ? $query->result_array() : false;
-
-		return $result;
+		if ($param2 !== null) {
+			$row_array = $result->result();
+			$this->db->close();
+			return $row_array;
+		} else {
+			$result_array = $result->result_array();
+			$this->db->close();
+			return $result_array;
+		}
 	}
 
 	public function getFiltrosData($filtros)
