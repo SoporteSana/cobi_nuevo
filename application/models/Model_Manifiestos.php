@@ -23,6 +23,22 @@ class Model_Manifiestos extends CI_Model
 		}
 	}
 
+	public function getManifiestosDataEdit($param1 = null, $param2 = null)
+	{
+
+		$result = $this->db->query('CALL fetch_manifiestos_dataedit(?, ?)', array($param1, $param2));
+
+		if ($param2 !== null) {
+			$row_array = $result->result();
+			$this->db->close();
+			return $row_array;
+		} else {
+			$result_array = $result->result_array();
+			$this->db->close();
+			return $result_array;
+		}
+	}
+
 	public function create($data)
 	{
 		if ($data) {
@@ -125,7 +141,6 @@ class Model_Manifiestos extends CI_Model
 		$this->db->join('categorias_producto', 'categorias_producto.categoriaProducto_id = tipo_producto.categoriaProducto_id');
 		$this->db->join('medidas', 'medidas.medidas_id = folios.medidas_id');
 		$this->db->where('manifiestos.manifiesto_id', $id);
-		$this->db->where('folios.estatus', 0);
 
 		$query = $this->db->get();
 
@@ -145,7 +160,6 @@ class Model_Manifiestos extends CI_Model
 		$this->db->join('medidas', 'medidas.medidas_id = folios.medidas_id');
 		$this->db->where('manifiestos.manifiesto_id', $idmanifiesto);
 		$this->db->group_by('medidas.medida_nombre');
-		$this->db->where('folios.estatus', 0);
 
 		$query = $this->db->get();
 

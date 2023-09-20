@@ -7,19 +7,88 @@ class Model_reportes extends CI_Model
 		parent::__construct();
 	}
 
-	public function getReporteCompletoData($param1 = null, $param2 = null)
+	public function getReporteCompletoData($registro = null, $manifiestoestatus = null, $folioestatus = null)
 	{
-		$result = $this->db->query('CALL fetch_manifiestos_data(?, ?)', array($param1, $param2));
+		$this->db->select('registros.registro_id, unidades.unidad_numero, asignaciones.asignacion_nombre, registros.semana, usuarios.nombres, registros.dia, registros.fecha_salida, turnos.turno_nombre, rutas.ruta_nombre, alias.alias_nombre, operadores.operador_nombre');
+		$this->db->select('COUNT(DISTINCT recolectores.recolector_id) AS numrecolectores, GROUP_CONCAT(DISTINCT recolectores.recolector_nombre SEPARATOR ", ") AS recolectores_nombre, registros.km_salida, registros.km_entrada, registros.recorrido, registros.litroscargados, registros.rendimiento, registros.hora_salida, registros.hora_entrada, registros.hora_tablero, registros.tiempo_ruta');
+		$this->db->select('GROUP_CONCAT(DISTINCT folios_agregados.manifiesto_id SEPARATOR ", ") AS manifiesto_id, GROUP_CONCAT(DISTINCT folios_agregados.nummanifiesto SEPARATOR ", ") AS nummanifiesto, GROUP_CONCAT(DISTINCT folios_agregados.fecha SEPARATOR ", ") AS fecha, GROUP_CONCAT(DISTINCT folios_agregados.destinofinal_id SEPARATOR ", ") AS destinofinal_id, GROUP_CONCAT(DISTINCT folios_agregados.destinofinal_nombre SEPARATOR ", ") AS destinofinal_nombre, GROUP_CONCAT(DISTINCT folios_agregados.numfolios SEPARATOR ", ") AS numfolios, GROUP_CONCAT(DISTINCT folios_agregados.folio_ids SEPARATOR ", ") AS folio_ids, GROUP_CONCAT(DISTINCT folios_agregados.categoriaProducto_nombre SEPARATOR ", ") AS categoriaProducto_nombre, GROUP_CONCAT(DISTINCT folios_agregados.cantidades SEPARATOR ", ") AS cantidades, GROUP_CONCAT(DISTINCT folios_agregados.medida_nombre SEPARATOR ", ") AS medida_nombre, GROUP_CONCAT(DISTINCT folios_agregados.pesos_totales SEPARATOR ", ") AS pesos_totales, GROUP_CONCAT(DISTINCT folios_agregados.descripciones SEPARATOR ", ") AS descripciones', FALSE);
+		$this->db->from('registros');
+		$this->db->join('unidades', 'unidades.unidad_id = registros.unidad_id', 'INNER');
+		$this->db->join('alias', 'alias.alias_id = registros.alias_id', 'INNER');
+		$this->db->join('turnos', 'turnos.turno_id = alias.turno_id', 'INNER');
+		$this->db->join('rutas', 'rutas.ruta_id = alias.ruta_id', 'INNER');
+		$this->db->join('operadores', 'operadores.operador_id = registros.operador_id', 'INNER');
+		$this->db->join('asignaciones', 'asignaciones.asignacion_id = registros.asignacion_id', 'INNER');
+		$this->db->join('usuarios', 'usuarios.usuario_id = registros.usuario_id', 'INNER');
+		$this->db->join('tripulacion', 'tripulacion.registro_id = registros.registro_id', 'INNER');
+		$this->db->join('recolectores', 'recolectores.recolector_id = tripulacion.recolector_id', 'INNER');
+		$this->db->join('tiros', 'tiros.registro_id = registros.registro_id', 'INNER');
+		$this->db->join('manifiestos', 'manifiestos.manifiesto_id = tiros.manifiesto_id', 'INNER');
+		$this->db->join('manifiestos_folios', 'manifiestos_folios.manifiesto_id = manifiestos.manifiesto_id', 'INNER');
+		$this->db->join('folios', 'folios.folio_id = manifiestos_folios.folio_id', 'INNER');
+		$this->db->join('tipo_producto', 'tipo_producto.tipoProducto_id = folios.tipoProducto_id', 'INNER');
+		$this->db->join('categorias_producto', 'categorias_producto.categoriaProducto_id = tipo_producto.categoriaProducto_id', 'INNER');
+		$this->db->join('medidas', 'medidas.medidas_id = folios.medidas_id', 'INNER');
+		$this->db->join('folios_agregados', 'folios_agregados.manifiesto_id = tiros.manifiesto_id', 'LEFT');
 
-		if ($param2 !== null) {
-			$row_array = $result->result();
-			$this->db->close();
-			return $row_array;
-		} else {
-			$result_array = $result->result_array();
-			$this->db->close();
-			return $result_array;
+		if ($registro !== null) {
+			$this->db->where('(registros.registro_id = ' . $this->db->escape($registro) . ' OR registros.registro_id IS NULL)');
 		}
+
+		if ($manifiestoestatus !== null) {
+			$this->db->where('(manifiestos.estatus = ' . $this->db->escape($manifiestoestatus) . ' OR manifiestos.estatus IS NULL)');
+		}
+
+		if ($folioestatus !== null) {
+			$this->db->where('(folios.estatus = ' . $this->db->escape($folioestatus) . ' OR folios.estatus IS NULL)');
+		}
+
+		$this->db->group_by('registros.registro_id');
+
+		$query = $this->db->get();
+
+		if ($registro !== null || $manifiestoestatus !== null || $folioestatus !== null) {
+			return $query->row_array();
+		} else {
+			return $query->result_array();
+		}
+	}
+
+	public function getProducts($id)
+	{
+		$this->db->select('folios.folio_id, categorias_producto.categoriaProducto_nombre, tipo_producto.tipoProducto_nombre, folios.descripcion, medidas.medida_nombre, , folios.cantidad');
+		$this->db->from('manifiestos');
+		$this->db->join('manifiestos_folios', 'manifiestos.manifiesto_id = manifiestos_folios.manifiesto_id');
+		$this->db->join('folios', 'manifiestos_folios.folio_id = folios.folio_id');
+		$this->db->join('tipo_producto', 'tipo_producto.tipoProducto_id = folios.tipoProducto_id');
+		$this->db->join('categorias_producto', 'categorias_producto.categoriaProducto_id = tipo_producto.categoriaProducto_id');
+		$this->db->join('medidas', 'medidas.medidas_id = folios.medidas_id');
+		$this->db->where('manifiestos.manifiesto_id', $id);
+
+		$query = $this->db->get();
+
+		$results = $query->result_array();
+
+		return $results;
+	}
+
+	public function getpesostotales($idmanifiesto)
+	{
+		$this->db->select('medidas.medida_nombre AS "Medidas nombres", SUM(folios.cantidad) AS "Peso Total"');
+		$this->db->from('manifiestos');
+		$this->db->join('manifiestos_folios', 'manifiestos.manifiesto_id = manifiestos_folios.manifiesto_id');
+		$this->db->join('folios', 'manifiestos_folios.folio_id = folios.folio_id');
+		$this->db->join('tipo_producto', 'tipo_producto.tipoProducto_id = folios.tipoProducto_id');
+		$this->db->join('categorias_producto', 'categorias_producto.categoriaProducto_id = tipo_producto.categoriaProducto_id');
+		$this->db->join('medidas', 'medidas.medidas_id = folios.medidas_id');
+		$this->db->where('manifiestos.manifiesto_id', $idmanifiesto);
+		$this->db->group_by('medidas.medida_nombre');
+
+		$query = $this->db->get();
+
+		$results = $query->result_array();
+
+		return $results;
 	}
 
 	public function getFiltrosData($filtros)

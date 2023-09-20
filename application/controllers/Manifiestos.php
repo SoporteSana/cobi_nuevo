@@ -75,7 +75,7 @@ class Manifiestos extends Admin_Controller
     {
         $sucursal_id = $this->session->userdata('sucursal_id');
         $result = array('data' => array());
-        $manifiestos = $this->model_manifiestos->getManifiestosData($sucursal_id, $manifiesto);
+        $manifiestos = $this->model_manifiestos->getManifiestosDataEdit($sucursal_id, $manifiesto);
 
         foreach ($manifiestos as $manifiesto) {
             $folio_ids = explode(',', $manifiesto->folio_ids);
@@ -176,10 +176,9 @@ class Manifiestos extends Admin_Controller
             redirect('dashboard', 'refresh');
         }
 
-        $this->form_validation->set_rules('numeroeconomico', 'numero de unidad', 'trim|required');
         $this->form_validation->set_rules('numeroeconomico_id', 'numero de unidad', 'trim|required');
         $this->form_validation->set_rules('nummanifiesto', 'numero manifiesto', 'trim|required');
-        $this->form_validation->set_rules('fecha', 'numero fecha', 'trim|required');
+        $this->form_validation->set_rules('destino', 'destino', 'trim|required');
 
         if ($this->form_validation->run() == TRUE) {
             $data = array(

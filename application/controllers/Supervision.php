@@ -100,12 +100,7 @@ class Supervision extends Admin_Controller
                 'updated_at' => date('Y-m-d h:i:s')
             );
 
-            $tirosid = array();
-            for ($i = 1; $i <= 10; $i++) {
-                $tirosid[] = $this->input->post("Tiro{$i}_id");
-            }
-
-            $tirosid = array_filter($tirosid, function($value) { return !is_null($value) && $value !== ''; });
+            $tirosid = $this->input->post('manifiesto_id');
 
             $duplicates = array_diff_assoc($tirosid, array_unique($tirosid));
             if (count($duplicates) > 0) {

@@ -52,7 +52,7 @@
                     <div class="form-group">
                       <label for="numeroeconomico">Unidad</label>
                       <input type="text" class="form-control" id="numeroeconomico" name="numeroeconomico" placeholder="numero de unidad" autocomplete="off" />
-                      <div class="text-danger"><?php echo form_error('numeroeconomico'); ?></div>
+                      <div class="text-danger"><?php echo form_error('numeroeconomico_id'); ?></div>
                     </div>
 
                     <div class="form-group">
@@ -67,12 +67,12 @@
                     <div class="form-group">
                       <label for="fecha">Fecha:</label>
                       <input type="text" class="form-control datetimepicker-input" id="fecha" name="fecha" data-toggle="datetimepicker" data-target="#horasalida" value="<?php echo set_value('hora_salida', $hora_salida); ?>" />
-                      <div class="text-danger"><?php echo form_error('fecha'); ?></div>
                     </div>
 
                     <div class="form-group">
                       <label for="destino">Destino</label>
                       <input type="text" class="form-control" id="destino" name="destino" placeholder="destino" autocomplete="off">
+                      <div class="text-danger"><?php echo form_error('destino_id'); ?></div>
                     </div>
                     <div class="form-group">
                       <input type="hidden" name="destino_id" id="destino_id" value='0'>
@@ -204,33 +204,40 @@
       var cantidad = $('#cantidad').val();
       var medida = $('#medida').val();
 
+      // Validaciones
+      if (categoria.trim() === "" || producto.trim() === "" || descripcion.trim() === "" || cantidad.trim() === "") {
+        // Muestra un mensaje de error o realiza alguna acción cuando un campo está en blanco
+        alert("Por favor, completa todos los campos.");
+        return;
+      }
+
       // Añadir los valores a la tabla junto con los campos de entrada ocultos
       $('#residuosList').append(`
-          <tr>
-              <td>
-                  ${categoria}
-                  <input type="hidden" name="categoria[]" value="${categoria}">
-              </td>
-              <td>
-                  ${producto}
-                  <input type="hidden" name="producto[]" value="${producto}">
-                  <input type="hidden" name="producto_id[]" value="${producto_id}">
-              </td>
-              <td>
-                  ${descripcion}
-                  <input type="hidden" name="descripcion[]" value="${descripcion}">
-              </td>
-              <td>
-                  ${cantidad}
-                  <input type="hidden" name="cantidad[]" value="${cantidad}">
-              </td>
-              <td>
-                  ${medida}
-                  <input type="hidden" name="medida[]" value="${medida}">
-              </td>
-              <td><button type="button" class="btn btn-danger btnEliminar">Eliminar</button></td>
-          </tr>
-      `);
+        <tr>
+            <td>
+                ${categoria}
+                <input type="hidden" name="categoria[]" value="${categoria}">
+            </td>
+            <td>
+                ${producto}
+                <input type="hidden" name="producto[]" value="${producto}">
+                <input type="hidden" name="producto_id[]" value="${producto_id}">
+            </td>
+            <td>
+                ${descripcion}
+                <input type="hidden" name="descripcion[]" value="${descripcion}">
+            </td>
+            <td>
+                ${cantidad}
+                <input type="hidden" name="cantidad[]" value="${cantidad}">
+            </td>
+            <td>
+                ${medida}
+                <input type="hidden" name="medida[]" value="${medida}">
+            </td>
+            <td><button type="button" class="btn btn-danger btnEliminar">Eliminar</button></td>
+        </tr>
+    `);
 
       // Cerrar el modal
       $('#addModal').modal('hide');

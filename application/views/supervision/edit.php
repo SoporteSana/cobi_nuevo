@@ -42,7 +42,6 @@
                 <form id="editar" role="form" action="<?php base_url('supervicion/update') ?>" method="post">
                   <div class="box-body">
 
-
                     <div class="form-group">
                       <label for="asignacion">Asignacion</label>
                       <br>
@@ -176,170 +175,30 @@
                     </div>
 
                     <div class="form-group">
-                      <label for="select"># Manifiestos</label>
-                      <br>
-                      <select id="select" name="select" onchange="handleSelect()" style="width:300px">
-                        <option value="0">Sin Manifiestos</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                      </select>
-                    </div>
-
-                    <div class="Tiro">
-                      <label for="Tiro_1">Manifiesto 1</label>
-                      <input type="text" class="form-control" id="Tiro_1" name="Tiro_1" placeholder="nombre" autocomplete="off" />
-                    </div>
-
-                    <div class="form-group">
-                      <input type="hidden" name="Tiro1_id" id="Tiro1_id">
-                      <div class="text-danger"><?php echo form_error('Tiro1_id'); ?></div>
-                    </div>
-
-                    <div class="peso-input">
-                      <input type="hidden" name="peso1" id="peso1">
-                    </div>
-
-                    <div class="Tiro">
-                      <label for="Tiro_2">Manifiesto 2</label>
-                      <input type="text" class="form-control" id="Tiro_2" name="Tiro_2" placeholder="nombre" autocomplete="off" />
-                    </div>
-
-                    <div class="form-group">
-                      <input type="hidden" name="Tiro2_id" id="Tiro2_id">
-                      <div class="text-danger"><?php echo form_error('Tiro2_id'); ?></div>
-                    </div>
-
-                    <div class="peso-input">
-                      <input type="hidden" name="peso2" id="peso2">
-                    </div>
-
-                    <div class="Tiro">
-                      <label for="Tiro_3">Manifiesto 3</label>
-                      <input type="text" class="form-control" id="Tiro_3" name="Tiro_3" placeholder="nombre" autocomplete="off" />
-                    </div>
-
-                    <div class="form-group">
-                      <input type="hidden" name="Tiro3_id" id="Tiro3_id">
-                      <div class="text-danger"><?php echo form_error('Tiro3_id'); ?></div>
-                    </div>
-
-                    <div class="peso-input">
-                      <input type="hidden" name="peso3" id="peso3">
-                    </div>
-
-                    <div class="Tiro">
-                      <label for="Tiro_4">Manifiesto 4</label>
-                      <input type="text" class="form-control" id="Tiro_4" name="Tiro_4" placeholder="nombre" autocomplete="off" />
-                    </div>
-
-                    <div class="form-group">
-                      <input type="hidden" name="Tiro4_id" id="Tiro4_id">
-                      <div class="text-danger"><?php echo form_error('Tiro4_id'); ?></div>
-                    </div>
-
-                    <div class="peso-input">
-                      <input type="hidden" name="peso4" id="peso4">
-                    </div>
-
-                    <div class="Tiro">
-                      <label for="Tiro_5">Manifiesto 5</label>
-                      <input type="text" class="form-control" id="Tiro_5" name="Tiro_5" placeholder="nombre" autocomplete="off" />
-                    </div>
-
-                    <div class="form-group">
-                      <input type="hidden" name="Tiro5_id" id="Tiro5_id">
-                      <div class="text-danger"><?php echo form_error('Tiro5_id'); ?></div>
-                    </div>
-
-                    <div class="peso-input">
-                      <input type="hidden" name="peso5" id="peso5">
-                    </div>
-
-                    <div class="Tiro">
-                      <label for="Tiro_6">Manifiesto 6</label>
-                      <input type="text" class="form-control" id="Tiro_6" name="Tiro_6" placeholder="nombre" autocomplete="off" />
-                    </div>
-
-                    <div class="form-group">
-                      <input type="hidden" name="Tiro6_id" id="Tiro6_id">
-                      <div class="text-danger"><?php echo form_error('Tiro6_id'); ?></div>
-                    </div>
-
-                    <div class="peso-input">
-                      <input type="hidden" name="peso6" id="peso6">
-                    </div>
-
-                    <div class="Tiro">
-                      <label for="Tiro_7">Manifiesto 7</label>
-                      <input type="text" class="form-control" id="Tiro_7" name="Tiro_7" placeholder="nombre" autocomplete="off" />
-                    </div>
-
-                    <div class="form-group">
-                      <input type="hidden" name="Tiro7_id" id="Tiro7_id">
-                      <div class="text-danger"><?php echo form_error('Tiro7_id'); ?></div>
-                    </div>
-
-                    <div class="peso-input">
-                      <input type="hidden" name="peso7" id="peso7">
-                    </div>
-
-                    <div class="Tiro">
-                      <label for="Tiro_8">Manifiesto 8</label>
-                      <input type="text" class="form-control" id="Tiro_8" name="Tiro_8" placeholder="nombre" autocomplete="off" />
-                    </div>
-
-                    <div class="form-group">
-                      <input type="hidden" name="Tiro8_id" id="Tiro8_id">
-                      <div class="text-danger"><?php echo form_error('Tiro8_id'); ?></div>
-                    </div>
-
-                    <div class="peso-input">
-                      <input type="hidden" name="peso8" id="peso8">
-                    </div>
-
-                    <div class="Tiro">
-                      <label for="Tiro_9">Manifiesto 9</label>
-                      <input type="text" class="form-control" id="Tiro_9" name="Tiro_9" placeholder="nombre" autocomplete="off" />
-                    </div>
-
-                    <div class="form-group">
-                      <input type="hidden" name="Tiro9_id" id="Tiro9_id">
-                      <div class="text-danger"><?php echo form_error('Tiro9_id'); ?></div>
-                    </div>
-
-                    <div class="peso-input">
-                      <input type="hidden" name="peso9" id="peso9">
-                    </div>
-
-                    <div class="Tiro">
-                      <label for="Tiro_10">Manifiesto 10</label>
-                      <input type="text" class="form-control" id="Tiro_10" name="Tiro_10" placeholder="nombre" autocomplete="off" />
-                    </div>
-
-                    <div class="form-group">
-                      <input type="hidden" name="Tiro10_id" id="Tiro10_id">
-                      <div class="text-danger"><?php echo form_error('Tiro10_id'); ?></div>
-                    </div>
-
-                    <div class="peso-input">
-                      <input type="hidden" name="peso10" id="peso10">
-                    </div>
-
-                    <div class="form-group">
                       <label for="observaciones">observaciones</label>
                       <input type="text" class="form-control" id="observaciones" name="observaciones" placeholder="Ingresa un comentario" autocomplete="off" value="N/A" />
                       <div class="text-danger"><?php echo form_error('observaciones'); ?></div>
                     </div>
 
                   </div>
+
+                  <!-- Botón para agregar a la tabla -->
+                  <button type="button" id="addResiduo" class="btn btn-info">Añadir Residuo</button>
+                  <!-- Tabla/Listado de residuos agregados -->
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>id</th>
+                        <th>Manifiestos</th>
+                        <th>acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody id="residuosList">
+                      <!-- Los elementos se agregarán dinámicamente aquí -->
+                    </tbody>
+                  </table>
+
+
 
                   <div class="box-footer">
                     <button type="submit" class="btn btn-primary" id="submitButton" disabled>Guardar</button>
@@ -361,12 +220,88 @@
 
   </section>
 
+  <div class="modal fade" tabindex="-1" role="dialog" id="addModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Agregar</h4>
+        </div>
+
+        <form role="form" action="#" method="post" id="createForm">
+
+          <div class="modal-body ui-front">
+
+            <div class="form-group">
+              <label for="manifiesto"># manifiesto</label>
+              <input type="text" class="form-control" id="manifiesto" name="manifiesto" placeholder="manifiesto" autocomplete="off">
+            </div>
+            <div class="form-group">
+              <input type="hidden" name="manifiesto_id" id="manifiesto_id" value='0'>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+              <button type="submit" class="btn btn-primary" id="btncrear">Crear</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <div id="loader"></div>
 
 <script type="text/javascript">
   $(document).ready(function() {
+
+    $('#addResiduo').click(function() {
+      $('#addModal').modal('show'); // Este ID debe coincidir con el ID de tu modal
+    });
+
+    $(document).on('click', '.btnEliminarRow', function() {
+      $(this).closest('tr').remove(); // Remove the closest <tr> when the "Delete" button is clicked
+    });
+
+    $('#btncrear').on('click', function(e) {
+      e.preventDefault();
+      var manifiesto = $('#manifiesto').val();
+      var manifiesto_id = $('#manifiesto_id').val();
+
+      if (manifiesto.trim() !== "" && manifiesto_id.trim() !== "") {
+        // Generate a unique identifier for this row (e.g., timestamp)
+        var uniqueId = new Date().getTime(); // You can use a different method for generating unique IDs
+
+        // Create a new table row with the data, unique identifier, and a delete button
+        var newRow = `
+            <tr id="row_${uniqueId}">
+                <td>${manifiesto_id}</td>
+                <td>${manifiesto}</td>
+                <td><button class="btn btn-danger btnEliminarRow" data-row-id="${uniqueId}">Eliminar</button></td>
+            </tr>
+        `;
+
+        // Append the new row to the table
+        $('#residuosList').append(newRow);
+
+        // Create hidden input fields for the data and add them to the form
+        var hiddenManifiestoIdInput = `<input type="hidden" name="manifiesto_id[]" value="${manifiesto_id}">`;
+        var hiddenManifiestoInput = `<input type="hidden" name="manifiesto[]" value="${manifiesto}">`;
+
+        // Append the hidden inputs to the form
+        $('#editar').append(hiddenManifiestoIdInput);
+        $('#editar').append(hiddenManifiestoInput);
+
+        // Clear the modal fields
+        $('#manifiesto').val('');
+        $('#manifiesto_id').val('');
+
+        // Close the modal
+        $('#addModal').modal('hide');
+      }
+    });
 
     $("#supervisionNav").addClass('active');
 
@@ -426,185 +361,19 @@
        });
      */
 
-    $("#Tiro_1").autocomplete({
+    $("#manifiesto").autocomplete({
       source: "<?php echo base_url('supervision/manifiestoslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
       select: function(event, ui) {
-        $("#Tiro_1").val(ui.item.label);
-        $("#Tiro1_id").val(ui.item.value);
+        $("#manifiesto").val(ui.item.label);
+        $("#manifiesto_id").val(ui.item.value);
         return false;
       },
       focus: function(event, ui) {
-        $("#Tiro_1").val(ui.item.label);
-        $("#detinofinal1").val(ui.item.destino);
+        $("#manifiesto").val(ui.item.label);
         return false;
       },
       minLength: 1
     });
-
-
-    $("#Tiro_2").autocomplete({
-      source: "<?php echo base_url('supervision/manifiestoslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
-      select: function(event, ui) {
-        $("#Tiro_2").val(ui.item.label);
-        $("#Tiro2_id").val(ui.item.value);
-        return false;
-      },
-      focus: function(event, ui) {
-        $("#Tiro_2").val(ui.item.label);
-        $('#peso2')
-          .val(ui.item.peso)
-          .trigger("input");
-        $("#detinofinal2").val(ui.item.destino);
-        return false;
-      },
-      minLength: 1
-    });
-
-    $("#Tiro_3").autocomplete({
-      source: "<?php echo base_url('supervision/manifiestoslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
-      select: function(event, ui) {
-        $("#Tiro_3").val(ui.item.label);
-        $("#Tiro3_id").val(ui.item.value);
-        return false;
-      },
-      focus: function(event, ui) {
-        $("#Tiro_3").val(ui.item.label);
-        $('#peso3')
-          .val(ui.item.peso)
-          .trigger("input");
-        $("#detinofinal3").val(ui.item.destino);
-        return false;
-      },
-      minLength: 1
-    });
-
-    $("#Tiro_4").autocomplete({
-      source: "<?php echo base_url('supervision/manifiestoslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
-      select: function(event, ui) {
-        $("#Tiro_4").val(ui.item.label);
-        $("#Tiro4_id").val(ui.item.value);
-        return false;
-      },
-      focus: function(event, ui) {
-        $("#Tiro_4").val(ui.item.label);
-        $('#peso4')
-          .val(ui.item.peso)
-          .trigger("input");
-        $("#detinofinal4").val(ui.item.destino);
-        return false;
-      },
-      minLength: 1
-    });
-
-    $("#Tiro_5").autocomplete({
-      source: "<?php echo base_url('supervision/manifiestoslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
-      select: function(event, ui) {
-        $("#Tiro_5").val(ui.item.label);
-        $("#Tiro5_id").val(ui.item.value);
-        return false;
-      },
-      focus: function(event, ui) {
-        $("#Tiro_5").val(ui.item.label);
-        $('#peso5')
-          .val(ui.item.peso)
-          .trigger("input");
-        $("#detinofinal5").val(ui.item.destino);
-        return false;
-      },
-      minLength: 1
-    });
-
-    $("#Tiro_6").autocomplete({
-      source: "<?php echo base_url('supervision/manifiestoslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
-      select: function(event, ui) {
-        $("#Tiro_6").val(ui.item.label);
-        $("#Tiro6_id").val(ui.item.value);
-        return false;
-      },
-      focus: function(event, ui) {
-        $("#Tiro_6").val(ui.item.label);
-        $('#peso6')
-          .val(ui.item.peso)
-          .trigger("input");
-        $("#detinofinal6").val(ui.item.destino);
-        return false;
-      },
-      minLength: 1
-    });
-
-    $("#Tiro_7").autocomplete({
-      source: "<?php echo base_url('supervision/manifiestoslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
-      select: function(event, ui) {
-        $("#Tiro_7").val(ui.item.label);
-        $("#Tiro7_id").val(ui.item.value);
-        return false;
-      },
-      focus: function(event, ui) {
-        $("#Tiro_7").val(ui.item.label);
-        $('#peso7')
-          .val(ui.item.peso)
-          .trigger("input");
-        $("#detinofinal7").val(ui.item.destino);
-        return false;
-      },
-      minLength: 1
-    });
-
-    $("#Tiro_8").autocomplete({
-      source: "<?php echo base_url('supervision/manifiestoslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
-      select: function(event, ui) {
-        $("#Tiro_8").val(ui.item.label);
-        $("#Tiro8_id").val(ui.item.value);
-        return false;
-      },
-      focus: function(event, ui) {
-        $("#Tiro_8").val(ui.item.label);
-        $('#peso8')
-          .val(ui.item.peso)
-          .trigger("input");
-        $("#detinofinal8").val(ui.item.destino);
-        return false;
-      },
-      minLength: 1
-    });
-
-    $("#Tiro_9").autocomplete({
-      source: "<?php echo base_url('supervision/manifiestoslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
-      select: function(event, ui) {
-        $("#Tiro_9").val(ui.item.label);
-        $("#Tiro9_id").val(ui.item.value);
-        return false;
-      },
-      focus: function(event, ui) {
-        $("#Tiro_9").val(ui.item.label);
-        $('#peso9')
-          .val(ui.item.peso)
-          .trigger("input");
-        $("#detinofinal9").val(ui.item.destino);
-        return false;
-      },
-      minLength: 1
-    });
-
-    $("#Tiro_10").autocomplete({
-      source: "<?php echo base_url('supervision/manifiestoslist/') ?>" + "<?php echo $registro_data['unidad_id']; ?>",
-      select: function(event, ui) {
-        $("#Tiro_10").val(ui.item.label);
-        $("#Tiro10_id").val(ui.item.value);
-        return false;
-      },
-      focus: function(event, ui) {
-        $("#Tiro_10").val(ui.item.label);
-        $('#peso10')
-          .val(ui.item.peso)
-          .trigger("input");
-        $("#detinofinal10").val(ui.item.destino);
-        return false;
-      },
-      minLength: 1
-    });
-
-
 
   });
 

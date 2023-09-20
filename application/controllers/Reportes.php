@@ -220,34 +220,64 @@ class Reportes extends Admin_Controller
 
 		foreach ($data as $key => $value) {
 			// Dividir las columnas concatenadas
+			$nummanifiesto = explode(',', trim($value['nummanifiesto']));
+			$numfolio = explode(',', trim($value['numfolios']));
+			$recolectores_nombre = explode(',', trim($value['recolectores_nombre']));
 			$folio_ids = explode(',', trim($value['folio_ids']));
-			$productos = explode(',', trim($value['productos']));
-			$categoria_nombre = explode(',', trim($value['categoria_nombre']));
+			$categoriaProducto_nombre = explode(',', trim($value['categoriaProducto_nombre']));
+			$cantidades = explode(',', trim($value['cantidades']));
+			$medida_nombre = explode(',', trim($value['medida_nombre']));
+			$pesos_totales = explode(',', trim($value['pesos_totales']));
 			$descripciones = explode(',', trim($value['descripciones']));
-			$cantidad = explode(',', trim($value['cantidad']));
-			$medidas_nombres = explode(',', trim($value['medidas_nombres']));
 
 			// Obtener el número de elementos en los arrays divididos
-			$numElementos = count($productos);
+			$nummanifiestos = count($nummanifiesto);
+			$numfolios = count($numfolio);
+			$numrecolectores = 5;
 
 			// Crear un array para almacenar los datos de esta fila
 			$rowData = array(
-				$value['manifiesto_id'],
-				$value['nummanifiesto'],
-				$value['fecha'],
+				$value['registro_id'],
 				$value['unidad_numero'],
-				$value['destinofinal_nombre'],
-				$value['total_cantidad_concatenadas'],
+				$value['asignacion_nombre'],
+				$value['semana'],
+				$value['nombres'],
+				$value['dia'],
+				$value['fecha_salida'],
+				$value['turno_nombre'],
+				$value['ruta_nombre'],
+				$value['alias_nombre'],
+				$value['operador_nombre'],
+				$value['numrecolectores'],
+				$value['km_salida'],
+				$value['km_entrada'],
+				$value['recorrido'],
+				$value['litroscargados'],
+				$value['rendimiento'],
+				$value['hora_salida'],
+				$value['hora_entrada'],
+				$value['hora_tablero'],
+				$value['tiempo_ruta'],
 			);
 
 			// Utilizar el número de elementos para iterar solo por las filas necesarias
-			for ($i = 0; $i < $numElementos; $i++) {
+			for ($i = 0; $i < $numrecolectores; $i++) {
+				$rowData[] = isset($recolectores_nombre[$i]) ? $recolectores_nombre[$i] : 'sin recolector';
+			}
+
+			// Utilizar el número de elementos para iterar solo por las filas necesarias
+			for ($i = 0; $i < $nummanifiestos; $i++) {
+				$rowData[] = isset($nummanifiesto[$i]) ? $nummanifiesto[$i] : '';
+			}
+
+			for ($i = 0; $i < $numfolios; $i++) {
+				$rowData[] = isset($numfolio[$i]) ? $numfolio[$i] : '';
 				$rowData[] = isset($folio_ids[$i]) ? $folio_ids[$i] : '';
-				$rowData[] = isset($productos[$i]) ? $productos[$i] : '';
-				$rowData[] = isset($categoria_nombre[$i]) ? $categoria_nombre[$i] : '';
+				$rowData[] = isset($categoriaProducto_nombre[$i]) ? $categoriaProducto_nombre[$i] : '';
+				$rowData[] = isset($cantidades[$i]) ? $cantidades[$i] : '';
+				$rowData[] = isset($medida_nombre[$i]) ? $medida_nombre[$i] : '';
+				$rowData[] = isset($pesos_totales[$i]) ? $pesos_totales[$i] : '';
 				$rowData[] = isset($descripciones[$i]) ? $descripciones[$i] : '';
-				$rowData[] = isset($cantidad[$i]) ? $cantidad[$i] : '';
-				$rowData[] = isset($medidas_nombres[$i]) ? $medidas_nombres[$i] : '';
 			}
 
 			$result['data'][$key] = $rowData;
@@ -256,6 +286,23 @@ class Reportes extends Admin_Controller
 		echo json_encode($result);
 	}
 
+	public function showProducts($manifiesto_id)
+	{
+
+		$result = $this->model_manifiestos->getProducts($manifiesto_id);
+
+
+		echo json_encode($result);
+	}
+
+	public function showProductopesos($manifiesto_id)
+    {
+
+        $result = $this->model_manifiestos->getpesostotales($manifiesto_id);
+
+
+        echo json_encode($result);
+    }
 
 	public function unidadlist()
 	{
