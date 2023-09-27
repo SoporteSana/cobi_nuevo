@@ -42,177 +42,96 @@
 
 </div>
 <script type="text/javascript">
-
   $(document).ready(function() {
     $.ajax({
       url: 'fetchReporteCompletoData',
       type: 'GET',
       dataType: 'json',
       success: function(dataFromServer) {
+        let columns = [];
 
-        let columns = [{
-            title: "id",
-            data: function(row) {
-              return row[0];
+        // Verificar que hay datos disponibles
+        if (dataFromServer.data.length > 0) {
+          // Obtener la primera fila de datos para determinar la cantidad de columnas
+          const firstRow = dataFromServer.data[0];
+
+          // Nombres personalizados para las primeras 26 columnas
+          const customColumnNames = [
+            "id",
+            "unidad",
+            "asignacion",
+            "semana",
+            "supervisor",
+            "dia",
+            "fecha",
+            "turno",
+            "ruta",
+            "alias",
+            "operador",
+            "recolectores",
+            "km salida",
+            "km entrada",
+            "recorrido",
+            "litros cargados",
+            "rendimiento",
+            "fecha salida",
+            "fecha netrada",
+            "# recolectores",
+            "tiempo ruta",
+            "Recoelctor 1",
+            "Recoelctor 2",
+            "Recoelctor 3",
+            "Recoelctor 4",
+            "Recoelctor 5",
+            "# manifiestos",
+            "# folios",
+          ];
+
+          // Nombres para las columnas de manifiesto
+          const manifiestoColumnNames = [
+            "# manifiesto",
+            "# folio",
+            "folio",
+            "categoria",
+            "cantidad",
+            "medida",
+            "pesos totales",
+            "descripcion",
+          ];
+
+          // Crear las columnas dinámicamente según el número de elementos en la primera fila
+          for (let i = 0; i < firstRow.length; i++) {
+            let columnName = '';
+
+            if (i < 28) {
+              columnName = customColumnNames[i]; // Usar nombres específicos para las primeras 26 columnas
+            } else {
+              const additionalColumnIndex = i - 26; // Índice para las columnas adicionales
+
+              if (additionalColumnIndex < 8) {
+                // Asignar nombres de manifiesto a las primeras 8 columnas
+                columnName = manifiestoColumnNames[additionalColumnIndex];
+              } else {
+                const groupIndex = Math.floor((additionalColumnIndex - 8) / 8) + 1; // Calcular el índice del bloque
+                const columnIndexWithinGroup = (additionalColumnIndex - 8) % 8; // Índice dentro del bloque actual
+
+                if (columnIndexWithinGroup < 8) {
+                  // Asignar nombres a las 8 columnas dentro del bloque actual
+                  columnName = manifiestoColumnNames[columnIndexWithinGroup];
+                } else {
+                  columnName = `Manifiesto ${groupIndex} (Col ${columnIndexWithinGroup + 1})`;
+                }
+              }
             }
-          },
-          {
-            title: "unidad",
-            data: function(row) {
-              return row[1];
-            }
-          },
-          {
-            title: "asignacion",
-            data: function(row) {
-              return row[2];
-            }
-          },
-          {
-            title: "semana",
-            data: function(row) {
-              return row[3];
-            }
-          },
-          {
-            title: "supervisor",
-            data: function(row) {
-              return row[4];
-            }
-          },
-          {
-            title: "dia",
-            data: function(row) {
-              return row[5];
-            }
-          },
-          {
-            title: "fecha",
-            data: function(row) {
-              return row[6];
-            }
-          },
-          {
-            title: "turno",
-            data: function(row) {
-              return row[7];
-            }
-          },
-          {
-            title: "ruta",
-            data: function(row) {
-              return row[8];
-            }
-          },
-          {
-            title: "alias",
-            data: function(row) {
-              return row[9];
-            }
-          },
-          {
-            title: "operador",
-            data: function(row) {
-              return row[10];
-            }
-          },
-          {
-            title: "# recolectores",
-            data: function(row) {
-              return row[11];
-            }
-          },
-          {
-            title: "km_salida",
-            data: function(row) {
-              return row[12];
-            }
-          },
-          {
-            title: "km_entrada",
-            data: function(row) {
-              return row[13];
-            }
-          },
-          {
-            title: "recorrido",
-            data: function(row) {
-              return row[14];
-            }
-          },
-          {
-            title: "litroscargados",
-            data: function(row) {
-              return row[15];
-            }
-          },
-          {
-            title: "rendimiento",
-            data: function(row) {
-              return row[16];
-            }
-          },
-          {
-            title: "hora_salida",
-            data: function(row) {
-              return row[17];
-            }
-          },
-          {
-            title: "hora_entrada",
-            data: function(row) {
-              return row[18];
-            }
-          },
-          {
-            title: "hora_tablero",
-            data: function(row) {
-              return row[19];
-            }
-          },
-          {
-            title: "tiempo_ruta",
-            data: function(row) {
-              return row[20];
-            }
-          },
-          {
-            title: "# manifiestos",
-            data: function(row) {
-              return row[21];
-            }
-          },
-          {
-            title: "recolector 1",
-            data: function(row) {
-              return row[22];
-            }
-          },
-          {
-            title: "recolector 2",
-            data: function(row) {
-              return row[23];
-            }
-          },
-          {
-            title: "recolector 3",
-            data: function(row) {
-              return row[24];
-            }
-          },
-          {
-            title: "recolector 4",
-            data: function(row) {
-              return row[25];
-            }
-          },
-          {
-            title: "recolector 5",
-            data: function(row) {
-              return row[26];
-            }
-          },
-        ];
+
+            columns.push({
+              title: columnName,
+              data: function(row) {
+                return row[i];
+              }
+            });
+          }
+        }
 
         $('#manageTable').DataTable({
           data: dataFromServer.data,
@@ -224,7 +143,6 @@
       }
     });
   });
-  
 </script>
 <style type="text/css">
   #loader {

@@ -11,7 +11,8 @@ class Model_reportes extends CI_Model
 	{
 		$this->db->select('registros.registro_id, unidades.unidad_numero, asignaciones.asignacion_nombre, registros.semana, usuarios.nombres, registros.dia, registros.fecha_salida, turnos.turno_nombre, rutas.ruta_nombre, alias.alias_nombre, operadores.operador_nombre');
 		$this->db->select('COUNT(DISTINCT recolectores.recolector_id) AS numrecolectores, GROUP_CONCAT(DISTINCT recolectores.recolector_nombre SEPARATOR ", ") AS recolectores_nombre, registros.km_salida, registros.km_entrada, registros.recorrido, registros.litroscargados, registros.rendimiento, registros.hora_salida, registros.hora_entrada, registros.hora_tablero, registros.tiempo_ruta');
-		$this->db->select('GROUP_CONCAT(DISTINCT folios_agregados.manifiesto_id SEPARATOR ", ") AS manifiesto_id, GROUP_CONCAT(DISTINCT folios_agregados.nummanifiesto SEPARATOR ", ") AS nummanifiesto, GROUP_CONCAT(DISTINCT folios_agregados.fecha SEPARATOR ", ") AS fecha, GROUP_CONCAT(DISTINCT folios_agregados.destinofinal_id SEPARATOR ", ") AS destinofinal_id, GROUP_CONCAT(DISTINCT folios_agregados.destinofinal_nombre SEPARATOR ", ") AS destinofinal_nombre, GROUP_CONCAT(DISTINCT folios_agregados.numfolios SEPARATOR ", ") AS numfolios, GROUP_CONCAT(DISTINCT folios_agregados.folio_ids SEPARATOR ", ") AS folio_ids, GROUP_CONCAT(DISTINCT folios_agregados.categoriaProducto_nombre SEPARATOR ", ") AS categoriaProducto_nombre, GROUP_CONCAT(DISTINCT folios_agregados.cantidades SEPARATOR ", ") AS cantidades, GROUP_CONCAT(DISTINCT folios_agregados.medida_nombre SEPARATOR ", ") AS medida_nombre, GROUP_CONCAT(DISTINCT folios_agregados.pesos_totales SEPARATOR ", ") AS pesos_totales, GROUP_CONCAT(DISTINCT folios_agregados.descripciones SEPARATOR ", ") AS descripciones', FALSE);
+		$this->db->select('GROUP_CONCAT(DISTINCT folios_agregados.manifiesto_id SEPARATOR ", ") AS manifiesto_id, GROUP_CONCAT(DISTINCT folios_agregados.nummanifiesto SEPARATOR ", ") AS nummanifiesto, GROUP_CONCAT(DISTINCT folios_agregados.fecha SEPARATOR ", ") AS fecha, GROUP_CONCAT(DISTINCT folios_agregados.destinofinal_id SEPARATOR ", ") AS destinofinal_id, GROUP_CONCAT(DISTINCT folios_agregados.destinofinal_nombre SEPARATOR ", ") AS destinofinal_nombre, GROUP_CONCAT(DISTINCT folios_agregados.numfolios SEPARATOR ", ") AS numfolios, GROUP_CONCAT(DISTINCT folios_agregados.folio_ids SEPARATOR ", ") AS folio_ids, GROUP_CONCAT(DISTINCT folios_agregados.categoriaProducto_nombre SEPARATOR ", ") AS categoriaProducto_nombre, GROUP_CONCAT(DISTINCT folios_agregados.cantidades SEPARATOR ", ") AS cantidades, GROUP_CONCAT(folios_agregados.medida_nombre SEPARATOR ", ") AS medida_nombre, GROUP_CONCAT(folios_agregados.pesos_totales SEPARATOR ", ") AS pesos_totales, GROUP_CONCAT(DISTINCT folios_agregados.descripciones SEPARATOR ", ") AS descripciones', FALSE);
+		$this->db->select('COUNT(DISTINCT manifiestos.manifiesto_id) AS nummanifiestos, COUNT(DISTINCT folios.folio_id) AS numfolios');
 		$this->db->from('registros');
 		$this->db->join('unidades', 'unidades.unidad_id = registros.unidad_id', 'INNER');
 		$this->db->join('alias', 'alias.alias_id = registros.alias_id', 'INNER');
@@ -52,6 +53,27 @@ class Model_reportes extends CI_Model
 		} else {
 			return $query->result_array();
 		}
+	}
+
+	public function numfoliospormanifiesto($registro_id, $manifiestoestatus, $folioestatus)
+	{
+		$this->db->select('manifiestos.manifiesto_id, COUNT(DISTINCT folios.folio_id) AS numfolios');
+		$this->db->from('registros');
+		$this->db->join('tiros', 'tiros.registro_id = registros.registro_id');
+		$this->db->join('manifiestos', 'manifiestos.manifiesto_id = tiros.manifiesto_id');
+		$this->db->join('manifiestos_folios', 'manifiestos_folios.manifiesto_id = manifiestos.manifiesto_id');
+		$this->db->join('folios', 'folios.folio_id = manifiestos_folios.folio_id');
+		$this->db->join('tipo_producto', 'tipo_producto.tipoProducto_id = folios.tipoProducto_id');
+		$this->db->join('folios_agregados', 'folios_agregados.manifiesto_id = tiros.manifiesto_id');
+
+		$this->db->where("(registros.registro_id = $registro_id OR registros.registro_id IS NULL)");
+		$this->db->where("(manifiestos.estatus = $manifiestoestatus OR manifiestos.estatus IS NULL)");
+		$this->db->where("(folios.estatus = $folioestatus OR folios.estatus IS NULL)");
+
+		$this->db->group_by('manifiestos.manifiesto_id');
+
+		$query = $this->db->get();
+		return $query->result_array();
 	}
 
 	public function getProducts($id)
