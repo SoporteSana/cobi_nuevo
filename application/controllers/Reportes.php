@@ -37,7 +37,6 @@ class Reportes extends Admin_Controller
 
 	public function filtro()
 	{
-
 		if (!in_array('viewReporte', $this->permission)) {
 			redirect('dashboard', 'refresh');
 		}
@@ -55,67 +54,119 @@ class Reportes extends Admin_Controller
 		);
 
 		$result = array('data' => array());
+
 		$data = $this->model_reportes->getFiltrosData($filtros);
 
 		foreach ($data as $key => $value) {
-			// Dividir las columnas concatenadas
-			$recolectores = explode(',', trim($value['recolectores']));
-			$folios = explode(',', trim($value['folios']));
+			$nummanifiesto = explode(',', trim($value['nummanifiesto']));
+			$recolectores_nombre = explode(',', trim($value['recolectores_nombre']));
+			$folio_ids = explode(',', trim($value['folio_ids']));
+			$categoriaProducto_nombre = explode(',', trim($value['categoriaProducto_nombre']));
+			$cantidades = explode(',', trim($value['cantidades']));
+			$medida_nombre = explode(',', trim($value['medida_nombre']));
+			$pesos_totales = explode(',', trim($value['pesos_totales']));
 			$descripciones = explode(',', trim($value['descripciones']));
-			$pesos_folios = explode(',', trim($value['pesos_folios']));
 
-			// Crear un array para almacenar los datos de esta fila
+			$nummanifiestos = count($nummanifiesto);
+			$numfolios = count($folio_ids);
+			$numrecolectores = 5;
+
 			$rowData = array(
-				$value['registro_id'],
-				$value['unidad_numero'],
-				$value['asignacion_nombre'],
-				$value['semana'],
-				$value['nombres'],
-				$value['dia'],
-				$value['fecha_salida'],
-				$value['turno_nombre'],
-				$value['ruta_nombre'],
-				$value['alias_nombre'],
-				$value['operador_nombre'],
-				$value['numrecolectores'],
+				'Registro ID' => $value['registro_id'],
+				'Unidad Número' => $value['unidad_numero'],
+				'Asignación Nombre' => $value['asignacion_nombre'],
+				'Semana' => $value['semana'],
+				'Nombres' => $value['nombres'],
+				'Día' => $value['dia'],
+				'Fecha Salida' => $value['fecha_salida'],
+				'Turno Nombre' => $value['turno_nombre'],
+				'Ruta Nombre' => $value['ruta_nombre'],
+				'Alias Nombre' => $value['alias_nombre'],
+				'Operador Nombre' => $value['operador_nombre'],
+				'Num Recolectores' => $value['numrecolectores'],
+				'Km Salida' => $value['km_salida'],
+				'Km Entrada' => $value['km_entrada'],
+				'Recorrido' => $value['recorrido'],
+				'Litros Cargados' => $value['litroscargados'],
+				'Rendimiento' => $value['rendimiento'],
+				'Hora Salida' => $value['hora_salida'],
+				'Hora Entrada' => $value['hora_entrada'],
+				'Hora Tablero' => $value['hora_tablero'],
+				'Tiempo Ruta' => $value['tiempo_ruta']
 			);
 
-			// Añadir 10 recolectores
-			for ($i = 0; $i < 5; $i++) {
-				$rowData[] = isset($recolectores[$i]) ? $recolectores[$i] : '';
+			for ($i = 0; $i < $numrecolectores; $i++) {
+				$recolectorColumnName = "Recolector " . ($i + 1);
+				$rowData[$recolectorColumnName] = isset($recolectores_nombre[$i]) ? $recolectores_nombre[$i] : 'sin recolector';
 			}
 
-			// Continuar agregando el resto de los datos
-			$rowData = array_merge($rowData, array(
-				$value['km_salida'],
-				$value['km_entrada'],
-				$value['recorrido'],
-				$value['litroscargados'],
-				$value['rendimiento'],
-				$value['hora_salida'],
-				$value['hora_entrada'],
-				$value['hora_tablero'],
-				$value['tiempo_ruta'],
-				$value['peso_total'],
-				$value['destinofinal_nombre'],
-				$value['numfolios']
-			));
+			for ($i = 0; $i < max($nummanifiestos, $numfolios); $i++) {
+				$nummanifiestoColumnName = "Num Manifiesto " . ($i + 1);
+				$numfolioColumnName = "Num Folio " . ($i + 1);
+				$categoriaProductoColumnName = "Categoría Producto " . ($i + 1);
+				$cantidadColumnName = "Cantidad " . ($i + 1);
+				$medidaColumnName = "Medida " . ($i + 1);
+				$pesosTotalesColumnName = "Pesos Totales " . ($i + 1);
+				$descripcionColumnName = "Descripción " . ($i + 1);
 
-			// Añadir 10 sets de columnas de folio (folio_id, folio, descripción, peso)
-			for ($i = 0; $i < 10; $i++) {
-				$rowData[] = isset($folios[$i]) ? $folios[$i] : '';
-				$rowData[] = isset($descripciones[$i]) ? $descripciones[$i] : '';
-				$rowData[] = isset($pesos_folios[$i]) ? $pesos_folios[$i] : '';
+				$rowData[$nummanifiestoColumnName] = isset($nummanifiesto[$i]) ? $nummanifiesto[$i] : '';
+				$rowData[$numfolioColumnName] = isset($folio_ids[$i]) ? $folio_ids[$i] : '';
+				$rowData[$categoriaProductoColumnName] = isset($categoriaProducto_nombre[$i]) ? $categoriaProducto_nombre[$i] : '';
+				$rowData[$cantidadColumnName] = isset($cantidades[$i]) ? $cantidades[$i] : '';
+				$rowData[$medidaColumnName] = isset($medida_nombre[$i]) ? $medida_nombre[$i] : '';
+				$rowData[$pesosTotalesColumnName] = isset($pesos_totales[$i]) ? $pesos_totales[$i] : '';
+				$rowData[$descripcionColumnName] = isset($descripciones[$i]) ? $descripciones[$i] : '';
 			}
-
-			// Agregar las observaciones y el estatus al final
-			$rowData[] = $value['observaciones'];
-			$rowData[] = $value['estatus'];
 
 			$result['data'][$key] = $rowData;
 		}
 
-		$this->data['filtros'] = $result;
+		$columnNames = array(
+			'Registro ID',
+			'Unidad Número',
+			'Asignación Nombre',
+			'Semana',
+			'Nombres',
+			'Día',
+			'Fecha Salida',
+			'Turno Nombre',
+			'Ruta Nombre',
+			'Alias Nombre',
+			'Operador Nombre',
+			'Num Recolectores',
+			'Km Salida',
+			'Km Entrada',
+			'Recorrido',
+			'Litros Cargados',
+			'Rendimiento',
+			'Hora Salida',
+			'Hora Entrada',
+			'Hora Tablero',
+			'Tiempo Ruta'
+		);
+
+		// Agrega aquí los nombres de las columnas generadas dinámicamente
+		for ($i = 1; $i <= $numrecolectores; $i++) {
+			$columnNames[] = "Recolector " . $i;
+		}
+
+		for ($i = 1; $i <= max($nummanifiestos, $numfolios); $i++) {
+			$columnNames[] = "Num Manifiesto " . $i;
+			$columnNames[] = "Num Folio " . $i;
+			$columnNames[] = "Categoría Producto " . $i;
+			$columnNames[] = "Cantidad " . $i;
+			$columnNames[] = "Medida " . $i;
+			$columnNames[] = "Pesos Totales " . $i;
+			$columnNames[] = "Descripción " . $i;
+		}
+
+		$finalResult = array(
+			'columnNames' => $columnNames,
+			'data' => $result['data'],
+		);
+
+		$jsonData = json_encode($finalResult);
+		$this->data['jsonData'] = $jsonData;
 		$this->render_template('reportes/filtros', $this->data);
 	}
 

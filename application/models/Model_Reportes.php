@@ -113,53 +113,81 @@ class Model_reportes extends CI_Model
 		return $results;
 	}
 
-	public function getFiltrosData($filtros)
+	public function getFiltrosData($filtros, $registro = null, $manifiestoestatus = null, $folioestatus = null)
 	{
-
 		$sucursal_id = $this->session->userdata('sucursal_id');
 
-		$this->db->select('registros.registro_id, unidades.unidad_numero, asignaciones.asignacion_nombre, registros.semana, usuarios.nombres, registros.dia, registros.fecha_salida, turnos.turno_nombre, rutas.ruta_nombre, alias.alias_nombre, operadores.operador_nombre, num_tripulacion.numrecolectores, num_tripulacion.recolectores, registros.km_salida, registros.km_entrada, registros.recorrido, registros.litroscargados, registros.rendimiento, registros.hora_salida, registros.hora_entrada, registros.hora_tablero, registros.tiempo_ruta, manifiestos.peso_total, destinofinal.destinofinal_nombre, folios_agregados.numfolios, folios_agregados.folio_ids, folios_agregados.folios, folios_agregados.descripciones, folios_agregados.pesos_folios, registros.observaciones, registros.estatus');
-		$this->db->distinct();
+		$this->db->select('registros.registro_id, unidades.unidad_numero, asignaciones.asignacion_nombre, registros.semana, usuarios.nombres, registros.dia, registros.fecha_salida, turnos.turno_nombre, rutas.ruta_nombre, alias.alias_nombre, operadores.operador_nombre');
+		$this->db->select('COUNT(DISTINCT recolectores.recolector_id) AS numrecolectores, GROUP_CONCAT(DISTINCT recolectores.recolector_nombre SEPARATOR ", ") AS recolectores_nombre, registros.km_salida, registros.km_entrada, registros.recorrido, registros.litroscargados, registros.rendimiento, registros.hora_salida, registros.hora_entrada, registros.hora_tablero, registros.tiempo_ruta');
+		$this->db->select('GROUP_CONCAT(DISTINCT folios_agregados.manifiesto_id SEPARATOR ", ") AS manifiesto_id, GROUP_CONCAT(DISTINCT folios_agregados.nummanifiesto SEPARATOR ", ") AS nummanifiesto, GROUP_CONCAT(DISTINCT folios_agregados.fecha SEPARATOR ", ") AS fecha, GROUP_CONCAT(DISTINCT folios_agregados.destinofinal_id SEPARATOR ", ") AS destinofinal_id, GROUP_CONCAT(DISTINCT folios_agregados.destinofinal_nombre SEPARATOR ", ") AS destinofinal_nombre, GROUP_CONCAT(DISTINCT folios_agregados.numfolios SEPARATOR ", ") AS numfolios, GROUP_CONCAT(DISTINCT folios_agregados.folio_ids SEPARATOR ", ") AS folio_ids, GROUP_CONCAT(DISTINCT folios_agregados.categoriaProducto_nombre SEPARATOR ", ") AS categoriaProducto_nombre, GROUP_CONCAT(DISTINCT folios_agregados.cantidades SEPARATOR ", ") AS cantidades, GROUP_CONCAT(folios_agregados.medida_nombre SEPARATOR ", ") AS medida_nombre, GROUP_CONCAT(folios_agregados.pesos_totales SEPARATOR ", ") AS pesos_totales, GROUP_CONCAT(DISTINCT folios_agregados.descripciones SEPARATOR ", ") AS descripciones', FALSE);
+		$this->db->select('COUNT(DISTINCT manifiestos.manifiesto_id) AS nummanifiestos, COUNT(DISTINCT folios.folio_id) AS numfolios');
 		$this->db->from('registros');
-		$this->db->join('unidades', 'unidades.unidad_id = registros.unidad_id');
-		$this->db->join('operadores', 'operadores.operador_id = registros.operador_id');
-		$this->db->join('alias', 'alias.alias_id = registros.alias_id');
-		$this->db->join('asignaciones', 'asignaciones.asignacion_id = registros.asignacion_id');
-		$this->db->join('usuarios', 'usuarios.usuario_id = registros.usuario_id');
-		$this->db->join('rutas', 'rutas.ruta_id = alias.ruta_id');
-		$this->db->join('turnos', 'turnos.turno_id = alias.turno_id');
-		$this->db->join('tiros', 'registros.registro_id = tiros.registro_id');
-		$this->db->join('manifiestos_folios', 'tiros.manifiesto_id = manifiestos_folios.manifiesto_id');
-		$this->db->join('manifiestos', 'manifiestos.manifiesto_id = manifiestos_folios.manifiesto_id');
-		$this->db->join('destinofinal', 'manifiestos.destinofinal_id = destinofinal.destinofinal_id');
-		$this->db->join('folios_agregados', 'manifiestos_folios.manifiesto_id = folios_agregados.manifiesto_id', 'left');
-		$this->db->join('num_tripulacion', 'registros.registro_id = num_tripulacion.registro_id', 'left');
+		$this->db->join('unidades', 'unidades.unidad_id = registros.unidad_id', 'INNER');
+		$this->db->join('alias', 'alias.alias_id = registros.alias_id', 'INNER');
+		$this->db->join('turnos', 'turnos.turno_id = alias.turno_id', 'INNER');
+		$this->db->join('rutas', 'rutas.ruta_id = alias.ruta_id', 'INNER');
+		$this->db->join('operadores', 'operadores.operador_id = registros.operador_id', 'INNER');
+		$this->db->join('asignaciones', 'asignaciones.asignacion_id = registros.asignacion_id', 'INNER');
+		$this->db->join('usuarios', 'usuarios.usuario_id = registros.usuario_id', 'INNER');
+		$this->db->join('tripulacion', 'tripulacion.registro_id = registros.registro_id', 'INNER');
+		$this->db->join('recolectores', 'recolectores.recolector_id = tripulacion.recolector_id', 'INNER');
+		$this->db->join('tiros', 'tiros.registro_id = registros.registro_id', 'INNER');
+		$this->db->join('manifiestos', 'manifiestos.manifiesto_id = tiros.manifiesto_id', 'INNER');
+		$this->db->join('manifiestos_folios', 'manifiestos_folios.manifiesto_id = manifiestos.manifiesto_id', 'INNER');
+		$this->db->join('folios', 'folios.folio_id = manifiestos_folios.folio_id', 'INNER');
+		$this->db->join('tipo_producto', 'tipo_producto.tipoProducto_id = folios.tipoProducto_id', 'INNER');
+		$this->db->join('categorias_producto', 'categorias_producto.categoriaProducto_id = tipo_producto.categoriaProducto_id', 'INNER');
+		$this->db->join('medidas', 'medidas.medidas_id = folios.medidas_id', 'INNER');
+		$this->db->join('folios_agregados', 'folios_agregados.manifiesto_id = tiros.manifiesto_id', 'LEFT');
+		$this->db->join('destinofinal', 'destinofinal.destinofinal_id = manifiestos.destinofinal_id', 'INNER');
 		$this->db->where('registros.sucursal_id', $sucursal_id);
 		$this->db->where('registros.estatus', 2);
+
+		if ($registro !== null) {
+			$this->db->where('(registros.registro_id = ' . $this->db->escape($registro) . ' OR registros.registro_id IS NULL)');
+		}
+
+		if ($manifiestoestatus !== null) {
+			$this->db->where('(manifiestos.estatus = ' . $this->db->escape($manifiestoestatus) . ' OR manifiestos.estatus IS NULL)');
+		}
+
+		if ($folioestatus !== null) {
+			$this->db->where('(folios.estatus = ' . $this->db->escape($folioestatus) . ' OR folios.estatus IS NULL)');
+		}
+
 		if ($filtros['fecha1filtro'] & $filtros['fecha2filtro']) {
 			$this->db->where("(registros.fecha_salida BETWEEN '" . $filtros['fecha1filtro'] . "' AND '" . $filtros['fecha2filtro'] . "' OR '" . $filtros['fecha1filtro'] . "' IS NULL OR '" . $filtros['fecha2filtro'] . "' IS NULL)");
 		}
+
 		if ($filtros['filtrounidad_id']) {
 			$this->db->where("(unidades.unidad_id = '" . $filtros['filtrounidad_id'] . "' OR '" . $filtros['filtrounidad_id'] . "' IS NULL)");
 		}
+
 		if ($filtros['filtroasignacion_id']) {
 			$this->db->where("(asignaciones.asignacion_id = '" . $filtros['filtroasignacion_id'] . "' OR '" . $filtros['filtroasignacion_id'] . "' IS NULL)");
 		}
+
 		if ($filtros['supervisor_id']) {
 			$this->db->where("(usuarios.usuario_id = '" . $filtros['supervisor_id'] . "' OR '" . $filtros['supervisor_id'] . "' IS NULL)");
 		}
+
 		if ($filtros['alias_id']) {
 			$this->db->where("(alias.alias_id = '" . $filtros['alias_id'] . "' OR '" . $filtros['alias_id'] . "' IS NULL)");
 		}
+
 		if ($filtros['turno_id']) {
 			$this->db->where("(turnos.turno_id = '" . $filtros['turno_id'] . "' OR '" . $filtros['turno_id'] . "' IS NULL)");
 		}
+
 		if ($filtros['operador_id']) {
 			$this->db->where("(operadores.operador_id = '" . $filtros['operador_id'] . "' OR '" . $filtros['operador_id'] . "' IS NULL)");
 		}
+
 		if ($filtros['destinofinal_nombre']) {
 			$this->db->or_where("destinofinal.destinofinal_nombre", $filtros['destinofinal_nombre']);
 		}
+
+		$this->db->group_by('registros.registro_id');
 
 		$query = $this->db->get();
 		$result = ($query->num_rows() > 0) ? $query->result_array() : array();
