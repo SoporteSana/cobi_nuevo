@@ -94,45 +94,23 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <?php foreach ($registros['data'] as $registro) : ?>
-                          <?php foreach ($registro['productos'] as $producto) : ?>
-                            <tr>
-                              <td>
-                                <?= $producto['folio_id']; ?>
-                                <input type="hidden" name="folio_ids[]" value="<?= $producto['folio_id']; ?>">
-                              </td>
-                              <td>
-                                <?= $producto['categoria_nombre']; ?>
-                                <input type="hidden" name="categoria_nombres[]" value="<?= $producto['categoria_nombre']; ?>">
-                              </td>
-                              <td>
-                                <?= $producto['producto']; ?>
-                                <input type="hidden" name="productos[]" value="<?= $producto['producto']; ?>">
-                              </td>
-                              <td>
-                                <?= $producto['descripcion']; ?>
-                                <input type="hidden" name="descripciones[]" value="<?= $producto['descripcion']; ?>">
-                              </td>
-                              <td>
-                                <?= $producto['cantidad']; ?>
-                                <input type="hidden" name="cantidades[]" value="<?= $producto['cantidad']; ?>">
-                              </td>
-                              <td>
-                                <?= $producto['medida_nombre']; ?>
-                                <input type="hidden" name="medida_nombres[]" value="<?= $producto['medida_nombre']; ?>">
-                              </td>
-                              <td>
-                                <?= $producto['total_cantidad_concatenada']; ?>
-                                <input type="hidden" name="total_cantidad_concatenadas[]" value="<?= $producto['total_cantidad_concatenada']; ?>">
-                              </td>
-                              <td>
-                                <button type="button" class="btn btn-danger btnEliminar" data-producto-id="<?= $producto['folio_id']; ?>">Eliminar</button>
-                              </td>
-                            </tr>
-                          <?php endforeach; ?>
+                        <?php foreach ($productos as $producto) : ?>
+                          <tr>
+                            <td><?= $producto->folio_id; ?></td>
+                            <td><?= $producto->categoriaProducto_nombre; ?></td>
+                            <td><?= $producto->tipoProducto_nombre; ?></td>
+                            <td><?= $producto->descripcion; ?></td>
+                            <td><?= $producto->cantidad; ?></td>
+                            <td><?= $producto->medida_nombre; ?></td>
+                            <td><?= $producto->suma_cantidad; ?></td>
+                            <td>
+                              <button type="button" class="btn btn-danger btnEliminar" data-producto-id="<?= $producto->folio_id; ?>">Eliminar</button>
+                            </td>
+                          </tr>
                         <?php endforeach; ?>
                       </tbody>
                     </table>
+
 
                     <div class="box-footer">
                       <button type="submit" class="btn btn-primary" id="btnActualizar">Actualizar</button>

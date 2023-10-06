@@ -23,6 +23,24 @@ class Model_Manifiestos extends CI_Model
 		}
 	}
 
+	public function getproductosedit(int $manifiesto_id, int $estatus)
+	{
+		$this->db->select('folios.folio_id, categorias_producto.categoriaProducto_nombre, tipo_producto.tipoProducto_nombre, folios.descripcion, folios.cantidad, medidas.medida_nombre');
+		$this->db->select('(SUM(folios.cantidad) OVER(PARTITION BY manifiestos.manifiesto_id, medidas.medida_nombre)) AS suma_cantidad', FALSE);
+		$this->db->from('folios');
+		$this->db->join('manifiestos_folios', 'manifiestos_folios.folio_id = folios.folio_id');
+		$this->db->join('manifiestos', 'manifiestos.manifiesto_id = manifiestos_folios.manifiesto_id');
+		$this->db->join('tipo_producto', 'tipo_producto.tipoProducto_id = folios.tipoProducto_id');
+		$this->db->join('categorias_producto', 'categorias_producto.categoriaProducto_id = tipo_producto.categoriaProducto_id');
+		$this->db->join('medidas', 'medidas.medidas_id = folios.medidas_id');
+		$this->db->where('manifiestos.manifiesto_id', $manifiesto_id);
+		$this->db->where('folios.estatus', $estatus);
+
+		$query = $this->db->get();
+
+		return $query->result();
+	}
+
 	public function getManifiestosDataEdit($param1 = null, $param2 = null)
 	{
 
@@ -141,6 +159,7 @@ class Model_Manifiestos extends CI_Model
 		$this->db->join('categorias_producto', 'categorias_producto.categoriaProducto_id = tipo_producto.categoriaProducto_id');
 		$this->db->join('medidas', 'medidas.medidas_id = folios.medidas_id');
 		$this->db->where('manifiestos.manifiesto_id', $id);
+		$this->db->where('folios.estatus', 0);
 
 		$query = $this->db->get();
 
@@ -160,6 +179,7 @@ class Model_Manifiestos extends CI_Model
 		$this->db->join('medidas', 'medidas.medidas_id = folios.medidas_id');
 		$this->db->where('manifiestos.manifiesto_id', $idmanifiesto);
 		$this->db->group_by('medidas.medida_nombre');
+		$this->db->where('folios.estatus', 0);
 
 		$query = $this->db->get();
 

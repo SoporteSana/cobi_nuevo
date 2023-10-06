@@ -94,25 +94,8 @@ class Manifiestos extends Admin_Controller
                 'unidad_numero' => $manifiesto->unidad_numero,
                 'destinofinal_id' => $manifiesto->destinofinal_id,
                 'destinofinal_nombre' => $manifiesto->destinofinal_nombre,
-                'productos' => array()
+                
             );
-
-            foreach ($folio_ids as $i => $folio_id) {
-                $producto = array(
-                    'folio_id' => $folio_id ?? 'sin datos',
-                    'categoria_nombre' => $categoria_nombre[$i] ?? 'sin datos',
-                    'producto' => $productos[$i] ?? 'sin datos',
-                    'descripcion' => $descripciones[$i] ?? 'sin datos',
-                    'cantidad' => $cantidad[$i] ?? 'sin datos',
-                    'medida_nombre' => $medidas_nombres[$i] ?? 'sin datos',
-                    'total_cantidad_concatenada' => $total_cantidad_concatenadas[$i] ?? 'sin datos'
-                );
-                $objData['productos'][] = $producto;
-            }
-
-            if (in_array('updateVigilancia', $this->permission)) {
-                $objData['button'] = '<a href="' . base_url('manifiestos/update/' . $manifiesto->manifiesto_id) . '" class="btn btn-default"><i class="fa fa-pencil"></i></a>';
-            }
 
             $result['data'][] = $objData;
         }
@@ -277,6 +260,8 @@ class Manifiestos extends Admin_Controller
         } else {
             $registros =  $this->fetchManifiestosDataedit($manifiesto_id);
             $this->data['registros'] = $registros;
+            $productos = $this->model_manifiestos->getproductosedit($manifiesto_id, 0);
+            $this->data['productos'] = $productos;
             $medidas = $this->model_manifiestos->getMedidasData();
             $this->data['medidas'] = $medidas;
             $this->render_template('manifiestos/update', $this->data);

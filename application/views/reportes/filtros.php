@@ -34,9 +34,6 @@
           <div class="box-header">
             <h3 class="box-title">unidades finalizadas</h3>
           </div>
-          <div class="box-header">
-            <button type="button" id="exportar_excel" class="btn btn-danger">Exportar a Excel</button>
-          </div>
 
           <div class="box-body">
             <table id="manageTable" class="display responsive nowrap" style="width:100%">
@@ -80,45 +77,28 @@
     // Obtén los datos de las filas del JSON
     var data = jsonData.data;
 
-    console.log("Column Names:", columnNames);
-    console.log("Data:", data);
+    console.log(jsonData)
 
     // Configura DataTables con las columnas y datos
     var table = $('#manageTable').DataTable({
       data: data,
       columns: columns,
+      dom: 'Bfrtip',
+      buttons: [
+        'copy', 'csv', 'excel', 'pdf', 'print'
+      ]
       // Configuración adicional de DataTables según tus necesidades
     });
+
   });
 
-
-  function exportarExcel() {
-    var table = $('#manageTable').DataTable();
-    var data = table.data().toArray();
-
-    // Convertir los números de texto a formato numérico
-    for (var i = 0; i < data.length; i++) {
-      for (var j = 0; j < data[i].length; j++) {
-        if (!isNaN(Number(data[i][j]))) {
-          data[i][j] = Number(data[i][j]);
-        }
-      }
-    }
-
-    var header = [];
-    table.columns().every(function() {
-      header.push(this.header().textContent.trim());
-    });
-
-    data.unshift(header);
-
-    var sheet = XLSX.utils.json_to_sheet(data, {
-      skipHeader: true
-    });
-    var workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, sheet, 'Hoja 1');
-
-    var nombreArchivo = 'exportacion.xlsx';
-    XLSX.writeFile(workbook, nombreArchivo);
-  }
 </script>
+
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
