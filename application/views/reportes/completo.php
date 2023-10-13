@@ -126,7 +126,12 @@
 
             columns.push({
               title: columnName,
-              data: function(row) {
+              data: function(row, type, set, meta) {
+                if (type === 'display' || type === 'filter') {
+                  // Devuelve el valor solo cuando se muestra o filtra
+                  return row[i];
+                }
+                // Devuelve el valor original para ordenar u otros propósitos internos
                 return row[i];
               }
             });

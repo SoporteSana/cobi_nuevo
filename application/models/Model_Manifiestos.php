@@ -190,26 +190,27 @@ class Model_Manifiestos extends CI_Model
 
 	function searchUnidad($postData)
 	{
-
 		$sucursal_id = $this->session->userdata('sucursal_id');
-
 		$response = array();
 
 		$this->db->select('*');
 
 		if ($postData['search']) {
-
 			$this->db->where("unidad_numero like '%" . $postData['search'] . "%' and estatus = 0 AND sucursal_id = $sucursal_id");
-
 			$records = $this->db->get('unidades')->result();
 
 			foreach ($records as $row) {
-				$response[] = array("value" => $row->unidad_id, "label" => $row->unidad_numero);
+				$response[] = array(
+					"value" => $row->unidad_id,
+					"label" => $row->unidad_numero,
+					"label2" => $row->unidad_placas
+				);
 			}
 		}
 
 		return $response;
 	}
+
 
 	function searchDestino($postData)
 	{

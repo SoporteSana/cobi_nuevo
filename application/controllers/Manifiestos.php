@@ -94,7 +94,7 @@ class Manifiestos extends Admin_Controller
                 'unidad_numero' => $manifiesto->unidad_numero,
                 'destinofinal_id' => $manifiesto->destinofinal_id,
                 'destinofinal_nombre' => $manifiesto->destinofinal_nombre,
-                
+
             );
 
             $result['data'][] = $objData;
@@ -103,34 +103,34 @@ class Manifiestos extends Admin_Controller
     }
 
     public function eliminar()
-	{
-		if (!in_array('deleteTicket', $this->permission)) {
-			redirect('dashboard', 'refresh');
-		}
+    {
+        if (!in_array('deleteTicket', $this->permission)) {
+            redirect('dashboard', 'refresh');
+        }
 
-		$ticket_id = $this->input->post('ticket_id');
+        $ticket_id = $this->input->post('ticket_id');
 
-		$response = array();
-		if ($ticket_id) {
-			$data = array(
-				'estatus' => 3,
-			);
+        $response = array();
+        if ($ticket_id) {
+            $data = array(
+                'estatus' => 3,
+            );
 
-			$update = $this->model_tickets->deletemanifiesto($data, $ticket_id);
-			if ($update == true) {
-				$response['success'] = true;
-				$response['messages'] = "Eliminado con éxito";
-			} else {
-				$response['success'] = false;
-				$response['messages'] = "Ocurrio un error";
-			}
-		} else {
-			$response['success'] = false;
-			$response['messages'] = "Ocurrio un error";
-		}
+            $update = $this->model_tickets->deletemanifiesto($data, $ticket_id);
+            if ($update == true) {
+                $response['success'] = true;
+                $response['messages'] = "Eliminado con éxito";
+            } else {
+                $response['success'] = false;
+                $response['messages'] = "Ocurrio un error";
+            }
+        } else {
+            $response['success'] = false;
+            $response['messages'] = "Ocurrio un error";
+        }
 
-		echo json_encode($response);
-	}
+        echo json_encode($response);
+    }
 
 
     public function showProducts($manifiesto_id)
@@ -184,7 +184,8 @@ class Manifiestos extends Admin_Controller
                     'tipoProducto_id' => $productos_ids[$i],
                     'descripcion' => $descripciones[$i],
                     'cantidad' => $cantidades[$i],
-                    'medidas_id' => $medida_id[$i]
+                    'medidas_id' => $medida_id[$i],
+                    'estatus' => 0
                 );
             }
 

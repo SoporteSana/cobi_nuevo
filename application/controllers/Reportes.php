@@ -269,6 +269,9 @@ class Reportes extends Admin_Controller
 		$result = array('data' => array());
 		$data = $this->model_reportes->getReporteCompletoData();
 
+		// Definir el número máximo de columnas
+		$maxColumns = 42; // Ajusta esto al número máximo de columnas que esperas
+
 		foreach ($data as $key => $value) {
 			// Dividir las columnas concatenadas
 			$nummanifiesto = explode(',', trim($value['nummanifiesto']));
@@ -320,7 +323,7 @@ class Reportes extends Admin_Controller
 				if ($i < $nummanifiestos) {
 					$rowData[] = isset($nummanifiesto[$i]) ? $nummanifiesto[$i] : '';
 				} else {
-					$rowData[] = ''; // Rellenar con espacio en blanco si no hay más elementos en nummanifiesto
+					$rowData[] = null; // Rellenar con null si no hay más elementos en nummanifiesto
 				}
 
 				if ($i < $numfolios) {
@@ -332,14 +335,14 @@ class Reportes extends Admin_Controller
 					$rowData[] = isset($pesos_totales[$i]) ? $pesos_totales[$i] : '';
 					$rowData[] = isset($descripciones[$i]) ? $descripciones[$i] : '';
 				} else {
-					// Rellenar con espacio en blanco si no hay más elementos en numfolio
-					$rowData[] = '';
-					$rowData[] = '';
-					$rowData[] = '';
-					$rowData[] = '';
-					$rowData[] = '';
-					$rowData[] = '';
-					$rowData[] = '';
+					// Rellenar con null si no hay más elementos en numfolio
+					$rowData[] = null;
+					$rowData[] = null;
+					$rowData[] = null;
+					$rowData[] = null;
+					$rowData[] = null;
+					$rowData[] = null;
+					$rowData[] = null;
 				}
 			}
 
@@ -348,6 +351,7 @@ class Reportes extends Admin_Controller
 
 		echo json_encode($result);
 	}
+
 
 
 	public function showProducts($manifiesto_id)
